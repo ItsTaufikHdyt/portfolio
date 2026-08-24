@@ -75,7 +75,7 @@ export const projects = [
     "check-it",
     "Check IT",
     "Applications",
-    "assets/projects/check-it.png",
+    "assets/images/projects/checkit.png",
     "A simple and minimalist to-do list application designed to help users manage daily tasks efficiently. Users can add and organize tasks, set due dates, and access their task list offline, with all data stored locally on the device for fast and reliable use.",
     ["Dart", "Flutter"],
     "https://github.com/technowstack/todo_list_getx",
