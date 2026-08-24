@@ -17,12 +17,6 @@ export const services = [
     icon: "assets/images/icon-app.svg",
     iconAlt: "mobile app icon"
   },
-  {
-    title: "Photography",
-    text: "I make high-quality photos of any category at a professional level.",
-    icon: "assets/images/icon-photo.svg",
-    iconAlt: "camera icon"
-  }
 ];
 
 // const testimonialText = "Richard was hired to create a corporate identity. We were very pleased with the work done. She has a lot of experience and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt consectetur adipiscing elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.";
