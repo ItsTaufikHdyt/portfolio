@@ -1,0 +1,37 @@
+---
+import { education, experience } from "../data/resume.js";
+import Skills from "./Skills.astro";
+
+const timelines = [
+  { title: "Education", items: education },
+  { title: "Experience", items: experience }
+];
+---
+
+<article class="resume" data-page="resume">
+  <header class="section-header">
+    <p class="eyebrow">Background</p>
+    <h2 class="h2 article-title">Resume</h2>
+  </header>
+
+  {timelines.map((timeline) => (
+    <section class="timeline">
+      <div class="title-wrapper">
+        <div class="icon-box"><ion-icon name="book-outline" aria-hidden="true"></ion-icon></div>
+        <h3 class="h3">{timeline.title}</h3>
+      </div>
+
+      <ol class="timeline-list">
+        {timeline.items.map((item) => (
+          <li class="timeline-item">
+            <h4 class="h4 timeline-item-title">{item.title}</h4>
+            <span>{item.period}</span>
+            <p class="timeline-text">{item.text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+
+  <Skills />
+</article>

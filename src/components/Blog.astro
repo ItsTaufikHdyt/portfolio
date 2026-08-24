@@ -1,0 +1,27 @@
+---
+import { getMediumArticles } from "../lib/medium.js";
+import { medium } from "../data/medium.js";
+import BlogCard from "./BlogCard.astro";
+
+const articles = await getMediumArticles();
+---
+
+<article class="blog" data-page="blog">
+  <header class="section-header">
+    <p class="eyebrow">Writing</p>
+    <h2 class="h2 article-title">Blog</h2>
+  </header>
+
+  <section class="blog-posts">
+    <ul class="blog-posts-list">
+      {articles.length ? (
+        articles.map((article) => <BlogCard article={article} />)
+      ) : (
+        <li class="blog-status">
+          <p>Articles are temporarily unavailable.</p>
+          <a href={medium.profileUrl} target="_blank" rel="noopener noreferrer">View my articles on Medium</a>
+        </li>
+      )}
+    </ul>
+  </section>
+</article>

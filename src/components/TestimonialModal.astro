@@ -1,0 +1,29 @@
+---
+import { asset } from "../lib/assets.js";
+import { testimonials, testimonialDate } from "../data/about.js";
+
+const initial = testimonials[0];
+---
+
+<div class="modal-container" aria-hidden="true" data-modal-container>
+  <div class="overlay" data-overlay></div>
+
+  <section class="testimonials-modal" role="dialog" aria-modal="true" aria-labelledby="testimonial-modal-title">
+    <button class="modal-close-btn" type="button" aria-label="Close testimonial" data-modal-close-btn>
+      <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+    </button>
+
+    <div class="modal-img-wrapper">
+      <figure class="modal-avatar-box">
+        <img src={asset(initial.avatar)} alt={initial.name} width="80" data-modal-img />
+      </figure>
+      <img src={asset("assets/images/icon-quote.svg")} alt="quote icon" />
+    </div>
+
+    <div class="modal-content">
+      <h4 class="h3 modal-title" id="testimonial-modal-title" data-modal-title>{initial.name}</h4>
+      <time datetime={testimonialDate.datetime}>{testimonialDate.label}</time>
+      <div data-modal-text><p>{initial.text}</p></div>
+    </div>
+  </section>
+</div>

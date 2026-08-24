@@ -1,0 +1,92 @@
+---
+import { profile } from "../data/profile.js";
+---
+
+<article class="contact" data-page="contact">
+  <header class="section-header">
+    <p class="eyebrow">Get in touch</p>
+    <h2 class="h2 article-title">Contact</h2>
+  </header>
+
+  <section class="mapbox" data-mapbox>
+    <figure>
+      <iframe
+        title={profile.mapTitle}
+        src={profile.mapEmbedUrl}
+        width="400"
+        height="300"
+        loading="lazy"></iframe>
+    </figure>
+  </section>
+
+  <section class="contact-form">
+    <h3 class="h3 form-title">Contact Form</h3>
+
+    <form class="form" id="contact-form">
+      <div class="input-wrapper">
+        <label class="sr-only" for="fullname">Full name</label>
+        <input
+          id="fullname"
+          type="text"
+          name="fullname"
+          class="form-input"
+          placeholder="Full name"
+          autocomplete="name"
+          required
+        />
+
+        <label class="sr-only" for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          class="form-input"
+          placeholder="Email address"
+          autocomplete="email"
+          required
+        />
+      </div>
+
+      <label class="sr-only" for="message">Your message</label>
+      <textarea
+        id="message"
+        name="message"
+        class="form-input"
+        placeholder="Your message"
+        required></textarea>
+
+      <button class="form-btn" type="submit">
+        <ion-icon name="logo-whatsapp" aria-hidden="true"></ion-icon>
+        <span>Send via WhatsApp</span>
+      </button>
+    </form>
+  </section>
+
+  <script>
+    const form = document.querySelector("#contact-form");
+
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const fullname = document.querySelector("#fullname")?.value;
+      const email = document.querySelector("#email")?.value;
+      const message = document.querySelector("#message")?.value;
+
+      const phone = "6281234567890";
+
+      const text = `
+Halo, saya menghubungi melalui website portfolio.
+
+Nama: ${fullname}
+Email: ${email}
+
+Pesan:
+${message}
+    `.trim();
+
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+
+      window.open(url, "_blank");
+    });
+  </script>
+</article>

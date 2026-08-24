@@ -2,11 +2,14 @@
 
 ## Project Context
 
-This repository is an existing personal portfolio website built using:
+This repository is a personal portfolio website built using:
 
-* HTML
+* Astro components and static generation
 * CSS
-* Vanilla JavaScript
+* Minimal vanilla JavaScript for interactions
+
+Editable site content lives in `src/data/`. Shared UI is organized in
+`src/components/`, and the production entry point is `src/pages/index.astro`.
 
 The redesign requirements are documented in:
 
@@ -18,11 +21,10 @@ Always read `PRD.md` before making significant UI or styling changes.
 
 # 1. Technology Must Stay the Same
 
-Do not migrate this project to another framework.
+Continue using Astro's static output and framework-free components.
 
 Do not introduce:
 
-* Astro
 * React
 * Vue
 * Svelte
@@ -35,7 +37,7 @@ unless explicitly requested by the user in a future instruction.
 
 The target remains:
 
-> HTML + CSS + Vanilla JavaScript
+> Astro + CSS + minimal Vanilla JavaScript
 
 ---
 

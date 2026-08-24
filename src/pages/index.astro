@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Navbar from "../components/Navbar.astro";
+import About from "../components/About.astro";
+import Resume from "../components/Resume.astro";
+import Portfolio from "../components/Portfolio.astro";
+import Blog from "../components/Blog.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main>
+    <Sidebar />
+
+    <div class="main-content" id="main-content">
+      <Navbar />
+      <About />
+      <Resume />
+      <Portfolio />
+      <Blog />
+      <Contact />
+      <Footer />
+    </div>
+  </main>
+
+  <script>
+    import "../scripts/interactions.js";
+  </script>
+</BaseLayout>

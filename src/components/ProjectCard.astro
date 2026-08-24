@@ -1,0 +1,28 @@
+---
+import { asset } from "../lib/assets.js";
+
+const { project } = Astro.props;
+---
+
+<li
+  class="project-item active"
+  data-filter-item
+  data-category={project.category.toLowerCase()}
+  data-project-id={project.id}
+  data-description={project.description}
+  data-technologies={project.technologies.join(",")}
+  data-github={project.github || undefined}
+  data-demo={project.demo || undefined}
+>
+  <a href="#project-modal" data-project-card aria-haspopup="dialog" aria-controls="project-modal">
+    <figure class="project-img">
+      <div class="project-item-icon-box">
+        <ion-icon name="eye-outline" aria-hidden="true"></ion-icon>
+      </div>
+      <img src={asset(project.image)} alt={project.title.toLowerCase()} loading="lazy" />
+    </figure>
+
+    <h3 class="project-title">{project.title}</h3>
+    <p class="project-category">{project.category}</p>
+  </a>
+</li>

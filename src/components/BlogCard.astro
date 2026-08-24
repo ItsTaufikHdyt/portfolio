@@ -1,0 +1,32 @@
+---
+const { article } = Astro.props;
+const date = article.publishedAt ? new Date(article.publishedAt) : null;
+const dateLabel = date
+  ? new Intl.DateTimeFormat("en", { year: "numeric", month: "short", day: "numeric" }).format(date)
+  : "";
+const category = article.categories[0] || "Medium";
+---
+
+<li class="blog-post-item">
+  <a href={article.url} target="_blank" rel="noopener noreferrer" aria-label={`Read ${article.title} on Medium`}>
+    <figure class="blog-banner-box">
+      {article.thumbnail ? (
+        <img src={article.thumbnail} alt={article.title} loading="lazy" />
+      ) : (
+        <div class="blog-image-fallback" aria-hidden="true">M</div>
+      )}
+    </figure>
+
+    <div class="blog-content">
+      <div class="blog-meta">
+        <p class="blog-category">{category}</p>
+        {date && <span class="dot" aria-hidden="true"></span>}
+        {date && <time datetime={article.publishedAt}>{dateLabel}</time>}
+      </div>
+
+      <h3 class="h3 blog-item-title">{article.title}</h3>
+      <p class="blog-text">{article.excerpt}</p>
+      <span class="blog-read-more">Read article <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></span>
+    </div>
+  </a>
+</li>

@@ -1,0 +1,15 @@
+{
+  "name": "taufik-hidayat-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.2.4",
+    "fast-xml-parser": "^5.11.0"
+  }
+}

@@ -1,29 +1,238 @@
-# PRD — Portfolio Website Enhancement
+# PRD — Migrasi Portfolio HTML/CSS/JS ke Astro
 
 ## 1. Project Overview
 
-Project ini adalah website portfolio pribadi yang sudah memiliki tampilan dan struktur yang cukup baik.
-
-Website dibangun menggunakan:
+Project ini adalah website portfolio pribadi yang saat ini sudah berjalan menggunakan:
 
 * HTML
 * CSS
 * Vanilla JavaScript
 
-Project **tidak boleh dimigrasikan** ke framework lain.
+Tampilan visual existing sudah dianggap cukup baik dan **tidak perlu dilakukan redesign menyeluruh**.
 
-Tetap gunakan:
+Tujuan utama project ini adalah melakukan migrasi arsitektur dari HTML/CSS/JavaScript biasa menjadi:
 
-> HTML + CSS + Vanilla JavaScript
+> Astro + Astro Components + CSS + minimal Vanilla JavaScript
 
-Tujuan pekerjaan ini bukan melakukan redesign seluruh website, tetapi hanya meningkatkan tiga bagian berikut:
+dengan tetap mempertahankan tampilan dan functionality website existing semaksimal mungkin.
+
+Website nantinya akan digunakan sebagai static site dan di-host melalui:
+
+* GitHub Pages
+* Custom Domain
+
+---
+
+# 2. Primary Goals
+
+Migrasi harus mencapai tujuan berikut:
+
+1. Mengubah existing HTML menjadi struktur Astro yang modular.
+2. Mempertahankan tampilan existing semirip mungkin.
+3. Mempertahankan functionality existing.
+4. Memisahkan data dari UI agar mudah diedit.
+5. Membuat project portfolio mudah di-maintain.
+6. Membuat penambahan project baru menjadi sederhana.
+7. Membuat penambahan skill baru menjadi sederhana.
+8. Membuat biodata mudah diperbarui.
+9. Membuat social links mudah diperbarui.
+10. Mempertahankan Medium sebagai sumber artikel.
+11. Mempertahankan project detail modal.
+12. Mengurangi JavaScript client-side jika memungkinkan.
+13. Menghasilkan static HTML melalui Astro build.
+14. Memastikan website kompatibel dengan GitHub Pages.
+
+---
+
+# 3. Important Migration Principle
+
+Existing website adalah:
+
+> Visual Source of Truth
+
+Artinya:
+
+* jangan redesign website tanpa kebutuhan
+* jangan mengganti warna secara sembarangan
+* jangan mengganti typography secara sembarangan
+* jangan mengganti spacing hanya karena agent memiliki preferensi lain
+* jangan mengubah layout utama tanpa alasan teknis
+* jangan mengubah visual identity
+
+Migrasi ini adalah:
+
+> Architectural migration, not visual redesign.
+
+Perubahan visual hanya boleh dilakukan apabila:
+
+* diperlukan untuk memperbaiki bug existing
+* diperlukan agar responsive tetap bekerja setelah migrasi
+* diperlukan untuk accessibility
+* diperlukan karena struktur lama tidak kompatibel dengan Astro
+* diminta secara eksplisit pada task berikutnya
+
+---
+
+# 4. Current Stack
+
+Existing project menggunakan:
+
+```text
+HTML
+CSS
+Vanilla JavaScript
+Static Assets
+```
+
+Agent harus terlebih dahulu melakukan audit repository dan memastikan stack sebenarnya sebelum melakukan perubahan.
+
+Existing repository adalah source of truth.
+
+---
+
+# 5. Target Stack
+
+Target akhir:
+
+```text
+Astro
+Astro Components
+CSS
+Minimal Vanilla JavaScript
+Static Assets
+```
+
+Do not introduce:
+
+* React
+* Vue
+* Svelte
+* Next.js
+* Nuxt
+* Angular
+
+kecuali secara eksplisit diminta kemudian.
+
+Astro harus digunakan sebagai static site generator, bukan sebagai wrapper untuk framework lain.
+
+---
+
+# 6. Static First Architecture
+
+Gunakan prinsip:
+
+> Static by default, interactive only when necessary.
+
+Semua konten yang dapat dirender saat build harus dirender oleh Astro.
+
+JavaScript client-side hanya digunakan untuk functionality yang memang membutuhkan interaction.
+
+Contoh:
+
+* navigation state tertentu
+* project modal
+* mobile navigation
+* theme switcher jika tersedia
+* interaction lain yang tidak dapat dilakukan dengan HTML/CSS biasa
+
+---
+
+# 7. Desired Directory Structure
+
+Target struktur direkomendasikan seperti berikut:
+
+```text
+portfolio/
+├── public/
+│   ├── images/
+│   ├── icons/
+│   ├── favicon.svg
+│   └── other-static-assets/
+│
+├── src/
+│   ├── components/
+│   │   ├── Sidebar.astro
+│   │   ├── Navbar.astro
+│   │   ├── About.astro
+│   │   ├── Skills.astro
+│   │   ├── Portfolio.astro
+│   │   ├── ProjectCard.astro
+│   │   ├── ProjectModal.astro
+│   │   ├── Blog.astro
+│   │   ├── Contact.astro
+│   │   └── Footer.astro
+│   │
+│   ├── data/
+│   │   ├── site.js
+│   │   ├── profile.js
+│   │   ├── skills.js
+│   │   ├── projects.js
+│   │   ├── socials.js
+│   │   └── navigation.js
+│   │
+│   ├── layouts/
+│   │   └── BaseLayout.astro
+│   │
+│   ├── pages/
+│   │   └── index.astro
+│   │
+│   └── styles/
+│       └── global.css
+│
+├── astro.config.mjs
+├── package.json
+├── AGENTS.md
+└── PRD.md
+```
+
+Struktur final boleh sedikit berbeda apabila existing project membutuhkan penyesuaian.
+
+Jangan membuat terlalu banyak component kecil tanpa manfaat maintainability.
+
+---
+
+# 8. Component Strategy
+
+Existing HTML tidak boleh sekadar dipindahkan seluruhnya ke:
+
+```text
+src/pages/index.astro
+```
+
+sebagai satu file besar.
+
+Section yang bermakna harus dipisahkan menjadi Astro components.
+
+Contoh:
+
+```html
+<article class="about">
+```
+
+menjadi:
+
+```text
+About.astro
+```
+
+```html
+<article class="portfolio" data-page="portfolio">
+```
+
+menjadi:
+
+```text
+Portfolio.astro
+```
 
 ```html
 <article class="blog" data-page="blog">
 ```
 
-```html
-<article class="portfolio" data-page="portfolio">
+menjadi:
+
+```text
+Blog.astro
 ```
 
 dan:
@@ -32,431 +241,394 @@ dan:
 <section class="skill">
 ```
 
-Seluruh bagian website lainnya harus dipertahankan seperti kondisi existing.
+menjadi:
 
----
-
-# 2. Scope
-
-Perubahan hanya boleh dilakukan pada:
-
-## Blog
-
-```html
-<article class="blog" data-page="blog">
+```text
+Skills.astro
 ```
 
-Tujuan:
+Namun componentization harus tetap practical.
 
-> Menampilkan daftar artikel yang berasal dari Medium.com.
+Jangan membuat component seperti:
 
----
-
-## Portfolio
-
-```html
-<article class="portfolio" data-page="portfolio">
+```text
+Paragraph.astro
+Span.astro
+Heading.astro
+SmallText.astro
 ```
 
-Tujuan:
-
-> Ketika project diklik, tampil modal yang berisi informasi singkat mengenai project tersebut.
+tanpa kebutuhan reuse yang nyata.
 
 ---
 
-## Skills
+# 9. Layout
 
-```html
-<section class="skill">
+Buat base layout:
+
+```text
+src/layouts/BaseLayout.astro
 ```
 
-Tujuan:
+Base layout menangani:
 
-> Membuat tampilan skill menjadi lebih modern, menarik, mudah dibaca, dan tetap konsisten dengan design existing.
+* HTML document structure
+* `<head>`
+* global metadata
+* global styles
+* favicon
+* body structure
 
+Contoh konsep:
+
+```astro
+---
+import "../styles/global.css";
+
+const {
+  title,
+  description
+} = Astro.props;
 ---
 
-# 3. Out of Scope
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width"
+    />
 
-Jangan melakukan redesign atau perubahan visual pada bagian lain.
+    <title>{title}</title>
 
-Jangan mengubah:
+    <meta
+      name="description"
+      content={description}
+    />
+  </head>
 
-* sidebar
-* navbar
-* about
-* contact
-* testimonials
-* profile section
-* social links
-* navigation architecture
-* global page layout
-* typography global
-* global background
-* theme existing
-* existing colors secara keseluruhan
-* struktur halaman lain
-* existing JavaScript functionality yang tidak berhubungan dengan ketiga section
-
-Jangan melakukan full-site refactor.
-
-Jangan melakukan perubahan hanya karena agent merasa desain bagian lain dapat diperbaiki.
-
-Scope harus tetap terbatas pada:
-
-> Blog + Portfolio + Skills.
-
----
-
-# 4. Main Objective
-
-Peningkatan ini memiliki tiga tujuan utama:
-
-1. Mengintegrasikan artikel Medium ke section Blog.
-2. Memberikan detail project melalui modal pada section Portfolio.
-3. Meningkatkan presentasi visual pada section Skills.
-
-Semua perubahan harus tetap terasa sebagai bagian dari website existing.
-
-Jangan membuat ketiga section terlihat seperti berasal dari template yang berbeda.
-
----
-
-# 5. Existing Design Preservation
-
-Sebelum melakukan perubahan:
-
-1. Inspect HTML existing.
-2. Inspect CSS existing.
-3. Inspect JavaScript existing.
-4. Identifikasi warna utama website.
-5. Identifikasi typography existing.
-6. Identifikasi card style existing.
-7. Identifikasi border radius.
-8. Identifikasi spacing.
-9. Identifikasi animation existing.
-10. Identifikasi responsive breakpoints.
-
-Gunakan design existing sebagai referensi utama.
-
-Redesign harus mengikuti visual language website yang sudah ada.
-
----
-
-# 6. Technology Constraints
-
-Tetap gunakan:
-
-* HTML
-* CSS
-* Vanilla JavaScript
-
-Jangan menambahkan:
-
-* React
-* Vue
-* Astro
-* Svelte
-* Next.js
-* Tailwind CSS
-* Bootstrap
-
-Jangan menggunakan framework UI baru.
-
-Library eksternal hanya boleh digunakan jika benar-benar diperlukan dan tidak dapat diselesaikan secara reasonable dengan native browser API.
-
----
-
-# 7. Blog Enhancement
-
-Target element:
-
-```html
-<article class="blog" data-page="blog">
+  <body>
+    <slot />
+  </body>
+</html>
 ```
 
-## Goal
-
-Blog section harus dapat menampilkan artikel yang dipublikasikan melalui akun Medium.
-
-Tujuannya agar ketika artikel baru dibuat di Medium, website portfolio dapat menggunakan Medium sebagai sumber konten blog.
-
-Portfolio website tidak perlu memiliki CMS atau database sendiri.
-
-Medium menjadi sumber utama artikel.
+Implementasi final harus disesuaikan dengan metadata existing.
 
 ---
 
-# 8. Medium Article Data
+# 10. Data Separation — Major Requirement
 
-Informasi artikel yang dibutuhkan minimal:
+Salah satu tujuan terpenting migrasi adalah:
 
-* title
-* publication date
-* short description / excerpt
-* article URL
-* thumbnail / cover image jika tersedia
-* categories / tags jika tersedia
+> Content should be easy to update without editing component markup.
 
-Optional:
+Data yang sering diubah harus dipisahkan dari component.
 
-* reading time
-* author
-* publication
+Gunakan:
+
+```text
+src/data/
+```
+
+untuk menyimpan editable content.
 
 ---
 
-# 9. Medium Configuration
+# 11. Site Configuration
 
-Username / feed Medium harus dibuat configurable.
+Buat:
+
+```text
+src/data/site.js
+```
 
 Contoh konsep:
 
 ```js
-const MEDIUM_USERNAME = "username";
+export const site = {
+  title: "Portfolio",
+  description: "Personal developer portfolio",
+  language: "id",
+  siteUrl: "https://example.com"
+};
 ```
 
-atau pendekatan konfigurasi lain yang sederhana.
-
-Jangan hardcode data Medium di banyak lokasi.
+Site URL tidak boleh diduplikasi di banyak component.
 
 ---
 
-# 10. Medium Data Loading Strategy
+# 12. Profile Data
 
-Implementasi harus mempertimbangkan bahwa website adalah static HTML/CSS/JS.
-
-Gunakan pendekatan yang paling sederhana dan maintainable untuk mendapatkan data Medium.
-
-Prioritas:
-
-1. sumber/feed publik Medium yang tersedia
-2. browser `fetch()` apabila dapat digunakan dengan aman
-3. solusi feed-to-JSON ringan apabila direct access tidak memungkinkan
-
-Jangan membuat backend hanya untuk fitur ini.
-
-Jika integrasi langsung Medium terkena limitation seperti CORS atau format feed yang tidak dapat dikonsumsi browser secara langsung, gunakan fallback yang paling ringan.
-
-Jangan mengubah project menjadi aplikasi server-side.
-
----
-
-# 11. Blog Loading State
-
-Ketika artikel sedang dimuat, tampilkan loading state yang sederhana.
-
-Contoh:
+Buat:
 
 ```text
-Loading articles...
+src/data/profile.js
 ```
-
-atau skeleton sederhana yang mengikuti design existing.
-
-Jangan menggunakan loading animation berlebihan.
-
----
-
-# 12. Blog Error State
-
-Jika artikel Medium gagal dimuat:
-
-Website tidak boleh terlihat rusak.
-
-Tampilkan fallback seperti:
-
-```text
-Artikel belum dapat dimuat.
-```
-
-Optional:
-
-Tambahkan link:
-
-```text
-View my articles on Medium
-```
-
-Error harus ditangani dengan JavaScript.
-
-Jangan membiarkan console error menyebabkan seluruh page berhenti bekerja.
-
----
-
-# 13. Blog Empty State
-
-Jika Medium tidak memiliki artikel atau response kosong:
-
-Tampilkan empty state sederhana.
-
-Contoh:
-
-```text
-No articles published yet.
-```
-
----
-
-# 14. Blog Card Design
-
-Article card harus mengikuti desain existing portfolio.
-
-Minimal menampilkan:
-
-```text
-ARTICLE IMAGE
-
-Published Date
-
-Article Title
-
-Short Description
-
-Read Article →
-```
-
-Seluruh card dapat clickable jika sesuai UX existing.
-
----
-
-# 15. Blog Article Interaction
-
-Ketika user memilih artikel:
-
-Buka halaman artikel asli di Medium.
-
-Prefer:
-
-```html
-target="_blank"
-rel="noopener noreferrer"
-```
-
-agar user tidak kehilangan halaman portfolio.
-
----
-
-# 16. Blog Layout
-
-Layout harus responsive.
-
-Desktop dapat menggunakan:
-
-* grid
-* 2–3 column cards
-
-atau mengikuti struktur existing.
-
-Mobile:
-
-* single column
-* full readable width
-
-Jumlah kolom harus disesuaikan dengan ukuran container existing.
-
----
-
-# 17. Blog Image
-
-Jika Medium menyediakan cover image, gunakan cover tersebut.
-
-Gunakan:
-
-```html
-loading="lazy"
-```
-
-untuk image yang berada di luar initial viewport.
-
-Jika artikel tidak memiliki gambar:
-
-Gunakan fallback visual sederhana yang konsisten dengan tema.
-
-Jangan menggunakan external random image.
-
----
-
-# 18. Portfolio Enhancement
-
-Target element:
-
-```html
-<article class="portfolio" data-page="portfolio">
-```
-
-Project listing existing harus tetap dipertahankan.
-
-Perubahan utama adalah:
-
-> project dapat diklik dan menampilkan modal detail.
-
----
-
-# 19. Project Modal Goal
-
-Ketika user mengklik project:
-
-Tampilkan modal tanpa berpindah halaman.
-
-Modal harus memberikan informasi lebih lengkap dibanding project card.
-
----
-
-# 20. Project Modal Content
-
-Modal minimal berisi:
-
-* project title
-* project image
-* short description
-* technologies
-* project type/category
-
-Optional jika data tersedia:
-
-* problem
-* solution
-* contribution
-* GitHub URL
-* live demo URL
-* project status
-
----
-
-# 21. Project Data Structure
-
-Jangan hardcode modal HTML untuk setiap project jika dapat dihindari.
-
-Prefer data-driven implementation.
 
 Contoh:
 
 ```js
-const projects = [
+export const profile = {
+  name: "Nama",
+  role: "Software Developer",
+  location: "Indonesia",
+
+  bio: "Deskripsi singkat profil.",
+
+  email: "email@example.com",
+
+  avatar: "/images/profile.webp"
+};
+```
+
+Data aktual harus diambil dari existing project.
+
+Jangan mengarang biodata baru.
+
+---
+
+# 13. Social Links
+
+Buat:
+
+```text
+src/data/socials.js
+```
+
+Contoh:
+
+```js
+export const socials = [
   {
-    id: "project-1",
+    name: "GitHub",
+    url: "https://github.com/username"
+  },
+  {
+    name: "LinkedIn",
+    url: "https://linkedin.com/in/username"
+  }
+];
+```
+
+Gunakan existing links sebagai source of truth.
+
+---
+
+# 14. Skills Data
+
+Buat:
+
+```text
+src/data/skills.js
+```
+
+Skill harus mudah ditambah atau dihapus.
+
+Contoh:
+
+```js
+export const skills = [
+  {
+    category: "Backend",
+    items: [
+      "PHP",
+      "Laravel"
+    ]
+  },
+
+  {
+    category: "Frontend",
+    items: [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ]
+  },
+
+  {
+    category: "Database",
+    items: [
+      "MySQL",
+      "PostgreSQL"
+    ]
+  }
+];
+```
+
+Data existing harus dipertahankan.
+
+Jika existing skill memiliki struktur berbeda, adaptasikan tanpa kehilangan informasi.
+
+---
+
+# 15. Project Data
+
+Buat:
+
+```text
+src/data/projects.js
+```
+
+Project baru harus dapat ditambahkan dengan mengubah file data saja.
+
+Contoh:
+
+```js
+export const projects = [
+  {
+    id: "project-one",
+
     title: "Project Name",
-    description: "Short description...",
-    image: "./assets/images/project-1.jpg",
-    technologies: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/...",
+
+    category: "Web Application",
+
+    image:
+      "/images/projects/project-one.webp",
+
+    description:
+      "Short project description.",
+
+    technologies: [
+      "Laravel",
+      "MySQL"
+    ],
+
+    github:
+      "https://github.com/...",
+
     demo: null
   }
 ];
 ```
 
-Namun:
+---
 
-Jika project data existing sudah berada di HTML, tidak wajib memindahkan seluruh data ke JavaScript.
+# 16. Project Data Requirements
 
-Agent harus memilih pendekatan yang paling sederhana berdasarkan struktur existing.
+Minimal dukung field:
+
+```text
+id
+title
+category
+image
+description
+technologies
+```
+
+Optional:
+
+```text
+github
+demo
+status
+year
+problem
+solution
+contribution
+```
+
+Jangan memaksa semua project memiliki field optional.
+
+Component harus mampu menangani data yang kosong.
 
 ---
 
-# 22. Existing Portfolio Filter
+# 17. Portfolio Component
 
-Jika existing portfolio memiliki category/filter seperti:
+Buat:
+
+```text
+Portfolio.astro
+```
+
+Portfolio harus membaca data dari:
+
+```text
+src/data/projects.js
+```
+
+Jangan hardcode daftar project di component jika data sudah tersedia di `projects.js`.
+
+Gunakan reusable component seperti:
+
+```text
+ProjectCard.astro
+```
+
+jika membantu maintainability.
+
+---
+
+# 18. Project Modal
+
+Functionality existing:
+
+> Klik project → modal detail project.
+
+harus tetap dipertahankan.
+
+Modal harus menampilkan minimal:
+
+* image
+* title
+* category
+* description
+* technologies
+
+Optional jika tersedia:
+
+* GitHub link
+* live demo
+* status
+* year
+* problem
+* solution
+
+---
+
+# 19. Modal Behavior
+
+Project modal harus dapat:
+
+* dibuka dengan click
+* ditutup dengan close button
+* ditutup dengan overlay
+* ditutup dengan Escape
+
+Saat modal aktif:
+
+* background scrolling dinonaktifkan
+
+Saat modal ditutup:
+
+* body scrolling dikembalikan
+
+---
+
+# 20. Modal Accessibility
+
+Gunakan semantics seperti:
+
+```html
+role="dialog"
+aria-modal="true"
+```
+
+Close button harus memiliki accessible label.
+
+Contoh:
+
+```html
+aria-label="Close project details"
+```
+
+---
+
+# 21. Existing Portfolio Filter
+
+Jika portfolio existing memiliki filter berdasarkan category:
 
 ```text
 All
@@ -465,788 +637,951 @@ Applications
 Web Design
 ```
 
-functionality tersebut harus tetap bekerja.
+functionality tersebut harus tetap bekerja setelah migrasi.
 
-Penambahan modal tidak boleh merusak filter existing.
+Prefer implementasi minimal JavaScript.
+
+Jangan menambahkan state management library.
 
 ---
 
-# 23. Project Click Behavior
+# 22. Blog / Medium Integration
 
-Click pada project card:
+Existing requirement:
+
+> Artikel Blog berasal dari Medium.
+
+Medium tetap menjadi source of truth untuk artikel.
+
+Portfolio website tidak membutuhkan CMS atau database sendiri.
+
+---
+
+# 23. Preferred Medium Architecture
+
+Karena website akan di-host statically melalui GitHub Pages, prefer:
+
+> Fetch Medium data at build time rather than visitor runtime.
+
+Architecture:
 
 ```text
-Project Card
-    ↓
-Open Modal
+Medium / RSS
+      ↓
+Astro build
+      ↓
+Article data
+      ↓
+Static HTML
+      ↓
+GitHub Pages
 ```
 
-Jangan membuka modal apabila user mengklik link khusus seperti:
+Keuntungannya:
 
-* GitHub
-* Live Demo
-
-jika link tersebut memang tersedia secara terpisah.
+* lebih cepat
+* lebih reliable
+* tidak tergantung client-side fetch
+* mengurangi masalah CORS
+* lebih baik untuk SEO
 
 ---
 
-# 24. Modal Layout
+# 24. Medium Data
 
-Modal harus:
-
-* berada di tengah viewport
-* memiliki overlay
-* memiliki maximum width
-* responsive
-* memiliki close button
-* memiliki readable content
-* dapat discroll jika konten terlalu tinggi
-
-Contoh struktur:
+Minimal artikel memiliki:
 
 ```text
-┌────────────────────────────────────┐
-│                                ×   │
-│                                    │
-│        PROJECT SCREENSHOT          │
-│                                    │
-│ Project Name                       │
-│ Category                           │
-│                                    │
-│ Short description of project...   │
-│                                    │
-│ Technologies                       │
-│ Laravel · MySQL · Tailwind         │
-│                                    │
-│ [GitHub]             [Live Demo]   │
-└────────────────────────────────────┘
+title
+published date
+excerpt
+url
 ```
-
-Tidak harus mengikuti layout tersebut secara persis.
-
-Gunakan design yang paling konsisten dengan website existing.
-
----
-
-# 25. Modal Overlay
-
-Overlay harus memberikan fokus pada modal.
-
-Gunakan background seperti:
-
-```css
-background: rgba(0, 0, 0, 0.6);
-```
-
-atau nilai lain yang sesuai dengan theme existing.
 
 Optional:
 
-```css
-backdrop-filter: blur(...);
+```text
+thumbnail
+categories
+reading time
+author
 ```
 
-Gunakan blur secara subtle.
+Gunakan informasi yang benar-benar tersedia dari sumber Medium.
 
 ---
 
-# 26. Modal Animation
+# 25. Medium Configuration
 
-Gunakan animation sederhana.
+Medium username/feed URL harus disimpan di satu lokasi.
 
 Contoh:
 
-* fade overlay
-* small scale-up
-* subtle translate
+```js
+export const medium = {
+  username: "username"
+};
+```
 
-Durasi sekitar:
+atau di:
 
 ```text
-150ms – 300ms
+src/data/site.js
 ```
 
-Jangan menggunakan animation berlebihan.
+Jangan hardcode Medium username di banyak file.
 
 ---
 
-# 27. Modal Close Behavior
+# 26. Medium Failure Handling
 
-Modal harus dapat ditutup dengan:
+Build tidak seharusnya merusak keseluruhan website hanya karena Medium tidak dapat diakses sementara.
 
-## Close Button
+Jika secara teknis memungkinkan:
 
-```text
-×
-```
-
-atau icon existing.
-
-## Click Outside
-
-Klik overlay menutup modal.
-
-## Keyboard
-
-Tekan:
-
-```text
-Escape
-```
-
-untuk menutup modal.
-
----
-
-# 28. Modal Accessibility
-
-Minimal implement:
-
-```html
-role="dialog"
-aria-modal="true"
-```
-
-Tambahkan accessible label.
-
-Close button harus memiliki:
-
-```html
-aria-label="Close project details"
-```
-
-Saat modal terbuka:
-
-* background scrolling sebaiknya dinonaktifkan
-* focus interaction harus tetap usable
-
----
-
-# 29. Body Scroll Lock
-
-Saat modal terbuka:
-
-```text
-body scrolling = disabled
-```
-
-Ketika modal ditutup:
-
-```text
-body scrolling = enabled
-```
-
-Pastikan tidak meninggalkan body dalam kondisi locked.
-
----
-
-# 30. Portfolio Data Preservation
-
-Jangan mengubah:
-
-* nama project
-* image
-* category
-* URL
-* technology
-* content existing
-
-kecuali memang dibutuhkan untuk modal.
-
-Jangan mengarang informasi project baru.
-
----
-
-# 31. Skills Enhancement
-
-Target:
-
-```html
-<section class="skill">
-```
-
-Goal:
-
-> Membuat skill section lebih menarik secara visual tanpa mengubah keseluruhan design website.
-
----
-
-# 32. Skill Design Direction
-
-Skills harus terlihat:
-
-* modern
-* organized
-* easy to scan
-* professional
-* visually balanced
-
-Jangan membuat skill section terlalu penuh.
-
----
-
-# 33. Skill Content
-
-Gunakan skill existing sebagai source of truth.
-
-Jangan menambahkan skill yang tidak tersedia di template.
-
----
-
-# 34. Skill Presentation
-
-Jika existing skill menggunakan progress bar seperti:
-
-```text
-HTML 90%
-CSS 80%
-JavaScript 70%
-```
-
-agent harus mengevaluasi apakah percentage tersebut memang diperlukan.
-
-Jika percentage hanya dekoratif:
-
-Prefer redesign menjadi categorized skill items.
+* handle error
+* return empty article list
+* tampilkan fallback
 
 Contoh:
 
 ```text
-Frontend
-
-HTML
-CSS
-JavaScript
+Artikel belum dapat dimuat.
 ```
 
-atau:
-
-```text
-HTML        CSS        JavaScript
-```
-
-Namun jika user existing design memang menggunakan proficiency percentage sebagai informasi penting, percentage dapat dipertahankan dengan visual yang lebih modern.
+Tambahkan link langsung ke profil Medium jika tersedia.
 
 ---
 
-# 35. Recommended Skill Layout
+# 27. Blog Component
 
-Prefer grouped skills jika data mendukung.
-
-Contoh:
+Buat:
 
 ```text
-FRONTEND
-
-HTML
-CSS
-JavaScript
-
-BACKEND
-
-PHP
-Laravel
-
-TOOLS
-
-Git
-Docker
-Linux
+Blog.astro
 ```
 
-Jangan membuat kategori jika data existing tidak cukup untuk mendukungnya.
+Blog harus render article cards saat build.
+
+Card dapat menampilkan:
+
+```text
+cover image
+
+publication date
+
+article title
+
+short excerpt
+
+Read Article →
+```
+
+Link harus menuju Medium.
 
 ---
 
-# 36. Skill Card Alternative
+# 28. Existing Blog Visual
 
-Skill dapat menggunakan small cards seperti:
+Existing visual blog harus dipertahankan semirip mungkin.
 
-```text
-┌────────────┐
-│     ◇      │
-│    HTML    │
-└────────────┘
-```
-
-atau icon + label.
-
-Gunakan existing icons jika tersedia.
-
-Jangan menambahkan icon library besar hanya untuk section skill.
+Migrasi tidak boleh menjadi alasan untuk redesign Blog jika tidak diminta.
 
 ---
 
-# 37. Skill Visual Style
+# 29. CSS Migration
 
-Gunakan style existing sebagai referensi.
+Existing CSS harus dianalisis sebelum dipindahkan.
 
-Boleh menambahkan:
+Jangan rewrite seluruh stylesheet tanpa kebutuhan.
 
-* subtle border
-* accent highlight
-* hover state
-* soft background
-* consistent radius
-* better spacing
+Gunakan existing CSS sebagai visual source of truth.
 
-Hindari:
+Allowed:
 
-* heavy shadow
-* excessive gradients
-* neon glow
-* animation terus-menerus
+* membersihkan duplicate declarations
+* memperbaiki broken selectors
+* mengorganisasi CSS
+* menyesuaikan selectors karena component migration
+* menghapus CSS yang sudah pasti tidak digunakan
 
----
+Not allowed:
 
-# 38. Skill Hover
-
-Skill item dapat memiliki subtle interaction seperti:
-
-```css
-transform: translateY(-2px);
-```
-
-atau:
-
-* border color change
-* background change
-* icon scale kecil
-
-Durasi:
-
-```text
-150ms–250ms
-```
+* mengganti palette hanya karena preferensi agent
+* mengganti typography secara global
+* melakukan redesign seluruh site
+* mengganti spacing system tanpa kebutuhan
 
 ---
 
-# 39. Skill Responsive Layout
+# 30. Global CSS
 
-Desktop:
-
-```text
-3–5 columns
-```
-
-tergantung lebar existing container.
-
-Tablet:
+Prefer mempertahankan:
 
 ```text
-2–3 columns
+src/styles/global.css
 ```
 
-Mobile:
+untuk existing global styling.
 
-```text
-1–2 columns
-```
+Component-specific CSS boleh:
 
-Gunakan grid yang adaptif.
+* tetap global jika existing architecture lebih sederhana
+* dipindahkan ke component apabila benar-benar meningkatkan maintainability
 
-Contoh pendekatan:
-
-```css
-grid-template-columns:
-  repeat(auto-fit, minmax(...));
-```
-
-Agent dapat menyesuaikan berdasarkan design existing.
+Jangan memecah CSS secara berlebihan.
 
 ---
 
-# 40. Styling Constraint
+# 31. JavaScript Migration
 
-Jangan mengubah global design system hanya untuk membuat ketiga section.
+Audit seluruh existing JavaScript.
 
-Jika membutuhkan CSS variables baru:
+Pisahkan functionality menjadi:
 
-Tambahkan hanya jika aman dan tidak mengubah section lain.
+## Static functionality
 
-Prefer class-scoped styling.
+Pindahkan ke Astro build jika JavaScript tidak lagi diperlukan.
 
-Contoh:
+## Interactive functionality
 
-```css
-.blog ...
-```
+Pertahankan dengan Vanilla JavaScript.
 
-```css
-.portfolio ...
-```
+Contoh interactive functionality:
 
-```css
-.skill ...
-```
-
-```css
-.project-modal ...
-```
-
-Hindari generic selector seperti:
-
-```css
-.card
-```
-
-jika dapat memengaruhi element existing lainnya.
-
----
-
-# 41. JavaScript Scope
-
-JavaScript baru hanya boleh digunakan untuk:
-
-* Medium articles loading
 * project modal
-* enhancement yang benar-benar diperlukan
-
-Jangan refactor global JavaScript tanpa alasan.
-
-Jangan mengubah navigation logic.
-
-Jangan mengubah page switching system existing.
+* portfolio filter
+* mobile menu
+* theme switcher
+* page navigation state jika masih dibutuhkan
 
 ---
 
-# 42. Existing Navigation Compatibility
+# 32. JavaScript Principle
 
-Template mungkin menggunakan logic seperti:
+Gunakan:
 
-```html
-data-nav-link
-```
+> As little client-side JavaScript as reasonably possible.
 
-dan:
+Jangan menggunakan JavaScript untuk:
+
+* static text
+* project rendering
+* skills rendering
+* static social links
+
+Astro harus melakukan rendering tersebut saat build.
+
+---
+
+# 33. Existing Navigation
+
+Jika existing portfolio menggunakan SPA-like navigation berbasis:
 
 ```html
 data-page
 ```
 
-untuk mengubah halaman aktif.
+dan:
 
-Functionality tersebut harus tetap bekerja.
+```html
+data-nav-link
+```
 
-Penambahan JavaScript blog/modal tidak boleh mengganggu existing page navigation.
+agent harus terlebih dahulu memahami behaviour tersebut.
+
+Migrasi boleh mempertahankan model navigation existing jika itu paling aman.
+
+Jangan langsung mengubah menjadi multi-page architecture tanpa alasan.
+
+Visual dan UX existing harus tetap sama.
 
 ---
 
-# 43. CSS Scope
+# 34. Static Assets
 
-Semua styling baru harus sebisa mungkin menggunakan selectors spesifik.
+Audit seluruh:
 
-Contoh:
+* images
+* logos
+* icons
+* fonts
+* documents
+* resume
+* project screenshots
 
-```css
-.blog .article-card
-```
-
-```css
-.portfolio .project-item
-```
-
-```css
-.project-modal
-```
-
-```css
-.skill .skill-item
-```
-
-Tujuannya agar styling baru tidak mengubah component lain.
-
----
-
-# 44. Responsive Requirements
-
-Ketiga section harus direview pada minimal:
-
-* 1440px
-* 1280px
-* 1024px
-* 768px
-* 430px
-* 390px
-* 375px
-
-Tidak boleh menyebabkan:
-
-* horizontal scroll
-* overflow image
-* modal keluar viewport
-* text terpotong
-* card terlalu sempit
-* tap target terlalu kecil
-
----
-
-# 45. Performance
-
-Website harus tetap ringan.
-
-Avoid:
-
-* large UI frameworks
-* animation libraries
-* unnecessary dependencies
-* large JavaScript bundle
+Relevant assets harus dipindahkan atau direferensikan dengan benar.
 
 Prefer:
 
-* vanilla JavaScript
-* CSS transition
-* lazy-loaded images
-
----
-
-# 46. Error Isolation
-
-Kegagalan Medium fetch tidak boleh menyebabkan:
-
-* portfolio modal gagal
-* navigation gagal
-* skill section gagal
-* existing JavaScript berhenti
-
-Pisahkan logic secara aman.
-
-Gunakan error handling seperti:
-
-```js
-try {
-  ...
-} catch (error) {
-  ...
-}
-```
-
-jika sesuai.
-
----
-
-# 47. Code Organization
-
-Jika JavaScript existing berada dalam:
-
 ```text
-script.js
+public/
 ```
 
-agent dapat mempertahankan file tersebut.
-
-Jangan membuat banyak file JavaScript tanpa kebutuhan.
-
-Namun logic harus tetap dipisahkan secara logis.
+untuk static assets yang tidak memerlukan Astro image processing.
 
 Contoh:
 
+```text
+public/
+├── images/
+│   ├── profile/
+│   ├── projects/
+│   └── blog/
+│
+├── icons/
+└── resume.pdf
+```
+
+---
+
+# 35. Asset Path
+
+Pastikan seluruh asset path bekerja saat:
+
+```bash
+npm run dev
+```
+
+dan:
+
+```bash
+npm run build
+```
+
+Jangan hanya memastikan asset bekerja di development server.
+
+---
+
+# 36. GitHub Pages Requirement
+
+Target deployment:
+
+> GitHub Pages
+
+Astro harus dikonfigurasi sebagai static site.
+
+Production build:
+
+```bash
+npm run build
+```
+
+harus menghasilkan:
+
+```text
+dist/
+```
+
+yang dapat di-deploy ke GitHub Pages.
+
+---
+
+# 37. Astro Configuration
+
+Configure:
+
+```text
+astro.config.mjs
+```
+
+sesuai kebutuhan GitHub Pages.
+
+Gunakan:
+
+```text
+site
+```
+
+dan:
+
+```text
+base
+```
+
+jika diperlukan berdasarkan repository deployment.
+
+Jika menggunakan custom domain dan root domain, sesuaikan konfigurasi dengan deployment tersebut.
+
+Jangan hardcode konfigurasi yang salah sebelum mengetahui repository dan domain actual.
+
+---
+
+# 38. GitHub Actions
+
+Siapkan deployment menggunakan GitHub Actions apabila repository belum memiliki workflow.
+
+Target flow:
+
+```text
+Push to main
+      ↓
+GitHub Actions
+      ↓
+npm install
+      ↓
+npm run build
+      ↓
+dist/
+      ↓
+GitHub Pages
+```
+
+Gunakan workflow yang sesuai dengan Astro dan GitHub Pages.
+
+---
+
+# 39. Custom Domain
+
+Website harus tetap memungkinkan penggunaan:
+
+> Custom Domain
+
+Jika existing project memiliki:
+
+```text
+CNAME
+```
+
+preserve konfigurasi tersebut sesuai kebutuhan GitHub Pages.
+
+Jangan menghapus konfigurasi custom domain tanpa alasan.
+
+---
+
+# 40. SEO Preservation
+
+Existing metadata harus dipertahankan jika tersedia.
+
+Pastikan minimal memiliki:
+
+```text
+title
+description
+viewport
+favicon
+```
+
+Optional:
+
+* Open Graph
+* canonical URL
+* social preview
+
+Migrasi tidak boleh menurunkan existing SEO metadata.
+
+---
+
+# 41. Responsive Preservation
+
+Existing responsive behavior harus tetap bekerja.
+
+Review minimal pada:
+
+```text
+1440px
+1280px
+1024px
+768px
+430px
+390px
+375px
+```
+
+Periksa:
+
+* sidebar
+* navigation
+* about
+* skills
+* portfolio
+* modal
+* blog
+* contact
+* footer
+
+---
+
+# 42. Do Not Introduce Visual Regression
+
+Setelah migrasi, periksa:
+
+* font size
+* font weight
+* colors
+* backgrounds
+* borders
+* shadows
+* card size
+* image aspect ratio
+* section spacing
+* animation
+* hover state
+
+Jika Astro version terlihat berbeda dari HTML existing tanpa alasan teknis, anggap itu sebagai regression.
+
+---
+
+# 43. Accessibility
+
+Pertahankan dan tingkatkan jika mudah:
+
+* semantic HTML
+* heading hierarchy
+* alt text
+* keyboard navigation
+* focus state
+* modal accessibility
+* button labels
+
+Accessibility improvement diperbolehkan selama tidak mengubah visual secara signifikan.
+
+---
+
+# 44. Performance
+
+Target Astro version harus minimal sama cepat atau lebih cepat daripada existing static website.
+
+Prioritaskan:
+
+* static HTML
+* minimal JavaScript
+* optimized assets
+* lazy-loaded images
+* minimal dependencies
+
+Avoid:
+
+* unnecessary frameworks
+* animation libraries
+* heavy client-side bundles
+
+---
+
+# 45. Dependency Policy
+
+Jangan menambahkan dependency tanpa kebutuhan.
+
+Sebelum menambahkan package:
+
+1. Periksa apakah Astro/native browser API sudah cukup.
+2. Periksa maintenance cost.
+3. Periksa apakah dependency berjalan pada static build.
+4. Periksa bundle impact.
+
+Prefer simple implementation.
+
+---
+
+# 46. Data Editing Experience
+
+Setelah migrasi, user harus dapat melakukan tugas umum tanpa mengedit component.
+
+## Change biodata
+
+Edit:
+
+```text
+src/data/profile.js
+```
+
+## Add skill
+
+Edit:
+
+```text
+src/data/skills.js
+```
+
+## Add project
+
+Edit:
+
+```text
+src/data/projects.js
+```
+
+## Change social media
+
+Edit:
+
+```text
+src/data/socials.js
+```
+
+## Change site information
+
+Edit:
+
+```text
+src/data/site.js
+```
+
+Targetnya adalah membuat website terasa seperti:
+
+> Data-driven static portfolio.
+
+---
+
+# 47. Example Editing Flow
+
+Untuk menambah project baru:
+
 ```js
-// Medium Articles
+{
+  id: "new-project",
 
-...
+  title: "New Project",
 
-// Project Modal
+  category: "Web Application",
 
-...
+  image:
+    "/images/projects/new-project.webp",
+
+  description:
+    "Project description.",
+
+  technologies: [
+    "Laravel",
+    "MySQL"
+  ],
+
+  github:
+    "https://github.com/...",
+
+  demo:
+    "https://example.com"
+}
 ```
 
-atau function yang jelas seperti:
+Setelah save:
 
-```js
-loadMediumArticles();
-openProjectModal();
-closeProjectModal();
+```bash
+npm run dev
 ```
+
+atau push ke GitHub.
+
+Tidak perlu mengedit HTML portfolio card secara manual.
 
 ---
 
-# 48. Accessibility
+# 48. Migration Workflow
 
-Semua enhancement harus mempertahankan atau meningkatkan accessibility.
+Agent harus mengikuti urutan berikut.
 
-Blog:
-
-* image alt
-* meaningful links
-
-Portfolio modal:
-
-* keyboard close
-* dialog semantics
-* accessible button
-
-Skills:
-
-* jangan menyampaikan informasi hanya menggunakan warna
-
----
-
-# 49. Do Not Change
-
-Agent tidak boleh mengubah:
-
-```html
-<article class="about" ...>
-```
-
-```html
-<article class="contact" ...>
-```
-
-atau section lainnya kecuali perubahan kecil benar-benar diperlukan sebagai dependency teknis.
-
-Tidak boleh melakukan redesign global.
-
-Tidak boleh mengganti warna keseluruhan website.
-
-Tidak boleh mengganti font global.
-
-Tidak boleh mengganti navbar.
-
-Tidak boleh mengganti sidebar.
-
-Tidak boleh mengubah existing page routing/navigation.
-
----
-
-# 50. Implementation Order
-
-Implementasi dilakukan dalam urutan:
-
-## Phase 1 — Audit
+## Phase 1 — Audit Existing Project
 
 Inspect:
 
 * HTML
 * CSS
 * JavaScript
-* existing page logic
-* existing blog
-* existing portfolio
-* existing skill
 * assets
+* navigation
+* project filter
+* project modal
+* Medium integration
+* responsive styles
+* custom domain configuration
+
+Jangan modify files terlebih dahulu.
 
 ---
 
-## Phase 2 — Blog
+## Phase 2 — Create Astro Foundation
 
-Implement:
+Buat:
 
-1. Medium data loading
-2. article rendering
-3. loading state
-4. error state
-5. responsive layout
+```text
+package.json
+astro.config.mjs
+src/
+public/
+```
 
----
+sesuai kebutuhan.
 
-## Phase 3 — Portfolio Modal
-
-Implement:
-
-1. project data mapping
-2. modal markup
-3. open behavior
-4. close behavior
-5. Escape support
-6. overlay close
-7. body scroll lock
-8. responsive modal
+Install hanya dependencies yang diperlukan.
 
 ---
 
-## Phase 4 — Skills
+## Phase 3 — Migrate Base Layout
 
-Implement:
+Migrate:
 
-1. improved layout
-2. better visual hierarchy
-3. hover state
-4. responsive grid
+* document structure
+* metadata
+* global styles
+* global assets
+
+ke Astro layout.
 
 ---
 
-## Phase 5 — Validation
+## Phase 4 — Component Migration
 
-Check:
+Migrate meaningful sections satu per satu.
+
+Suggested order:
+
+```text
+Sidebar
+Navbar
+About
+Skills
+Portfolio
+Project Modal
+Blog
+Contact
+Footer
+```
+
+Pastikan visual setiap section tetap konsisten sebelum lanjut.
+
+---
+
+## Phase 5 — Data Extraction
+
+Pindahkan editable content ke:
+
+```text
+src/data/
+```
+
+Prioritas:
+
+```text
+profile
+socials
+skills
+projects
+site configuration
+```
+
+---
+
+## Phase 6 — JavaScript Migration
+
+Audit existing JS.
+
+Pertahankan hanya interaction yang diperlukan.
+
+Test:
 
 * navigation
-* blog
 * portfolio filter
-* project modal
-* skill layout
-* mobile
-* console errors
-* broken images
-* broken links
+* modal
+* mobile navigation
+* other existing interactions
 
 ---
 
-# 51. Definition of Done
+## Phase 7 — Medium Integration
 
-Project enhancement dianggap selesai apabila:
+Implement build-time article retrieval jika memungkinkan.
 
-## Blog
+Render static article cards.
 
-* [ ] Article berasal dari Medium.
-* [ ] Article title tampil.
-* [ ] Publication date tampil.
-* [ ] Excerpt tampil.
-* [ ] Article link membuka Medium.
-* [ ] Cover image digunakan jika tersedia.
-* [ ] Loading state tersedia.
-* [ ] Error fallback tersedia.
-* [ ] Layout responsive.
+Tambahkan safe fallback.
+
+---
+
+## Phase 8 — GitHub Pages Configuration
+
+Configure:
+
+* Astro static output
+* GitHub Actions
+* repository deployment
+* custom domain support jika diperlukan
+
+---
+
+## Phase 9 — Validation
+
+Jalankan:
+
+```bash
+npm run build
+```
+
+Perbaiki semua migration-related build errors.
+
+Test:
+
+* dev environment
+* production build
+* responsive layout
+* links
+* images
+* project modal
+* project filter
+* Medium blog
+* navigation
+
+---
+
+# 49. Scope Discipline
+
+Jangan melakukan unrelated refactoring.
+
+Jangan mengubah feature yang tidak terkait migrasi.
+
+Jangan melakukan redesign tambahan hanya karena ada kesempatan.
+
+Focus:
+
+> Migration + maintainability + static deployment.
+
+---
+
+# 50. Content Integrity
+
+Jangan mengarang:
+
+* biodata
+* project
+* company
+* education
+* work history
+* skill
+* social links
+* contact information
+
+Existing website adalah content source of truth.
+
+Placeholder boleh tetap placeholder jika memang existing content masih dummy.
+
+---
+
+# 51. Migration Safety
+
+Sebelum menghapus file HTML/CSS/JS existing:
+
+* pastikan equivalent Astro implementation sudah bekerja
+* pastikan functionality sudah diuji
+* pastikan assets sudah termigrasi
+* pastikan production build sukses
+
+Jangan terlalu cepat menghapus source existing saat migration masih berlangsung.
+
+---
+
+# 52. Definition of Done
+
+Migrasi dianggap selesai jika:
+
+## Astro
+
+* [ ] Project berjalan menggunakan Astro.
+* [ ] `npm run dev` berhasil.
+* [ ] `npm run build` berhasil.
+* [ ] Static output dihasilkan di `dist/`.
+
+## UI
+
+* [ ] Tampilan tetap sangat dekat dengan existing version.
+* [ ] Tidak ada unintended redesign.
+* [ ] Responsive layout tetap bekerja.
+* [ ] Tidak ada horizontal overflow.
+
+## Components
+
+* [ ] Major sections sudah menjadi meaningful Astro components.
+* [ ] Homepage tidak berupa satu giant Astro file.
+* [ ] Component structure mudah dipahami.
+
+## Data
+
+* [ ] Profile dapat diedit dari data file.
+* [ ] Skills dapat diedit dari data file.
+* [ ] Projects dapat diedit dari data file.
+* [ ] Social links dapat diedit dari data file.
+* [ ] Site configuration terpusat.
 
 ## Portfolio
 
-* [ ] Existing project cards tetap tampil.
-* [ ] Project dapat diklik.
-* [ ] Modal muncul.
-* [ ] Modal menampilkan project title.
-* [ ] Modal menampilkan image.
-* [ ] Modal menampilkan description.
-* [ ] Modal menampilkan technologies jika tersedia.
-* [ ] Modal dapat ditutup dengan tombol.
-* [ ] Modal dapat ditutup dengan overlay.
-* [ ] Modal dapat ditutup dengan Escape.
-* [ ] Background scrolling berhenti selama modal aktif.
-* [ ] Existing portfolio filter tetap bekerja.
+* [ ] Project cards berasal dari data.
+* [ ] Existing project filter tetap bekerja jika tersedia.
+* [ ] Project modal tetap bekerja.
+* [ ] Modal responsive.
+* [ ] Escape close bekerja.
 
-## Skills
+## Blog
 
-* [ ] Existing skills tetap digunakan.
-* [ ] Layout lebih menarik.
-* [ ] Visual lebih modern.
-* [ ] Spacing konsisten.
-* [ ] Hover state subtle.
-* [ ] Responsive di desktop/tablet/mobile.
+* [ ] Medium tetap menjadi article source.
+* [ ] Artikel dirender secara static jika memungkinkan.
+* [ ] Medium failure memiliki fallback.
+* [ ] Article links menuju Medium.
 
-## Existing Website
+## JavaScript
 
-* [ ] Section selain Blog, Portfolio, dan Skills tidak berubah secara visual.
-* [ ] Navigation existing tetap bekerja.
-* [ ] Tidak ada JavaScript error baru.
+* [ ] Existing required interaction tetap bekerja.
+* [ ] Tidak ada unnecessary client JavaScript.
+* [ ] Tidak ada console error baru.
+
+## Assets
+
+* [ ] Existing images tetap tampil.
 * [ ] Tidak ada broken asset.
-* [ ] Tidak ada horizontal overflow.
-* [ ] Tidak ada framework baru.
-* [ ] Website tetap HTML + CSS + Vanilla JavaScript.
+* [ ] Project screenshots tetap tersedia.
+
+## GitHub Pages
+
+* [ ] Website compatible dengan GitHub Pages.
+* [ ] Production build dapat dideploy.
+* [ ] Custom domain tetap memungkinkan.
+* [ ] Deployment workflow tersedia jika dibutuhkan.
 
 ---
 
-# 52. Final Requirement
+# 53. Final Product Goal
 
-Prioritas utama:
+Hasil akhir harus menjadi:
 
-> Enhance only what was requested.
+> A maintainable, data-driven, fully static Astro portfolio that preserves the existing approved visual design.
 
-Agent harus menahan diri dari melakukan redesign global.
+User harus dapat memperbarui portfolio dengan sederhana tanpa harus mengubah markup utama.
 
-Hasil akhirnya harus terasa seperti versi yang lebih matang dari website existing, bukan website baru.
+Ideal editing experience:
 
-Fokus perubahan:
+```text
+Add Project
+      ↓
+Edit projects.js
+      ↓
+Push to GitHub
+      ↓
+GitHub Actions
+      ↓
+Astro Build
+      ↓
+GitHub Pages Updated
+```
 
-> Medium-powered Blog + Project Detail Modal + Improved Skills UI
+Migrasi berhasil jika website terasa sama atau lebih baik bagi pengunjung, tetapi jauh lebih mudah dikelola oleh pemilik website.
 
-dengan tetap mempertahankan identitas desain website yang sudah ada.
+---
+
+# 54. Final Instruction to Coding Agent
+
+Before implementation:
+
+> Inspect the entire existing repository first.
+
+Do not assume file structure.
+
+Do not redesign the website.
+
+Preserve existing functionality and appearance.
+
+Use the existing HTML/CSS/JavaScript implementation as the reference when creating the Astro version.
+
+Prefer:
+
+> static rendering + Astro components + centralized data + minimal client JavaScript.
+
+When uncertain between rewriting something and preserving a working implementation:
+
+> preserve the working implementation unless there is a clear technical benefit to changing it.

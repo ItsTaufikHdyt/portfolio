@@ -1,0 +1,72 @@
+---
+import { asset } from "../lib/assets.js";
+import { profile } from "../data/profile.js";
+import { services, clients } from "../data/about.js";
+import Testimonials from "./Testimonials.astro";
+import TestimonialModal from "./TestimonialModal.astro";
+---
+
+<article class="about active" data-page="about">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">{profile.hero.eyebrow}</p>
+      <h2 class="hero-title" id="hero-title">{profile.hero.title}</h2>
+      <p class="hero-text">{profile.hero.text}</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" type="button" data-nav-target="portfolio">View my work</button>
+        <button class="btn btn-secondary" type="button" data-nav-target="contact">Let's talk</button>
+      </div>
+    </div>
+
+    <aside class="hero-details" aria-label="Professional details">
+      {profile.hero.details.map((detail) => (
+        <div class="hero-detail">
+          <span>{detail.label}</span>
+          <strong>{detail.value}</strong>
+        </div>
+      ))}
+    </aside>
+  </section>
+
+  <header class="section-header">
+    <p class="eyebrow">About</p>
+    <h2 class="h2 article-title">About me</h2>
+  </header>
+
+  <section class="about-text">
+    {profile.about.map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+
+  <section class="service">
+    <h3 class="h3 service-title">What i'm doing</h3>
+    <ul class="service-list">
+      {services.map((service) => (
+        <li class="service-item">
+          <div class="service-icon-box">
+            <img src={asset(service.icon)} alt={service.iconAlt} width="40" />
+          </div>
+          <div class="service-content-box">
+            <h4 class="h4 service-item-title">{service.title}</h4>
+            <p class="service-item-text">{service.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- <Testimonials />
+  <TestimonialModal /> -->
+
+  <!-- <section class="clients">
+    <h3 class="h3 clients-title">Clients</h3>
+    <ul class="clients-list has-scrollbar">
+      {clients.map((client) => (
+        <li class="clients-item">
+          <a href={client.url}>
+            <img src={asset(client.image)} alt="client logo" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section> -->
+</article>

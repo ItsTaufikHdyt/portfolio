@@ -1,0 +1,48 @@
+export const skills = [
+  {
+    label: "Development",
+    category: "Software Engineering",
+    icon: "code-slash-outline",
+    ariaLabel: "Software development skills",
+    items: [
+      "PHP",
+      "JavaScript",
+      "Laravel",
+      "Flutter",
+      "REST API",
+      "MySQL",
+      "PostgreSQL",
+    ],
+  },
+  {
+    label: "Geospatial",
+    category: "GIS & WebGIS",
+    icon: "map-outline",
+    ariaLabel: "GIS and geospatial development skills",
+    items: [
+      "GIS",
+      "WebGIS",
+      "GeoNode",
+      "GeoServer",
+      "PostGIS",
+      "QGIS",
+      "Geoportal",
+      "Spatial Data",
+    ],
+  },
+  {
+    label: "Tools",
+    category: "DevOps & Productivity",
+    icon: "construct-outline",
+    ariaLabel: "Development tools and technologies",
+    items: [
+      "Git",
+      "GitHub",
+      "Docker",
+      "Linux",
+      "AI Tools",
+      "AI-Assisted Development",
+      "AI Automation",
+    ],
+  },
+];

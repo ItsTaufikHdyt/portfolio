@@ -1,0 +1,9 @@
+---
+import { site } from "../data/site.js";
+import { profile } from "../data/profile.js";
+---
+
+<footer class="site-footer">
+  <p>{site.copyright} {site.buildLabel}</p>
+  <a href={`mailto:${profile.email}`}>{profile.email}</a>
+</footer>

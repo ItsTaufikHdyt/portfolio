@@ -1,0 +1,122 @@
+---
+import { asset } from "../lib/assets.js";
+
+const { project } = Astro.props;
+
+const technologies = project.technologies ?? [];
+const hasActions = Boolean(project.github || project.demo);
+---
+
+<div class="portfolio project-modal-scope">
+  <div
+    class="project-modal-container"
+    aria-hidden="true"
+    data-project-modal-container
+  >
+    <div
+      class="project-modal-overlay"
+      data-project-modal-overlay
+    ></div>
+
+    <section
+      class="project-modal"
+      id="project-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-modal-title"
+      aria-describedby="project-modal-description"
+    >
+      <button
+        class="project-modal-close"
+        type="button"
+        aria-label="Close project details"
+        data-project-modal-close
+      >
+        <ion-icon
+          name="close-outline"
+          aria-hidden="true"
+        ></ion-icon>
+      </button>
+
+      <figure class="project-modal-image-box">
+        <img
+          src={asset(project.image)}
+          alt={project.title}
+          data-project-modal-image
+        />
+      </figure>
+
+      <div class="project-modal-content">
+
+        <p
+          class="project-modal-category"
+          data-project-modal-category
+        >
+          {project.category}
+        </p>
+
+        <h3
+          class="h2"
+          id="project-modal-title"
+          data-project-modal-title
+        >
+          {project.title}
+        </h3>
+
+        <p
+          class="project-modal-description"
+          id="project-modal-description"
+          data-project-modal-description
+        >
+          {project.description}
+        </p>
+
+        <div
+          class="project-modal-meta"
+          data-project-modal-meta
+          hidden={!technologies.length}
+        >
+          <h4 class="h4">Technologies</h4>
+
+          <ul
+            class="project-modal-technologies"
+            data-project-modal-technologies
+          >
+            {technologies.map((technology: string) => (
+              <li>{technology}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div
+          class="project-modal-actions"
+          data-project-modal-actions
+          hidden={!hasActions}
+        >
+          {project.github && (
+            <a
+              class="btn btn-secondary"
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View GitHub
+            </a>
+          )}
+
+          {project.demo && (
+            <a
+              class="btn btn-primary"
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View live demo
+            </a>
+          )}
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

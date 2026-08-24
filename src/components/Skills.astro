@@ -1,0 +1,35 @@
+---
+import { skills } from "../data/skills.js";
+---
+
+<section class="skill">
+  <div class="skill-heading">
+    <div>
+      <p class="skill-kicker">Capabilities</p>
+      <h3 class="h3 skills-title">My skills</h3>
+    </div>
+    <p class="skill-intro">A focused set of design capabilities and tools I use in my work.</p>
+  </div>
+
+  <ul class="skills-list">
+    {skills.map((group) => (
+      <li class="skill-group">
+        <div class="skill-group-heading">
+          <div class="skill-group-icon" aria-hidden="true">
+            <ion-icon name={group.icon}></ion-icon>
+          </div>
+          <div>
+            <p class="skill-group-label">{group.label}</p>
+            <h4 class="h4">{group.category}</h4>
+          </div>
+        </div>
+
+        <ul class="skill-tags" aria-label={group.ariaLabel}>
+          {group.items.map((item) => (
+            <li><span aria-hidden="true"></span>{item}</li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
+</section>

@@ -1,0 +1,41 @@
+---
+import { projects, projectCategories } from "../data/projects.js";
+import ProjectCard from "./ProjectCard.astro";
+import ProjectModal from "./ProjectModal.astro";
+---
+
+<article class="portfolio" data-page="portfolio">
+  <header class="section-header">
+    <p class="eyebrow">Selected work</p>
+    <h2 class="h2 article-title">Portfolio</h2>
+  </header>
+
+  <section class="projects">
+    <ul class="filter-list">
+      {projectCategories.map((category, index) => (
+        <li class="filter-item">
+          <button class:list={{ active: index === 0 }} data-filter-btn>{category}</button>
+        </li>
+      ))}
+    </ul>
+
+    <div class="filter-select-box">
+      <button class="filter-select" type="button" data-select aria-expanded="false">
+        <span class="select-value" data-selecct-value>Select category</span>
+        <span class="select-icon"><ion-icon name="chevron-down" aria-hidden="true"></ion-icon></span>
+      </button>
+
+      <ul class="select-list">
+        {projectCategories.map((category) => (
+          <li class="select-item"><button type="button" data-select-item>{category}</button></li>
+        ))}
+      </ul>
+    </div>
+
+    <ul class="project-list">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </ul>
+  </section>
+</article>
+
+<ProjectModal project={projects[0]} />

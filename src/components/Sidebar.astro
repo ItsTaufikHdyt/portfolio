@@ -1,0 +1,105 @@
+---
+import { asset } from "../lib/assets.js";
+import { profile } from "../data/profile.js";
+import { socials } from "../data/socials.js";
+---
+
+<aside class="sidebar" data-sidebar>
+  <div class="sidebar-info">
+    <figure class="avatar-box">
+      <img src={asset(profile.avatar)} alt={profile.name} width="80" />
+    </figure>
+
+    <div class="info-content">
+      <h1 class="name" title={profile.name}>{profile.name}</h1>
+      <p class="title">{profile.role}</p>
+    </div>
+
+    <button
+      class="info_more-btn"
+      type="button"
+      aria-label="Show contact details"
+      aria-expanded="false"
+      aria-controls="sidebar-contact-details"
+      data-sidebar-btn
+    >
+      <span>Show Contacts</span>
+      <ion-icon name="chevron-down" aria-hidden="true"></ion-icon>
+    </button>
+  </div>
+
+  <div class="sidebar-info_more" id="sidebar-contact-details">
+    <div class="separator"></div>
+
+    <ul class="contacts-list">
+      <li class="contact-item">
+        <div class="icon-box">
+          <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+        </div>
+        <div class="contact-info">
+          <p class="contact-title">Email</p>
+          <a href={`mailto:${profile.email}`} class="contact-link"
+            >{profile.email}</a
+          >
+        </div>
+      </li>
+
+      <li class="contact-item">
+        <div class="icon-box">
+          <ion-icon name="phone-portrait-outline" aria-hidden="true"></ion-icon>
+        </div>
+        <div class="contact-info">
+          <p class="contact-title">Phone</p>
+          <a
+            href={`https://wa.me/${profile.phone}`}
+            class="contact-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {profile.phone}
+          </a>
+        </div>
+      </li>
+
+      {
+        profile.birthday.visible && (
+          <li class="contact-item">
+            <div class="icon-box">
+              <ion-icon name="calendar-outline" aria-hidden="true" />
+            </div>
+            <div class="contact-info">
+              <p class="contact-title">Birthday</p>
+              <time datetime={profile.birthday.date}>
+                {profile.birthday.label}
+              </time>
+            </div>
+          </li>
+        )
+      }
+
+      <li class="contact-item">
+        <div class="icon-box">
+          <ion-icon name="location-outline" aria-hidden="true"></ion-icon>
+        </div>
+        <div class="contact-info">
+          <p class="contact-title">Location</p>
+          <address>{profile.location}</address>
+        </div>
+      </li>
+    </ul>
+
+    <div class="separator"></div>
+
+    <ul class="social-list">
+      {
+        socials.map((social) => (
+          <li class="social-item">
+            <a href={social.url} class="social-link" aria-label={social.name}>
+              <ion-icon name={social.icon} aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</aside>
