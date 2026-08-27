@@ -11,9 +11,9 @@ export const products = [
     image: "assets/images/products/laravel-filament-starter.svg",
     gallery: [],
     price: {
-      amount: 199000,
+      amount: 149000,
       currency: "IDR",
-      label: "Rp199.000"
+      label: "Rp149.000"
     },
     technologies: ["Laravel", "Filament", "MySQL", "Docker"],
     features: [
@@ -37,10 +37,10 @@ export const products = [
     ],
     restrictions: ["Do not resell the source code.", "Do not redistribute the source files.", "Do not upload the source to another marketplace."],
     demo: null,
-    checkout: "https://example.com/checkout/laravel-filament-starter",
+    checkout: `https://wa.me/+6285156637373?text="Hi Taufik, saya tertarik dengan Laravel Filament Starter Kit dan ingin mendiskusikan customization untuk kebutuhan project saya."`,
     featured: true,
     badge: "New",
-    status: "coming-soon",
+    status: "available",
     customizationMessage: "Hi Taufik, saya tertarik dengan Laravel Filament Starter Kit dan ingin mendiskusikan customization untuk kebutuhan project saya."
   }
 ];
