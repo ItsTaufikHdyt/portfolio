@@ -1,21 +1,21 @@
 export const services = [
   {
-    title: "Web design",
-    text: "The most modern and high-quality design made at a professional level.",
-    icon: "assets/images/icon-design.svg",
-    iconAlt: "design icon"
-  },
-  {
-    title: "Web development",
-    text: "High-quality development of sites at the professional level.",
+    title: "Web Application Development",
+    text: "Custom web applications and information systems built around real business workflows.",
     icon: "assets/images/icon-dev.svg",
     iconAlt: "Web development icon"
   },
   {
-    title: "Mobile apps",
-    text: "Professional development of applications for iOS and Android.",
-    icon: "assets/images/icon-app.svg",
-    iconAlt: "mobile app icon"
+    title: "GIS & WebGIS Solutions",
+    text: "Interactive mapping, spatial dashboards, geospatial data integration, and WebGIS development.",
+    icon: "assets/images/icon-map.svg",
+    iconAlt: "gis app icon"
+  },
+    {
+    title: "Deployment & Infrastructure",
+    text: "Laravel deployment, Docker, VPS configuration, web servers, SSL, and production environments.",
+    icon: "assets/images/icon-server.svg",
+    iconAlt: "deployment icon"
   },
 ];
 
