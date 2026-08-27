@@ -1,0 +1,24 @@
+---
+import { asset } from "../../lib/assets.js";
+
+const { product, detail = false } = Astro.props;
+---
+
+<figure class:list={["product-visual", { "product-visual-detail": detail }]}>
+  {product.image ? (
+    <img src={asset(product.image)} alt={`${product.title} preview`} loading={detail ? "eager" : "lazy"} />
+  ) : (
+    <div class="product-visual-placeholder" role="img" aria-label={`${product.title} interface preview placeholder`}>
+      <div class="product-preview-window">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="product-preview-body">
+        <div class="product-preview-sidebar"></div>
+        <div class="product-preview-content">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <strong>{product.category}</strong>
+    </div>
+  )}
+</figure>

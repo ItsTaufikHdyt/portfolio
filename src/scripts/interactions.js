@@ -105,6 +105,8 @@ const projectModalDescription = document.querySelector("[data-project-modal-desc
 const projectModalMeta = document.querySelector("[data-project-modal-meta]");
 const projectModalTechnologies = document.querySelector("[data-project-modal-technologies]");
 const projectModalActions = document.querySelector("[data-project-modal-actions]");
+const projectServiceCta = document.querySelector("[data-project-service-cta]");
+const projectCtaTitle = document.querySelector("[data-project-cta-title]");
 let projectModalTrigger = null;
 
 const safeHttpUrl = (value) => {
@@ -130,7 +132,8 @@ const getProjectDetails = (card) => {
     description: item.dataset.description || `${title} is presented in this portfolio as a ${category.toLowerCase()} project.`,
     technologies: (item.dataset.technologies || "").split(",").map((value) => value.trim()).filter(Boolean),
     github: safeHttpUrl(item.dataset.github || ""),
-    demo: safeHttpUrl(item.dataset.demo || "")
+    demo: safeHttpUrl(item.dataset.demo || ""),
+    serviceSlug: item.dataset.serviceSlug || "custom-web-application"
   };
 };
 
@@ -185,6 +188,16 @@ const openProjectModal = (card) => {
   if (projectModalMeta) projectModalMeta.hidden = !project.technologies.length;
   renderProjectActions(project);
 
+  if (projectServiceCta) {
+    projectServiceCta.href = `${projectServiceCta.dataset.serviceBase}#${project.serviceSlug}`;
+    projectServiceCta.dataset.trackLabel = project.title;
+  }
+  if (projectCtaTitle) {
+    projectCtaTitle.textContent = project.serviceSlug === "gis-webgis"
+      ? "Need a WebGIS solution for your organization?"
+      : "Need a similar digital solution for your organization?";
+  }
+
   projectModalContainer?.classList.add("active");
   projectModalContainer?.setAttribute("aria-hidden", "false");
   document.body.classList.add("project-modal-open");
@@ -226,6 +239,9 @@ const activatePage = (pageName) => {
   });
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
+
+const initialPage = window.location.hash.slice(1);
+if ([...pages].some((page) => page.dataset.page === initialPage)) activatePage(initialPage);
 
 navigationTriggers.forEach((trigger) => {
   trigger.addEventListener("click", () => {

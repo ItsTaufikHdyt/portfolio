@@ -2,6 +2,8 @@
 import { getMediumArticles } from "../lib/medium.js";
 import { medium } from "../data/medium.js";
 import BlogCard from "./BlogCard.astro";
+import CommercialCTA from "./common/CommercialCTA.astro";
+import { sitePath } from "../lib/urls.js";
 
 const articles = await getMediumArticles();
 ---
@@ -24,4 +26,13 @@ const articles = await getMediumArticles();
       )}
     </ul>
   </section>
+
+  <CommercialCTA
+    eyebrow="From reading to building"
+    title="Building with Laravel, GIS, or production infrastructure?"
+    description="Explore a practical starter kit, or discuss the service you need without turning the articles into sales content."
+    primary={{ label: "Explore Products", href: sitePath("/products"), track: "blog_to_product", trackLabel: "blog_footer" }}
+    secondary={{ label: "Explore Services", href: sitePath("/services"), track: "blog_to_service", trackLabel: "blog_footer" }}
+    compact
+  />
 </article>

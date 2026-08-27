@@ -1,0 +1,48 @@
+---
+import { profile } from "../../data/profile.js";
+import { whatsappUrl } from "../../lib/urls.js";
+
+const { service, compact = false } = Astro.props;
+const contactUrl = whatsappUrl(profile.phone, service.whatsappMessage);
+---
+
+<li class:list={["service-card", { "service-card-compact": compact }]} id={service.slug}>
+  <div class="service-card-icon" aria-hidden="true">
+    <ion-icon name={service.icon}></ion-icon>
+  </div>
+
+  <div class="service-card-heading">
+    {compact ? <h4 class="h4">{service.title}</h4> : <h3 class="h3">{service.title}</h3>}
+    {!compact && (
+      <p class="service-card-price">
+        <span>{service.priceLabel}</span>
+        <strong>{service.startingPrice}</strong>
+      </p>
+    )}
+  </div>
+
+  <p class="service-card-description">{service.description}</p>
+
+  {!compact && (
+    <ul class="service-feature-list" aria-label={`${service.title} deliverables`}>
+      {service.features.map((feature) => (
+        <li><ion-icon name="checkmark-outline" aria-hidden="true"></ion-icon>{feature}</li>
+      ))}
+    </ul>
+  )}
+
+  <ul class="technology-tags" aria-label={`${service.title} technologies`}>
+    {service.technologies.map((technology) => <li>{technology}</li>)}
+  </ul>
+
+  {compact ? (
+    <a class="service-card-link" href={contactUrl} target="_blank" rel="noopener noreferrer" data-track="whatsapp_click" data-track-label={service.slug}>
+      {service.ctaLabel}<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+    </a>
+  ) : (
+    <a class="btn btn-primary" href={contactUrl} target="_blank" rel="noopener noreferrer" data-track="service_cta_click" data-track-label={service.slug}>
+      <ion-icon name="logo-whatsapp" aria-hidden="true"></ion-icon>
+      {service.ctaLabel}
+    </a>
+  )}
+</li>

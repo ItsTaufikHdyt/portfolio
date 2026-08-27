@@ -1,5 +1,6 @@
 ---
 import { asset } from "../lib/assets.js";
+import { sitePath } from "../lib/urls.js";
 
 const { project } = Astro.props;
 
@@ -115,6 +116,23 @@ const hasActions = Boolean(project.github || project.demo);
             </a>
           )}
         </div>
+
+        <aside class="project-conversion">
+          <div>
+            <p class="eyebrow">Need a similar solution?</p>
+            <h4 class="h4" data-project-cta-title>Let's discuss what your organization needs.</h4>
+          </div>
+          <a
+            class="btn btn-primary"
+            href={sitePath("/services")}
+            data-project-service-cta
+            data-service-base={sitePath("/services")}
+            data-track="portfolio_to_service"
+            data-track-label="project_modal"
+          >
+            Discuss Your Project
+          </a>
+        </aside>
 
       </div>
     </section>

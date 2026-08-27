@@ -1,0 +1,45 @@
+---
+const {
+  eyebrow,
+  title,
+  description,
+  primary,
+  secondary = null,
+  compact = false
+} = Astro.props;
+---
+
+<aside class:list={["commercial-cta", { "commercial-cta-compact": compact }]}>
+  <div class="commercial-cta-copy">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h3 class="h3">{title}</h3>
+    {description && <p>{description}</p>}
+  </div>
+
+  <div class="commercial-cta-actions">
+    <a
+      class="btn btn-primary"
+      href={primary.href}
+      target={primary.external ? "_blank" : undefined}
+      rel={primary.external ? "noopener noreferrer" : undefined}
+      data-track={primary.track}
+      data-track-label={primary.trackLabel || primary.label}
+    >
+      {primary.label}
+      <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+    </a>
+
+    {secondary && (
+      <a
+        class="btn btn-secondary"
+        href={secondary.href}
+        target={secondary.external ? "_blank" : undefined}
+        rel={secondary.external ? "noopener noreferrer" : undefined}
+        data-track={secondary.track}
+        data-track-label={secondary.trackLabel || secondary.label}
+      >
+        {secondary.label}
+      </a>
+    )}
+  </div>
+</aside>

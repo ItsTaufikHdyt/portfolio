@@ -1,1587 +1,1201 @@
-# PRD — Migrasi Portfolio HTML/CSS/JS ke Astro
+# Product Requirements Document (PRD)
 
-## 1. Project Overview
+## Portfolio Monetization — Services & Digital Products
 
-Project ini adalah website portfolio pribadi yang saat ini sudah berjalan menggunakan:
-
-* HTML
-* CSS
-* Vanilla JavaScript
-
-Tampilan visual existing sudah dianggap cukup baik dan **tidak perlu dilakukan redesign menyeluruh**.
-
-Tujuan utama project ini adalah melakukan migrasi arsitektur dari HTML/CSS/JavaScript biasa menjadi:
-
-> Astro + Astro Components + CSS + minimal Vanilla JavaScript
-
-dengan tetap mempertahankan tampilan dan functionality website existing semaksimal mungkin.
-
-Website nantinya akan digunakan sebagai static site dan di-host melalui:
-
-* GitHub Pages
-* Custom Domain
+**Project:** Personal Portfolio — Taufik Hidayat
+**Platform:** Astro
+**Version:** 1.0
+**Status:** Proposed
+**Primary Goal:** Mengembangkan website portfolio menjadi personal-branding website yang juga dapat menghasilkan leads freelance dan penjualan produk digital.
 
 ---
 
-# 2. Primary Goals
+# 1. Background
 
-Migrasi harus mencapai tujuan berikut:
+Website saat ini sudah memiliki fondasi:
 
-1. Mengubah existing HTML menjadi struktur Astro yang modular.
-2. Mempertahankan tampilan existing semirip mungkin.
-3. Mempertahankan functionality existing.
-4. Memisahkan data dari UI agar mudah diedit.
-5. Membuat project portfolio mudah di-maintain.
-6. Membuat penambahan project baru menjadi sederhana.
-7. Membuat penambahan skill baru menjadi sederhana.
-8. Membuat biodata mudah diperbarui.
-9. Membuat social links mudah diperbarui.
-10. Mempertahankan Medium sebagai sumber artikel.
-11. Mempertahankan project detail modal.
-12. Mengurangi JavaScript client-side jika memungkinkan.
-13. Menghasilkan static HTML melalui Astro build.
-14. Memastikan website kompatibel dengan GitHub Pages.
+* Hero / personal branding
+* About
+* Resume
+* Skills
+* Portfolio
+* Blog
+* Contact
+* WhatsApp CTA
 
----
+Website sudah berhasil menunjukkan pengalaman dan kemampuan profesional, tetapi belum menyediakan jalur yang jelas bagi visitor yang ingin:
 
-# 3. Important Migration Principle
+1. menggunakan jasa,
+2. meminta konsultasi,
+3. membeli produk digital,
+4. meminta customization,
+5. menggunakan jasa deployment atau maintenance.
 
-Existing website adalah:
+Website akan dikembangkan tanpa mengubah fungsi utamanya sebagai personal portfolio.
 
-> Visual Source of Truth
+Konsep baru:
 
-Artinya:
-
-* jangan redesign website tanpa kebutuhan
-* jangan mengganti warna secara sembarangan
-* jangan mengganti typography secara sembarangan
-* jangan mengganti spacing hanya karena agent memiliki preferensi lain
-* jangan mengubah layout utama tanpa alasan teknis
-* jangan mengubah visual identity
-
-Migrasi ini adalah:
-
-> Architectural migration, not visual redesign.
-
-Perubahan visual hanya boleh dilakukan apabila:
-
-* diperlukan untuk memperbaiki bug existing
-* diperlukan agar responsive tetap bekerja setelah migrasi
-* diperlukan untuk accessibility
-* diperlukan karena struktur lama tidak kompatibel dengan Astro
-* diminta secara eksplisit pada task berikutnya
+**Portfolio + Services + Digital Products**
 
 ---
 
-# 4. Current Stack
+# 2. Product Vision
 
-Existing project menggunakan:
+Mengubah website dari:
 
-```text
-HTML
-CSS
-Vanilla JavaScript
-Static Assets
-```
+> "This is who I am and what I have built."
 
-Agent harus terlebih dahulu melakukan audit repository dan memastikan stack sebenarnya sebelum melakukan perubahan.
+menjadi:
 
-Existing repository adalah source of truth.
+> "This is who I am, what I have built, and how I can help you."
+
+Website harus tetap terlihat seperti portfolio Software Engineer profesional, bukan marketplace atau toko online.
 
 ---
 
-# 5. Target Stack
+# 3. Business Objectives
 
-Target akhir:
+Website mempunyai tiga fungsi utama.
 
-```text
-Astro
-Astro Components
-CSS
-Minimal Vanilla JavaScript
-Static Assets
-```
+### Personal Branding
 
-Do not introduce:
+Menampilkan pengalaman, kemampuan, portfolio, dan technical writing.
 
-* React
-* Vue
-* Svelte
-* Next.js
-* Nuxt
-* Angular
+### Lead Generation
 
-kecuali secara eksplisit diminta kemudian.
+Mendapatkan calon pelanggan untuk:
 
-Astro harus digunakan sebagai static site generator, bukan sebagai wrapper untuk framework lain.
+* Web Development
+* Custom Web Application
+* GIS / WebGIS
+* Deployment
+* Server Setup
+* Maintenance
+
+### Digital Product Sales
+
+Menjual produk seperti:
+
+* Laravel Starter Kit
+* Filament Starter Kit
+* Astro Website Template
+* Source Code
+* Developer Tools
+* Business Application Template
 
 ---
 
-# 6. Static First Architecture
+# 4. Target Users
 
-Gunakan prinsip:
-
-> Static by default, interactive only when necessary.
-
-Semua konten yang dapat dirender saat build harus dirender oleh Astro.
-
-JavaScript client-side hanya digunakan untuk functionality yang memang membutuhkan interaction.
+## A. Business Owner
 
 Contoh:
 
-* navigation state tertentu
-* project modal
-* mobile navigation
-* theme switcher jika tersedia
-* interaction lain yang tidak dapat dilakukan dengan HTML/CSS biasa
+* UMKM
+* perusahaan kecil
+* organisasi
+* klinik
+* lembaga pendidikan
+* komunitas
+
+Kebutuhan:
+
+> "Saya membutuhkan sistem untuk membantu bisnis/organisasi saya."
+
+Arah:
+
+**Services → WhatsApp**
 
 ---
 
-# 7. Desired Directory Structure
+## B. Developer
 
-Target struktur direkomendasikan seperti berikut:
+Developer yang menemukan website melalui:
 
-```text
-portfolio/
-├── public/
-│   ├── images/
-│   ├── icons/
-│   ├── favicon.svg
-│   └── other-static-assets/
-│
-├── src/
-│   ├── components/
-│   │   ├── Sidebar.astro
-│   │   ├── Navbar.astro
-│   │   ├── About.astro
-│   │   ├── Skills.astro
-│   │   ├── Portfolio.astro
-│   │   ├── ProjectCard.astro
-│   │   ├── ProjectModal.astro
-│   │   ├── Blog.astro
-│   │   ├── Contact.astro
-│   │   └── Footer.astro
-│   │
-│   ├── data/
-│   │   ├── site.js
-│   │   ├── profile.js
-│   │   ├── skills.js
-│   │   ├── projects.js
-│   │   ├── socials.js
-│   │   └── navigation.js
-│   │
-│   ├── layouts/
-│   │   └── BaseLayout.astro
-│   │
-│   ├── pages/
-│   │   └── index.astro
-│   │
-│   └── styles/
-│       └── global.css
-│
-├── astro.config.mjs
-├── package.json
-├── AGENTS.md
-└── PRD.md
-```
+* Google
+* Medium
+* GitHub
+* artikel Laravel
+* artikel Docker
+* artikel Filament
 
-Struktur final boleh sedikit berbeda apabila existing project membutuhkan penyesuaian.
+Kebutuhan:
 
-Jangan membuat terlalu banyak component kecil tanpa manfaat maintainability.
+> "Saya membutuhkan starter project atau source code supaya tidak membangun semuanya dari awal."
+
+Arah:
+
+**Products → Demo → Buy**
 
 ---
 
-# 8. Component Strategy
+## C. Organization / Institution
 
-Existing HTML tidak boleh sekadar dipindahkan seluruhnya ke:
+Membutuhkan:
 
-```text
-src/pages/index.astro
-```
+* dashboard
+* WebGIS
+* GIS
+* data visualization
+* custom information system
 
-sebagai satu file besar.
+Arah:
 
-Section yang bermakna harus dipisahkan menjadi Astro components.
-
-Contoh:
-
-```html
-<article class="about">
-```
-
-menjadi:
-
-```text
-About.astro
-```
-
-```html
-<article class="portfolio" data-page="portfolio">
-```
-
-menjadi:
-
-```text
-Portfolio.astro
-```
-
-```html
-<article class="blog" data-page="blog">
-```
-
-menjadi:
-
-```text
-Blog.astro
-```
-
-dan:
-
-```html
-<section class="skill">
-```
-
-menjadi:
-
-```text
-Skills.astro
-```
-
-Namun componentization harus tetap practical.
-
-Jangan membuat component seperti:
-
-```text
-Paragraph.astro
-Span.astro
-Heading.astro
-SmallText.astro
-```
-
-tanpa kebutuhan reuse yang nyata.
+**Portfolio → Services → Consultation**
 
 ---
 
-# 9. Layout
+# 5. Proposed Navigation
 
-Buat base layout:
+Navigasi utama:
 
-```text
-src/layouts/BaseLayout.astro
-```
+`Home | About | Resume | Portfolio | Services | Products | Blog | Contact`
 
-Base layout menangani:
+Mobile navigation harus mempertahankan struktur yang sama.
 
-* HTML document structure
-* `<head>`
-* global metadata
-* global styles
-* favicon
-* body structure
-
-Contoh konsep:
-
-```astro
----
-import "../styles/global.css";
-
-const {
-  title,
-  description
-} = Astro.props;
----
-
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width"
-    />
-
-    <title>{title}</title>
-
-    <meta
-      name="description"
-      content={description}
-    />
-  </head>
-
-  <body>
-    <slot />
-  </body>
-</html>
-```
-
-Implementasi final harus disesuaikan dengan metadata existing.
+Services dan Products harus terlihat jelas tetapi tidak terlalu agresif.
 
 ---
 
-# 10. Data Separation — Major Requirement
+# 6. Homepage Changes
 
-Salah satu tujuan terpenting migrasi adalah:
+Homepage tidak perlu didesain ulang secara keseluruhan.
 
-> Content should be easy to update without editing component markup.
+Pertahankan hero saat ini.
 
-Data yang sering diubah harus dipisahkan dari component.
+Tambahkan secondary CTA.
+
+### Hero
+
+Tetap menggunakan positioning:
+
+**Software Engineer · Geospatial Technology**
+
+CTA:
+
+`View My Work`
+
+`Work With Me`
+
+`Explore Products`
+
+Prioritas visual:
+
+**Work With Me** menjadi primary commercial CTA.
+
+---
+
+# 7. Replace "What I'm Doing"
+
+Section lama:
+
+* Web Design
+* Web Development
+* Mobile Apps
+
+diganti karena terlalu generik.
+
+Section baru:
+
+## What I Can Help With
+
+### Web Application Development
+
+Custom web applications, information systems, dashboards, and business tools designed around real workflows.
+
+**Technologies**
+
+Laravel · PHP · JavaScript · PostgreSQL · MySQL
+
+---
+
+### GIS & WebGIS Solutions
+
+Interactive maps, spatial dashboards, geospatial data integration, and WebGIS solutions.
+
+**Technologies**
+
+GIS · ArcGIS · QGIS · GeoServer · GeoNode · PostGIS
+
+---
+
+### Deployment & Infrastructure
+
+Application deployment and production environment configuration.
+
+**Technologies**
+
+Docker · Linux · Nginx · VPS · SSL
+
+---
+
+CTA:
+
+`Explore Services →`
+
+---
+
+# 8. Services Page
+
+URL:
+
+`/services`
+
+## Hero
+
+Eyebrow:
+
+**SERVICES**
+
+Heading:
+
+# Let's build something useful.
+
+Description:
+
+> I help businesses and organizations build practical digital solutions — from websites and custom web applications to geospatial systems and production deployment.
+
+CTA:
+
+`Discuss Your Project`
+
+CTA membuka WhatsApp.
+
+---
+
+# 9. Service Cards
+
+## Custom Web Application
+
+Untuk kebutuhan:
+
+* information system
+* administration system
+* dashboard
+* internal tools
+* business application
+* REST API
+
+Tech:
+
+Laravel · Filament · PostgreSQL · MySQL
+
+CTA:
+
+`Discuss Project`
+
+---
+
+## Website Development
+
+Untuk:
+
+* company profile
+* landing page
+* personal website
+* organization website
+* business website
+
+Tech:
+
+Astro · JavaScript · HTML · CSS
+
+CTA:
+
+`Discuss Website`
+
+---
+
+## GIS & WebGIS
+
+Untuk:
+
+* interactive map
+* spatial dashboard
+* GeoServer
+* GeoNode
+* PostGIS
+* ArcGIS integration
+* spatial data visualization
+
+CTA:
+
+`Discuss GIS Project`
+
+---
+
+## Deployment & Server
+
+Untuk developer atau bisnis yang sudah mempunyai aplikasi.
+
+Layanan:
+
+* Laravel deployment
+* VPS setup
+* Docker
+* Nginx
+* database
+* domain
+* SSL
+* production configuration
+
+CTA:
+
+`Need Deployment Help?`
+
+---
+
+# 10. Pricing Strategy
+
+Jangan menggunakan harga pasti untuk custom software.
 
 Gunakan:
 
-```text
-src/data/
-```
-
-untuk menyimpan editable content.
-
----
-
-# 11. Site Configuration
-
-Buat:
-
-```text
-src/data/site.js
-```
-
-Contoh konsep:
-
-```js
-export const site = {
-  title: "Portfolio",
-  description: "Personal developer portfolio",
-  language: "id",
-  siteUrl: "https://example.com"
-};
-```
-
-Site URL tidak boleh diduplikasi di banyak component.
-
----
-
-# 12. Profile Data
-
-Buat:
-
-```text
-src/data/profile.js
-```
+**Starting From**
 
 Contoh:
 
-```js
-export const profile = {
-  name: "Nama",
-  role: "Software Developer",
-  location: "Indonesia",
+### Website
 
-  bio: "Deskripsi singkat profil.",
+Starting from
 
-  email: "email@example.com",
-
-  avatar: "/images/profile.webp"
-};
-```
-
-Data aktual harus diambil dari existing project.
-
-Jangan mengarang biodata baru.
+**Rp1.000.000**
 
 ---
 
-# 13. Social Links
+### Deployment
 
-Buat:
+Starting from
 
-```text
-src/data/socials.js
-```
+**Rp300.000**
+
+---
+
+### Custom Web Application
+
+Starting from
+
+**Rp2.000.000**
+
+---
+
+### GIS / WebGIS
+
+**Let's Discuss**
+
+Karena kompleksitas GIS sangat bervariasi.
+
+Tambahkan disclaimer:
+
+> Final pricing depends on project requirements, complexity, and development scope.
+
+---
+
+# 11. Service Workflow
+
+Tambahkan section:
+
+## How It Works
+
+### 01 — Tell Me Your Problem
+
+Ceritakan kebutuhan atau masalah yang ingin diselesaikan.
+
+↓
+
+### 02 — Define the Solution
+
+Requirement, scope, timeline, dan estimasi biaya ditentukan.
+
+↓
+
+### 03 — Development
+
+Design dan development dilakukan berdasarkan scope.
+
+↓
+
+### 04 — Delivery
+
+Testing, deployment, documentation, dan handover.
+
+---
+
+# 12. Products Page
+
+URL:
+
+`/products`
+
+Hero:
+
+**DIGITAL PRODUCTS**
+
+# Tools I've built to help you build faster.
+
+Description:
+
+> Production-ready templates, starter kits, and applications built from practical development experience.
+
+Produk dibagi menjadi kategori:
+
+`All`
+
+`Laravel`
+
+`Astro`
+
+`Business`
+
+`Developer Tools`
+
+---
+
+# 13. Product Card Design
+
+Setiap product card mempunyai:
+
+**Preview image**
+
+**Product Name**
+
+Short description.
+
+Technology tags.
+
+Price.
+
+Actions:
+
+`Live Demo`
+
+`Details`
+
+`Buy`
 
 Contoh:
 
-```js
-export const socials = [
-  {
-    name: "GitHub",
-    url: "https://github.com/username"
-  },
-  {
-    name: "LinkedIn",
-    url: "https://linkedin.com/in/username"
-  }
-];
-```
+---
 
-Gunakan existing links sebagai source of truth.
+**Laravel Filament Starter Kit**
+
+Production-ready Laravel starter project for rapidly building admin panels and information systems.
+
+`Laravel`
+
+`Filament`
+
+`MySQL`
+
+`Docker`
+
+**Rp199.000**
+
+`Live Demo`
+
+`View Details`
 
 ---
 
-# 14. Skills Data
+# 14. Product Detail
 
-Buat:
+Route:
 
-```text
-src/data/skills.js
-```
-
-Skill harus mudah ditambah atau dihapus.
+`/products/[slug]`
 
 Contoh:
 
-```js
-export const skills = [
-  {
-    category: "Backend",
-    items: [
-      "PHP",
-      "Laravel"
-    ]
-  },
+`/products/laravel-filament-starter`
 
-  {
-    category: "Frontend",
-    items: [
-      "HTML",
-      "CSS",
-      "JavaScript"
-    ]
-  },
+Layout:
 
-  {
-    category: "Database",
-    items: [
-      "MySQL",
-      "PostgreSQL"
-    ]
-  }
-];
-```
+### Product Screenshot
 
-Data existing harus dipertahankan.
+*
 
-Jika existing skill memiliki struktur berbeda, adaptasikan tanpa kehilangan informasi.
+### Product Information
+
+**Laravel Filament Starter Kit**
+
+Short description.
+
+**Rp199.000**
+
+CTA:
+
+`Buy Now`
+
+Secondary CTA:
+
+`Live Demo`
 
 ---
 
-# 15. Project Data
+# 15. Product Features
 
-Buat:
+Contoh Starter Kit:
 
-```text
-src/data/projects.js
-```
+## What's Included
 
-Project baru harus dapat ditambahkan dengan mengubah file data saja.
+* Authentication
+* Filament Admin Panel
+* User Management
+* Role & Permission
+* Dashboard
+* Application Settings
+* Activity Log
+* PDF Export
+* Excel Export
+* Docker Development Environment
+* Production Deployment Guide
+
+---
+
+# 16. Product Requirements
+
+Tambahkan:
+
+## Requirements
+
+* PHP
+* Composer
+* MySQL/PostgreSQL
+* Node.js
+* Basic Laravel knowledge
+
+---
+
+# 17. Product License
+
+Sediakan license sederhana.
 
 Contoh:
 
-```js
-export const projects = [
-  {
-    id: "project-one",
+### Personal License
 
-    title: "Project Name",
+Digunakan untuk satu personal project.
 
-    category: "Web Application",
+### Commercial License
 
-    image:
-      "/images/projects/project-one.webp",
+Digunakan untuk satu commercial/client project.
 
-    description:
-      "Short project description.",
+Dilarang:
 
-    technologies: [
-      "Laravel",
-      "MySQL"
-    ],
+* menjual ulang source code,
+* mendistribusikan source,
+* mengunggah source ke marketplace lain.
 
-    github:
-      "https://github.com/...",
-
-    demo: null
-  }
-];
-```
+License final harus tersedia pada setiap halaman produk.
 
 ---
 
-# 16. Project Data Requirements
+# 18. Product CTA
 
-Minimal dukung field:
+CTA utama:
+
+`Buy Now`
+
+Tahap awal **tidak perlu membuat payment gateway sendiri**.
+
+Gunakan external checkout yang dipilih pemilik website.
+
+CTA kedua:
+
+`Need Customization?`
+
+↓
+
+WhatsApp.
+
+Ini sangat penting karena produk murah dapat menghasilkan custom project bernilai lebih tinggi.
+
+---
+
+# 19. Product Funnel
+
+Target customer journey:
+
+`Google / Social Media / Medium`
+
+↓
+
+`Blog`
+
+↓
+
+`Product`
+
+↓
+
+`Live Demo`
+
+↓
+
+`Purchase`
+
+↓
+
+`Customization`
+
+↓
+
+`Maintenance`
+
+Contoh:
+
+Artikel:
+
+**Panduan Hosting Laravel + Filament di VPS**
+
+↓
+
+CTA:
+
+**Building with Laravel & Filament?**
+
+↓
+
+Laravel Filament Starter Kit
+
+atau
+
+**Need help deploying your application?**
+
+↓
+
+Deployment Service
+
+---
+
+# 20. Blog Monetization Integration
+
+Artikel tidak perlu berubah menjadi advertorial.
+
+Tambahkan contextual CTA setelah artikel.
+
+Contoh Laravel:
+
+> Building a Laravel application?
+
+`Explore Laravel Products`
+
+`Need Deployment Help?`
+
+Contoh GIS:
+
+> Working on a geospatial project?
+
+`Explore GIS Services`
+
+CTA harus relevan dengan isi artikel.
+
+---
+
+# 21. Portfolio Integration
+
+Portfolio tetap berfungsi sebagai showcase.
+
+Tambahkan CTA pada project modal/detail:
+
+`Need a similar solution?`
+
+↓
+
+`Discuss Your Project`
+
+Contoh:
+
+visitor membuka project WebGIS.
+
+↓
+
+melihat teknologi dan deskripsi.
+
+↓
+
+CTA:
+
+**Need a WebGIS solution for your organization?**
+
+`Let's Talk`
+
+---
+
+# 22. Contact Improvements
+
+Pertahankan WhatsApp sebagai primary contact.
+
+Tambahkan pilihan inquiry:
+
+**What can I help you with?**
+
+* Website
+* Web Application
+* GIS / WebGIS
+* Deployment
+* Product Customization
+* Other
+
+Saat WhatsApp dibuka, generate pesan otomatis.
+
+Contoh:
+
+"Hi Taufik, saya melihat portfolio Anda dan tertarik mendiskusikan pembuatan web application."
+
+---
+
+# 23. Product Data Architecture
+
+Jangan hardcode product card pada component.
+
+Gunakan data-driven architecture.
+
+Contoh:
+
+`src/data/products.js`
+
+atau Astro Content Collections.
+
+Data structure:
+
+```text
+id
+slug
+title
+category
+description
+longDescription
+image
+gallery
+price
+technologies
+features
+demo
+checkout
+featured
+status
+```
+
+Sehingga menambahkan produk baru tidak membutuhkan perubahan layout.
+
+---
+
+# 24. Services Data Architecture
+
+Gunakan:
+
+`src/data/services.js`
+
+Fields:
 
 ```text
 id
 title
-category
-image
+slug
 description
+icon
+features
 technologies
+startingPrice
+whatsappMessage
 ```
 
-Optional:
+---
+
+# 25. Recommended Astro Structure
 
 ```text
-github
-demo
-status
-year
-problem
-solution
-contribution
-```
-
-Jangan memaksa semua project memiliki field optional.
-
-Component harus mampu menangani data yang kosong.
-
----
-
-# 17. Portfolio Component
-
-Buat:
-
-```text
-Portfolio.astro
-```
-
-Portfolio harus membaca data dari:
-
-```text
-src/data/projects.js
-```
-
-Jangan hardcode daftar project di component jika data sudah tersedia di `projects.js`.
-
-Gunakan reusable component seperti:
-
-```text
-ProjectCard.astro
-```
-
-jika membantu maintainability.
-
----
-
-# 18. Project Modal
-
-Functionality existing:
-
-> Klik project → modal detail project.
-
-harus tetap dipertahankan.
-
-Modal harus menampilkan minimal:
-
-* image
-* title
-* category
-* description
-* technologies
-
-Optional jika tersedia:
-
-* GitHub link
-* live demo
-* status
-* year
-* problem
-* solution
-
----
-
-# 19. Modal Behavior
-
-Project modal harus dapat:
-
-* dibuka dengan click
-* ditutup dengan close button
-* ditutup dengan overlay
-* ditutup dengan Escape
-
-Saat modal aktif:
-
-* background scrolling dinonaktifkan
-
-Saat modal ditutup:
-
-* body scrolling dikembalikan
-
----
-
-# 20. Modal Accessibility
-
-Gunakan semantics seperti:
-
-```html
-role="dialog"
-aria-modal="true"
-```
-
-Close button harus memiliki accessible label.
-
-Contoh:
-
-```html
-aria-label="Close project details"
-```
-
----
-
-# 21. Existing Portfolio Filter
-
-Jika portfolio existing memiliki filter berdasarkan category:
-
-```text
-All
-Web Development
-Applications
-Web Design
-```
-
-functionality tersebut harus tetap bekerja setelah migrasi.
-
-Prefer implementasi minimal JavaScript.
-
-Jangan menambahkan state management library.
-
----
-
-# 22. Blog / Medium Integration
-
-Existing requirement:
-
-> Artikel Blog berasal dari Medium.
-
-Medium tetap menjadi source of truth untuk artikel.
-
-Portfolio website tidak membutuhkan CMS atau database sendiri.
-
----
-
-# 23. Preferred Medium Architecture
-
-Karena website akan di-host statically melalui GitHub Pages, prefer:
-
-> Fetch Medium data at build time rather than visitor runtime.
-
-Architecture:
-
-```text
-Medium / RSS
-      ↓
-Astro build
-      ↓
-Article data
-      ↓
-Static HTML
-      ↓
-GitHub Pages
-```
-
-Keuntungannya:
-
-* lebih cepat
-* lebih reliable
-* tidak tergantung client-side fetch
-* mengurangi masalah CORS
-* lebih baik untuk SEO
-
----
-
-# 24. Medium Data
-
-Minimal artikel memiliki:
-
-```text
-title
-published date
-excerpt
-url
-```
-
-Optional:
-
-```text
-thumbnail
-categories
-reading time
-author
-```
-
-Gunakan informasi yang benar-benar tersedia dari sumber Medium.
-
----
-
-# 25. Medium Configuration
-
-Medium username/feed URL harus disimpan di satu lokasi.
-
-Contoh:
-
-```js
-export const medium = {
-  username: "username"
-};
-```
-
-atau di:
-
-```text
-src/data/site.js
-```
-
-Jangan hardcode Medium username di banyak file.
-
----
-
-# 26. Medium Failure Handling
-
-Build tidak seharusnya merusak keseluruhan website hanya karena Medium tidak dapat diakses sementara.
-
-Jika secara teknis memungkinkan:
-
-* handle error
-* return empty article list
-* tampilkan fallback
-
-Contoh:
-
-```text
-Artikel belum dapat dimuat.
-```
-
-Tambahkan link langsung ke profil Medium jika tersedia.
-
----
-
-# 27. Blog Component
-
-Buat:
-
-```text
-Blog.astro
-```
-
-Blog harus render article cards saat build.
-
-Card dapat menampilkan:
-
-```text
-cover image
-
-publication date
-
-article title
-
-short excerpt
-
-Read Article →
-```
-
-Link harus menuju Medium.
-
----
-
-# 28. Existing Blog Visual
-
-Existing visual blog harus dipertahankan semirip mungkin.
-
-Migrasi tidak boleh menjadi alasan untuk redesign Blog jika tidak diminta.
-
----
-
-# 29. CSS Migration
-
-Existing CSS harus dianalisis sebelum dipindahkan.
-
-Jangan rewrite seluruh stylesheet tanpa kebutuhan.
-
-Gunakan existing CSS sebagai visual source of truth.
-
-Allowed:
-
-* membersihkan duplicate declarations
-* memperbaiki broken selectors
-* mengorganisasi CSS
-* menyesuaikan selectors karena component migration
-* menghapus CSS yang sudah pasti tidak digunakan
-
-Not allowed:
-
-* mengganti palette hanya karena preferensi agent
-* mengganti typography secara global
-* melakukan redesign seluruh site
-* mengganti spacing system tanpa kebutuhan
-
----
-
-# 30. Global CSS
-
-Prefer mempertahankan:
-
-```text
-src/styles/global.css
-```
-
-untuk existing global styling.
-
-Component-specific CSS boleh:
-
-* tetap global jika existing architecture lebih sederhana
-* dipindahkan ke component apabila benar-benar meningkatkan maintainability
-
-Jangan memecah CSS secara berlebihan.
-
----
-
-# 31. JavaScript Migration
-
-Audit seluruh existing JavaScript.
-
-Pisahkan functionality menjadi:
-
-## Static functionality
-
-Pindahkan ke Astro build jika JavaScript tidak lagi diperlukan.
-
-## Interactive functionality
-
-Pertahankan dengan Vanilla JavaScript.
-
-Contoh interactive functionality:
-
-* project modal
-* portfolio filter
-* mobile menu
-* theme switcher
-* page navigation state jika masih dibutuhkan
-
----
-
-# 32. JavaScript Principle
-
-Gunakan:
-
-> As little client-side JavaScript as reasonably possible.
-
-Jangan menggunakan JavaScript untuk:
-
-* static text
-* project rendering
-* skills rendering
-* static social links
-
-Astro harus melakukan rendering tersebut saat build.
-
----
-
-# 33. Existing Navigation
-
-Jika existing portfolio menggunakan SPA-like navigation berbasis:
-
-```html
-data-page
-```
-
-dan:
-
-```html
-data-nav-link
-```
-
-agent harus terlebih dahulu memahami behaviour tersebut.
-
-Migrasi boleh mempertahankan model navigation existing jika itu paling aman.
-
-Jangan langsung mengubah menjadi multi-page architecture tanpa alasan.
-
-Visual dan UX existing harus tetap sama.
-
----
-
-# 34. Static Assets
-
-Audit seluruh:
-
-* images
-* logos
-* icons
-* fonts
-* documents
-* resume
-* project screenshots
-
-Relevant assets harus dipindahkan atau direferensikan dengan benar.
-
-Prefer:
-
-```text
-public/
-```
-
-untuk static assets yang tidak memerlukan Astro image processing.
-
-Contoh:
-
-```text
-public/
-├── images/
-│   ├── profile/
-│   ├── projects/
-│   └── blog/
-│
-├── icons/
-└── resume.pdf
-```
-
----
-
-# 35. Asset Path
-
-Pastikan seluruh asset path bekerja saat:
-
-```bash
-npm run dev
-```
-
-dan:
-
-```bash
-npm run build
-```
-
-Jangan hanya memastikan asset bekerja di development server.
-
----
-
-# 36. GitHub Pages Requirement
-
-Target deployment:
-
-> GitHub Pages
-
-Astro harus dikonfigurasi sebagai static site.
-
-Production build:
-
-```bash
-npm run build
-```
-
-harus menghasilkan:
-
-```text
-dist/
-```
-
-yang dapat di-deploy ke GitHub Pages.
-
----
-
-# 37. Astro Configuration
-
-Configure:
-
-```text
-astro.config.mjs
-```
-
-sesuai kebutuhan GitHub Pages.
-
-Gunakan:
-
-```text
-site
-```
-
-dan:
-
-```text
-base
-```
-
-jika diperlukan berdasarkan repository deployment.
-
-Jika menggunakan custom domain dan root domain, sesuaikan konfigurasi dengan deployment tersebut.
-
-Jangan hardcode konfigurasi yang salah sebelum mengetahui repository dan domain actual.
-
----
-
-# 38. GitHub Actions
-
-Siapkan deployment menggunakan GitHub Actions apabila repository belum memiliki workflow.
-
-Target flow:
-
-```text
-Push to main
-      ↓
-GitHub Actions
-      ↓
-npm install
-      ↓
-npm run build
-      ↓
-dist/
-      ↓
-GitHub Pages
-```
-
-Gunakan workflow yang sesuai dengan Astro dan GitHub Pages.
-
----
-
-# 39. Custom Domain
-
-Website harus tetap memungkinkan penggunaan:
-
-> Custom Domain
-
-Jika existing project memiliki:
-
-```text
-CNAME
-```
-
-preserve konfigurasi tersebut sesuai kebutuhan GitHub Pages.
-
-Jangan menghapus konfigurasi custom domain tanpa alasan.
-
----
-
-# 40. SEO Preservation
-
-Existing metadata harus dipertahankan jika tersedia.
-
-Pastikan minimal memiliki:
-
-```text
-title
-description
-viewport
-favicon
-```
-
-Optional:
-
-* Open Graph
-* canonical URL
-* social preview
-
-Migrasi tidak boleh menurunkan existing SEO metadata.
-
----
-
-# 41. Responsive Preservation
-
-Existing responsive behavior harus tetap bekerja.
-
-Review minimal pada:
-
-```text
-1440px
-1280px
-1024px
-768px
-430px
-390px
-375px
-```
-
-Periksa:
-
-* sidebar
-* navigation
-* about
-* skills
-* portfolio
-* modal
-* blog
-* contact
-* footer
-
----
-
-# 42. Do Not Introduce Visual Regression
-
-Setelah migrasi, periksa:
-
-* font size
-* font weight
-* colors
-* backgrounds
-* borders
-* shadows
-* card size
-* image aspect ratio
-* section spacing
-* animation
-* hover state
-
-Jika Astro version terlihat berbeda dari HTML existing tanpa alasan teknis, anggap itu sebagai regression.
-
----
-
-# 43. Accessibility
-
-Pertahankan dan tingkatkan jika mudah:
-
-* semantic HTML
-* heading hierarchy
-* alt text
-* keyboard navigation
-* focus state
-* modal accessibility
-* button labels
-
-Accessibility improvement diperbolehkan selama tidak mengubah visual secara signifikan.
-
----
-
-# 44. Performance
-
-Target Astro version harus minimal sama cepat atau lebih cepat daripada existing static website.
-
-Prioritaskan:
-
-* static HTML
-* minimal JavaScript
-* optimized assets
-* lazy-loaded images
-* minimal dependencies
-
-Avoid:
-
-* unnecessary frameworks
-* animation libraries
-* heavy client-side bundles
-
----
-
-# 45. Dependency Policy
-
-Jangan menambahkan dependency tanpa kebutuhan.
-
-Sebelum menambahkan package:
-
-1. Periksa apakah Astro/native browser API sudah cukup.
-2. Periksa maintenance cost.
-3. Periksa apakah dependency berjalan pada static build.
-4. Periksa bundle impact.
-
-Prefer simple implementation.
-
----
-
-# 46. Data Editing Experience
-
-Setelah migrasi, user harus dapat melakukan tugas umum tanpa mengedit component.
-
-## Change biodata
-
-Edit:
-
-```text
-src/data/profile.js
-```
-
-## Add skill
-
-Edit:
-
-```text
-src/data/skills.js
-```
-
-## Add project
-
-Edit:
-
-```text
-src/data/projects.js
-```
-
-## Change social media
-
-Edit:
-
-```text
-src/data/socials.js
-```
-
-## Change site information
-
-Edit:
-
-```text
-src/data/site.js
-```
-
-Targetnya adalah membuat website terasa seperti:
-
-> Data-driven static portfolio.
-
----
-
-# 47. Example Editing Flow
-
-Untuk menambah project baru:
-
-```js
-{
-  id: "new-project",
-
-  title: "New Project",
-
-  category: "Web Application",
-
-  image:
-    "/images/projects/new-project.webp",
-
-  description:
-    "Project description.",
-
-  technologies: [
-    "Laravel",
-    "MySQL"
-  ],
-
-  github:
-    "https://github.com/...",
-
-  demo:
-    "https://example.com"
-}
-```
-
-Setelah save:
-
-```bash
-npm run dev
-```
-
-atau push ke GitHub.
-
-Tidak perlu mengedit HTML portfolio card secara manual.
-
----
-
-# 48. Migration Workflow
-
-Agent harus mengikuti urutan berikut.
-
-## Phase 1 — Audit Existing Project
-
-Inspect:
-
-* HTML
-* CSS
-* JavaScript
-* assets
-* navigation
-* project filter
-* project modal
-* Medium integration
-* responsive styles
-* custom domain configuration
-
-Jangan modify files terlebih dahulu.
-
----
-
-## Phase 2 — Create Astro Foundation
-
-Buat:
-
-```text
-package.json
-astro.config.mjs
 src/
-public/
+├── components/
+│   ├── services/
+│   │   ├── ServiceCard.astro
+│   │   └── ServiceCTA.astro
+│   │
+│   ├── products/
+│   │   ├── ProductCard.astro
+│   │   ├── ProductGrid.astro
+│   │   └── ProductCTA.astro
+│   │
+│   └── common/
+│       ├── CTA.astro
+│       └── SectionHeader.astro
+│
+├── data/
+│   ├── services.js
+│   └── products.js
+│
+├── pages/
+│   ├── services.astro
+│   ├── products/
+│   │   ├── index.astro
+│   │   └── [slug].astro
+│   └── index.astro
 ```
 
-sesuai kebutuhan.
-
-Install hanya dependencies yang diperlukan.
+Jika jumlah produk berkembang, migrasikan products ke Astro Content Collections.
 
 ---
 
-## Phase 3 — Migrate Base Layout
+# 26. Visual Direction
 
-Migrate:
+Gunakan visual language website yang sudah ada.
 
-* document structure
-* metadata
-* global styles
-* global assets
+Jangan membuat Services dan Products terlihat seperti template marketplace.
 
-ke Astro layout.
+Karakter:
+
+* clean
+* minimal
+* professional
+* developer-oriented
+* soft
+* modern
+* consistent dengan existing portfolio
+
+Gunakan spacing yang cukup besar dan hindari terlalu banyak border.
+
+Product cards harus lebih visual dibanding service cards.
 
 ---
 
-## Phase 4 — Component Migration
+# 27. Product Badge System
 
-Migrate meaningful sections satu per satu.
+Gunakan badge:
 
-Suggested order:
+`New`
+
+`Popular`
+
+`Updated`
+
+`Free`
+
+Hindari badge manipulatif seperti:
+
+`90% OFF TODAY`
+
+atau artificial scarcity.
+
+---
+
+# 28. Product Status
+
+Setiap produk mempunyai:
 
 ```text
-Sidebar
-Navbar
+draft
+coming-soon
+available
+discontinued
+```
+
+Jika `coming-soon`:
+
+CTA:
+
+`Notify Me`
+
+bukan:
+
+`Buy Now`
+
+---
+
+# 29. SEO
+
+Tambahkan metadata untuk Services dan Products.
+
+Contoh Services:
+
+**Title**
+
+Software Development & WebGIS Services — Taufik Hidayat
+
+**Description**
+
+Custom web application, Laravel, WebGIS, GIS, deployment, and software development services.
+
+Produk menggunakan metadata dinamis.
+
+Contoh:
+
+**Laravel Filament Starter Kit — Taufik Hidayat**
+
+Tambahkan:
+
+* canonical URL
+* OpenGraph
+* Twitter card
+* product image
+* structured data jika sesuai
+
+---
+
+# 30. Analytics
+
+Minimal tracking:
+
+* service CTA click
+* WhatsApp click
+* product view
+* demo click
+* checkout click
+* portfolio → service click
+* blog → service click
+* blog → product click
+
+Tujuannya mengetahui:
+
+**traffic → interest → lead → purchase**
+
+bukan sekadar page views.
+
+---
+
+# 31. MVP
+
+Versi pertama TIDAK membutuhkan:
+
+* login
+* registration
+* shopping cart
+* payment gateway
+* customer dashboard
+* subscription
+* review system
+* affiliate system
+* complex CMS
+
+MVP hanya membutuhkan:
+
+### Services
+
+`/services`
+
+### Products
+
+`/products`
+
+### Product Detail
+
+`/products/[slug]`
+
+### WhatsApp Integration
+
+### External Checkout
+
+### Live Demo
+
+### Basic Analytics
+
+---
+
+# 32. Initial Product
+
+Produk pertama yang direkomendasikan:
+
+# Laravel Filament Starter Kit
+
+Target:
+
+Laravel developer, freelancer, mahasiswa, dan developer yang ingin membuat information system lebih cepat.
+
+MVP features:
+
+* Laravel
+* Filament
+* Authentication
+* User Management
+* Role Permission
+* Dashboard
+* Settings
+* Activity Log
+* PDF Export
+* Excel Export
+* Docker
+* README
+* Installation Guide
+* Deployment Guide
+
+---
+
+# 33. Future Products
+
+Setelah produk pertama mendapatkan validasi:
+
+### Product #2
+
+**Astro Business Website Starter**
+
+### Product #3
+
+**Laravel Business Management Starter**
+
+### Product #4
+
+**Filament Reporting Starter**
+
+### Product #5
+
+**WebGIS Laravel Starter**
+
+Produk #5 berpotensi menjadi produk premium karena menggabungkan expertise software engineering dan GIS.
+
+---
+
+# 34. Success Metrics
+
+30 hari pertama:
+
+* Services page published
+* Products page published
+* 1 product launched
+* WhatsApp CTA tracking aktif
+* minimal 5 inquiries
+
+60–90 hari:
+
+* first digital product sale
+* first service lead from portfolio
+* first customization inquiry
+* identify most visited service/product
+
+Jangan menilai keberhasilan berdasarkan jumlah produk.
+
+Metric utama:
+
+**Qualified Leads + Sales**
+
+---
+
+# 35. Development Priority
+
+## Phase 1 — Monetization Foundation
+
+* Services page
+* Services CTA
+* WhatsApp integration
+* Homepage service section
+
+## Phase 2 — Product Infrastructure
+
+* Products page
+* Product card
+* Product detail
+* products data
+* demo link
+* checkout integration
+
+## Phase 3 — First Product
+
+* Laravel Filament Starter Kit
+* documentation
+* demo
+* screenshots
+* licensing
+* checkout
+
+## Phase 4 — Conversion
+
+* Blog CTA
+* Portfolio CTA
+* analytics
+* SEO
+* product OpenGraph
+
+## Phase 5 — Scale
+
+* additional products
+* customer testimonials
+* email capture
+* product updates
+* bundles
+* optional SaaS/product experiments
+
+---
+
+# 36. Core Principle
+
+Website harus tetap terasa sebagai:
+
+**Personal website seorang Software Engineer**
+
+bukan:
+
+**toko source code murah.**
+
+Portfolio membangun **trust**.
+
+Blog membangun **traffic & authority**.
+
+Services menghasilkan **high-value leads**.
+
+Products menghasilkan **scalable revenue**.
+
+Semua bagian tersebut harus saling mengarahkan.
+
+---
+
+# 37. Expected Customer Journey
+
+## Freelance Journey
+
+`Visitor`
+
+→ `Portfolio`
+
+→ `Project`
+
+→ `Need Similar Solution`
+
+→ `Services`
+
+→ `WhatsApp`
+
+→ `Consultation`
+
+→ `Project`
+
+---
+
+## Product Journey
+
+`Google / Medium / Social`
+
+→ `Technical Article`
+
+→ `Product Recommendation`
+
+→ `Product Page`
+
+→ `Live Demo`
+
+→ `Purchase`
+
+→ `Customization`
+
+---
+
+# 38. Final MVP Navigation
+
+```text
+TAUFIK HIDAYAT
+
 About
-Skills
+Resume
 Portfolio
-Project Modal
+Services
+Products
 Blog
 Contact
-Footer
 ```
 
-Pastikan visual setiap section tetap konsisten sebelum lanjut.
+Primary CTA:
 
----
+**Work With Me**
 
-## Phase 5 — Data Extraction
+Secondary commercial CTA:
 
-Pindahkan editable content ke:
+**Explore Products**
 
-```text
-src/data/
-```
-
-Prioritas:
-
-```text
-profile
-socials
-skills
-projects
-site configuration
-```
-
----
-
-## Phase 6 — JavaScript Migration
-
-Audit existing JS.
-
-Pertahankan hanya interaction yang diperlukan.
-
-Test:
-
-* navigation
-* portfolio filter
-* modal
-* mobile navigation
-* other existing interactions
-
----
-
-## Phase 7 — Medium Integration
-
-Implement build-time article retrieval jika memungkinkan.
-
-Render static article cards.
-
-Tambahkan safe fallback.
-
----
-
-## Phase 8 — GitHub Pages Configuration
-
-Configure:
-
-* Astro static output
-* GitHub Actions
-* repository deployment
-* custom domain support jika diperlukan
-
----
-
-## Phase 9 — Validation
-
-Jalankan:
-
-```bash
-npm run build
-```
-
-Perbaiki semua migration-related build errors.
-
-Test:
-
-* dev environment
-* production build
-* responsive layout
-* links
-* images
-* project modal
-* project filter
-* Medium blog
-* navigation
-
----
-
-# 49. Scope Discipline
-
-Jangan melakukan unrelated refactoring.
-
-Jangan mengubah feature yang tidak terkait migrasi.
-
-Jangan melakukan redesign tambahan hanya karena ada kesempatan.
-
-Focus:
-
-> Migration + maintainability + static deployment.
-
----
-
-# 50. Content Integrity
-
-Jangan mengarang:
-
-* biodata
-* project
-* company
-* education
-* work history
-* skill
-* social links
-* contact information
-
-Existing website adalah content source of truth.
-
-Placeholder boleh tetap placeholder jika memang existing content masih dummy.
-
----
-
-# 51. Migration Safety
-
-Sebelum menghapus file HTML/CSS/JS existing:
-
-* pastikan equivalent Astro implementation sudah bekerja
-* pastikan functionality sudah diuji
-* pastikan assets sudah termigrasi
-* pastikan production build sukses
-
-Jangan terlalu cepat menghapus source existing saat migration masih berlangsung.
-
----
-
-# 52. Definition of Done
-
-Migrasi dianggap selesai jika:
-
-## Astro
-
-* [ ] Project berjalan menggunakan Astro.
-* [ ] `npm run dev` berhasil.
-* [ ] `npm run build` berhasil.
-* [ ] Static output dihasilkan di `dist/`.
-
-## UI
-
-* [ ] Tampilan tetap sangat dekat dengan existing version.
-* [ ] Tidak ada unintended redesign.
-* [ ] Responsive layout tetap bekerja.
-* [ ] Tidak ada horizontal overflow.
-
-## Components
-
-* [ ] Major sections sudah menjadi meaningful Astro components.
-* [ ] Homepage tidak berupa satu giant Astro file.
-* [ ] Component structure mudah dipahami.
-
-## Data
-
-* [ ] Profile dapat diedit dari data file.
-* [ ] Skills dapat diedit dari data file.
-* [ ] Projects dapat diedit dari data file.
-* [ ] Social links dapat diedit dari data file.
-* [ ] Site configuration terpusat.
-
-## Portfolio
-
-* [ ] Project cards berasal dari data.
-* [ ] Existing project filter tetap bekerja jika tersedia.
-* [ ] Project modal tetap bekerja.
-* [ ] Modal responsive.
-* [ ] Escape close bekerja.
-
-## Blog
-
-* [ ] Medium tetap menjadi article source.
-* [ ] Artikel dirender secara static jika memungkinkan.
-* [ ] Medium failure memiliki fallback.
-* [ ] Article links menuju Medium.
-
-## JavaScript
-
-* [ ] Existing required interaction tetap bekerja.
-* [ ] Tidak ada unnecessary client JavaScript.
-* [ ] Tidak ada console error baru.
-
-## Assets
-
-* [ ] Existing images tetap tampil.
-* [ ] Tidak ada broken asset.
-* [ ] Project screenshots tetap tersedia.
-
-## GitHub Pages
-
-* [ ] Website compatible dengan GitHub Pages.
-* [ ] Production build dapat dideploy.
-* [ ] Custom domain tetap memungkinkan.
-* [ ] Deployment workflow tersedia jika dibutuhkan.
-
----
-
-# 53. Final Product Goal
-
-Hasil akhir harus menjadi:
-
-> A maintainable, data-driven, fully static Astro portfolio that preserves the existing approved visual design.
-
-User harus dapat memperbarui portfolio dengan sederhana tanpa harus mengubah markup utama.
-
-Ideal editing experience:
-
-```text
-Add Project
-      ↓
-Edit projects.js
-      ↓
-Push to GitHub
-      ↓
-GitHub Actions
-      ↓
-Astro Build
-      ↓
-GitHub Pages Updated
-```
-
-Migrasi berhasil jika website terasa sama atau lebih baik bagi pengunjung, tetapi jauh lebih mudah dikelola oleh pemilik website.
-
----
-
-# 54. Final Instruction to Coding Agent
-
-Before implementation:
-
-> Inspect the entire existing repository first.
-
-Do not assume file structure.
-
-Do not redesign the website.
-
-Preserve existing functionality and appearance.
-
-Use the existing HTML/CSS/JavaScript implementation as the reference when creating the Astro version.
-
-Prefer:
-
-> static rendering + Astro components + centralized data + minimal client JavaScript.
-
-When uncertain between rewriting something and preserving a working implementation:
-
-> preserve the working implementation unless there is a clear technical benefit to changing it.
+Website tetap menjadi portfolio terlebih dahulu, tetapi sekarang setiap visitor mempunyai jalur yang jelas untuk berubah menjadi customer.

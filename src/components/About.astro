@@ -1,9 +1,8 @@
 ---
-import { asset } from "../lib/assets.js";
+import { sitePath } from "../lib/urls.js";
 import { profile } from "../data/profile.js";
-import { services, clients } from "../data/about.js";
-import Testimonials from "./Testimonials.astro";
-import TestimonialModal from "./TestimonialModal.astro";
+import { serviceHighlights } from "../data/services.js";
+import ServiceCard from "./services/ServiceCard.astro";
 ---
 
 <article class="about active" data-page="about">
@@ -13,8 +12,9 @@ import TestimonialModal from "./TestimonialModal.astro";
       <h2 class="hero-title" id="hero-title">{profile.hero.title}</h2>
       <p class="hero-text">{profile.hero.text}</p>
       <div class="hero-actions">
-        <button class="btn btn-primary" type="button" data-nav-target="portfolio">View my work</button>
-        <button class="btn btn-secondary" type="button" data-nav-target="contact">Let's talk</button>
+        <a class="btn btn-primary" href={sitePath("/services")} data-track="homepage_service_cta" data-track-label="work_with_me">Work With Me</a>
+        <button class="btn btn-secondary" type="button" data-nav-target="portfolio">View My Work</button>
+        <a class="btn btn-secondary" href={sitePath("/products")} data-track="homepage_product_cta" data-track-label="explore_products">Explore Products</a>
       </div>
     </div>
 
@@ -38,35 +38,17 @@ import TestimonialModal from "./TestimonialModal.astro";
   </section>
 
   <section class="service">
-    <h3 class="h3 service-title">What i'm doing</h3>
+    <div class="service-preview-heading">
+      <div>
+        <p class="eyebrow">Services</p>
+        <h3 class="h3 service-title">What I Can Help With</h3>
+      </div>
+      <a class="service-preview-link" href={sitePath("/services")} data-track="homepage_service_cta" data-track-label="service_preview">
+        Explore Services <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+      </a>
+    </div>
     <ul class="service-list">
-      {services.map((service) => (
-        <li class="service-item">
-          <div class="service-icon-box">
-            <img src={asset(service.icon)} alt={service.iconAlt} width="40" />
-          </div>
-          <div class="service-content-box">
-            <h4 class="h4 service-item-title">{service.title}</h4>
-            <p class="service-item-text">{service.text}</p>
-          </div>
-        </li>
-      ))}
+      {serviceHighlights.map((service) => <ServiceCard service={service} compact />)}
     </ul>
   </section>
-
-  <!-- <Testimonials />
-  <TestimonialModal /> -->
-
-  <!-- <section class="clients">
-    <h3 class="h3 clients-title">Clients</h3>
-    <ul class="clients-list has-scrollbar">
-      {clients.map((client) => (
-        <li class="clients-item">
-          <a href={client.url}>
-            <img src={asset(client.image)} alt="client logo" />
-          </a>
-        </li>
-      ))}
-    </ul>
-  </section> -->
 </article>

@@ -1,13 +1,21 @@
 ---
 import "../styles/global.css";
 import { asset } from "../lib/assets.js";
+import { sitePath } from "../lib/urls.js";
 import { site as defaultSite } from "../data/site.js";
 
 const {
   title = defaultSite.title,
   description = defaultSite.description,
-  language = defaultSite.language
+  language = defaultSite.language,
+  canonicalPath = Astro.url.pathname,
+  image = null,
+  ogType = "website",
+  structuredData = null
 } = Astro.props;
+
+const canonicalUrl = Astro.site ? new URL(sitePath(canonicalPath), Astro.site).href : null;
+const socialImage = image && Astro.site ? new URL(asset(image), Astro.site).href : null;
 ---
 
 <!doctype html>
@@ -18,6 +26,17 @@ const {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
     <link rel="shortcut icon" href={asset("assets/images/logo.png")} type="image/x-icon" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

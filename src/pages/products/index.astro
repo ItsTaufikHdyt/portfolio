@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageShell from "../../components/PageShell.astro";
+import CommercialCTA from "../../components/common/CommercialCTA.astro";
+import ProductGrid from "../../components/products/ProductGrid.astro";
+import { visibleProducts } from "../../data/products.js";
+import { profile } from "../../data/profile.js";
+import { whatsappUrl } from "../../lib/urls.js";
+
+const customizationUrl = whatsappUrl(profile.phone, "Hi Taufik, saya ingin mendiskusikan produk digital atau customization untuk kebutuhan project saya.");
+---
+
+<BaseLayout
+  title="Developer Products & Starter Kits — Taufik Hidayat"
+  description="Production-ready Laravel starter kits, Astro templates, and developer tools built from practical development experience."
+  canonicalPath="/products"
+>
+  <PageShell currentPage="products">
+    <article class="commercial-page products-page active">
+      <header class="commercial-page-hero">
+        <div>
+          <p class="eyebrow">Digital Products</p>
+          <h1 class="commercial-page-title">Tools I've built to help you build faster.</h1>
+          <p class="commercial-page-description">Production-ready templates, starter kits, and applications built from practical development experience.</p>
+        </div>
+      </header>
+
+      <section class="commercial-section" aria-labelledby="product-catalog-title">
+        <div class="commercial-section-heading">
+          <p class="eyebrow">Product catalog</p>
+          <h2 class="h2" id="product-catalog-title">A practical head start for your next build.</h2>
+        </div>
+        <ProductGrid products={visibleProducts} />
+      </section>
+
+      <CommercialCTA
+        eyebrow="Need a tailored version?"
+        title="Start with a product, then make it yours."
+        description="I can customize features, branding, workflows, and deployment for your project."
+        primary={{ label: "Need Customization?", href: customizationUrl, external: true, track: "whatsapp_click", trackLabel: "products_customization" }}
+      />
+    </article>
+  </PageShell>
+</BaseLayout>

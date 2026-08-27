@@ -2,6 +2,9 @@
 import { asset } from "../lib/assets.js";
 
 const { project } = Astro.props;
+const serviceSlug = project.category.toLowerCase().includes("gis")
+  ? "gis-webgis"
+  : "custom-web-application";
 ---
 
 <li
@@ -13,6 +16,7 @@ const { project } = Astro.props;
   data-technologies={project.technologies.join(",")}
   data-github={project.github || undefined}
   data-demo={project.demo || undefined}
+  data-service-slug={serviceSlug}
 >
   <a href="#project-modal" data-project-card aria-haspopup="dialog" aria-controls="project-modal">
     <figure class="project-img">

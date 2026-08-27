@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageShell from "../components/PageShell.astro";
+import CommercialCTA from "../components/common/CommercialCTA.astro";
+import ServiceCard from "../components/services/ServiceCard.astro";
+import { services, serviceWorkflow, generalServiceMessage } from "../data/services.js";
+import { profile } from "../data/profile.js";
+import { whatsappUrl } from "../lib/urls.js";
+
+const contactUrl = whatsappUrl(profile.phone, generalServiceMessage);
+---
+
+<BaseLayout
+  title="Software Development & WebGIS Services — Taufik Hidayat"
+  description="Custom web application, Laravel, WebGIS, GIS, deployment, and software development services."
+  canonicalPath="/services"
+>
+  <PageShell currentPage="services">
+    <article class="commercial-page services-page active">
+      <header class="commercial-page-hero">
+        <div>
+          <p class="eyebrow">Services</p>
+          <h1 class="commercial-page-title">Let's build something useful.</h1>
+          <p class="commercial-page-description">I help businesses and organizations build practical digital solutions — from websites and custom web applications to geospatial systems and production deployment.</p>
+        </div>
+        <a class="btn btn-primary" href={contactUrl} target="_blank" rel="noopener noreferrer" data-track="whatsapp_click" data-track-label="services_hero">
+          <ion-icon name="logo-whatsapp" aria-hidden="true"></ion-icon>
+          Discuss Your Project
+        </a>
+      </header>
+
+      <section class="commercial-section" aria-labelledby="service-options-title">
+        <div class="commercial-section-heading">
+          <p class="eyebrow">Ways I can help</p>
+          <h2 class="h2" id="service-options-title">Services built around real needs.</h2>
+        </div>
+
+        <ul class="service-page-grid">
+          {services.map((service) => <ServiceCard service={service} />)}
+        </ul>
+
+        <p class="pricing-disclaimer">Final pricing depends on project requirements, complexity, and development scope.</p>
+      </section>
+
+      <section class="commercial-section" aria-labelledby="workflow-title">
+        <div class="commercial-section-heading">
+          <p class="eyebrow">How it works</p>
+          <h2 class="h2" id="workflow-title">A clear path from problem to delivery.</h2>
+        </div>
+
+        <ol class="service-workflow">
+          {serviceWorkflow.map((step) => (
+            <li>
+              <span>{step.number}</span>
+              <div>
+                <h3 class="h4">{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <CommercialCTA
+        eyebrow="Start a conversation"
+        title="Have a project in mind?"
+        description="Tell me what you are trying to build or improve. We can define the right scope together."
+        primary={{ label: "Discuss Your Project", href: contactUrl, external: true, track: "whatsapp_click", trackLabel: "services_footer" }}
+      />
+    </article>
+  </PageShell>
+</BaseLayout>

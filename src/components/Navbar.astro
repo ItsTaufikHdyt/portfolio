@@ -1,20 +1,33 @@
 ---
 import { navigation } from "../data/navigation.js";
+import { sitePath } from "../lib/urls.js";
+
+const { sectionNavigation = false, currentPage = "" } = Astro.props;
 ---
 
 <nav class="navbar" aria-label="Primary navigation">
   <ul class="navbar-list">
-    {navigation.map((item, index) => (
+    {navigation.map((item) => (
       <li class="navbar-item">
-        <button
-          class:list={["navbar-link", { active: index === 0 }]}
-          type="button"
-          data-nav-link
-          data-nav-target={item.page}
-          aria-current={index === 0 ? "page" : undefined}
-        >
-          {item.label}
-        </button>
+        {sectionNavigation && item.page ? (
+          <button
+            class:list={["navbar-link", { active: item.page === "about" }]}
+            type="button"
+            data-nav-link
+            data-nav-target={item.page}
+            aria-current={item.page === "about" ? "page" : undefined}
+          >
+            {item.label}
+          </button>
+        ) : (
+          <a
+            class:list={["navbar-link", { active: item.route === currentPage }]}
+            href={sitePath(item.href)}
+            aria-current={item.route === currentPage ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        )}
       </li>
     ))}
   </ul>

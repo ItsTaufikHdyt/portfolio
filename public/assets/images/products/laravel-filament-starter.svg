@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Laravel Filament Starter Kit dashboard preview</title>
+  <desc id="desc">Stylized admin dashboard preview in the portfolio's indigo and neutral color palette.</desc>
+  <rect width="1200" height="800" fill="#f1f1f3"/>
+  <rect x="72" y="62" width="1056" height="676" rx="20" fill="#fff" stroke="#d4d4d8" stroke-width="4"/>
+  <rect x="72" y="62" width="1056" height="72" rx="20" fill="#18181b"/>
+  <circle cx="120" cy="98" r="10" fill="#818cf8"/><circle cx="154" cy="98" r="10" fill="#71717a"/><circle cx="188" cy="98" r="10" fill="#52525b"/>
+  <rect x="72" y="114" width="238" height="624" fill="#eef2ff"/>
+  <rect x="110" y="172" width="154" height="18" rx="9" fill="#4f46e5"/>
+  <g fill="#a5b4fc"><rect x="110" y="230" width="122" height="14" rx="7"/><rect x="110" y="276" width="146" height="14" rx="7"/><rect x="110" y="322" width="106" height="14" rx="7"/><rect x="110" y="368" width="136" height="14" rx="7"/></g>
+  <text x="354" y="205" fill="#18181b" font-family="Arial, sans-serif" font-size="34" font-weight="700">Dashboard</text>
+  <text x="354" y="242" fill="#71717a" font-family="Arial, sans-serif" font-size="18">Laravel · Filament · Production ready</text>
+  <g><rect x="354" y="286" width="224" height="128" rx="12" fill="#f7f7f5" stroke="#e4e4e7"/><rect x="600" y="286" width="224" height="128" rx="12" fill="#f7f7f5" stroke="#e4e4e7"/><rect x="846" y="286" width="224" height="128" rx="12" fill="#f7f7f5" stroke="#e4e4e7"/><rect x="380" y="318" width="66" height="14" rx="7" fill="#a5b4fc"/><rect x="380" y="354" width="112" height="24" rx="7" fill="#4f46e5"/><rect x="626" y="318" width="82" height="14" rx="7" fill="#a5b4fc"/><rect x="626" y="354" width="94" height="24" rx="7" fill="#4f46e5"/><rect x="872" y="318" width="72" height="14" rx="7" fill="#a5b4fc"/><rect x="872" y="354" width="128" height="24" rx="7" fill="#4f46e5"/></g>
+  <rect x="354" y="450" width="716" height="218" rx="12" fill="#fff" stroke="#e4e4e7"/><rect x="386" y="484" width="186" height="16" rx="8" fill="#18181b"/>
+  <g fill="#d4d4d8"><rect x="386" y="532" width="650" height="12" rx="6"/><rect x="386" y="572" width="650" height="12" rx="6"/><rect x="386" y="612" width="520" height="12" rx="6"/></g>
+</svg>

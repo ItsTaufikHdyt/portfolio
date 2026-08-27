@@ -1,5 +1,6 @@
 ---
 import { profile } from "../data/profile.js";
+import { inquiryOptions } from "../data/services.js";
 ---
 
 <article class="contact" data-page="contact">
@@ -22,7 +23,13 @@ import { profile } from "../data/profile.js";
   <section class="contact-form">
     <h3 class="h3 form-title">Contact Form</h3>
 
-    <form class="form" id="contact-form">
+    <form class="form" id="contact-form" data-phone={profile.phone}>
+      <label class="form-label" for="inquiry">What can I help you with?</label>
+      <select id="inquiry" name="inquiry" class="form-input form-select" required>
+        <option value="" selected disabled>Select an inquiry</option>
+        {inquiryOptions.map((option) => <option value={option}>{option}</option>)}
+      </select>
+
       <div class="input-wrapper">
         <label class="sr-only" for="fullname">Full name</label>
         <input
@@ -55,7 +62,7 @@ import { profile } from "../data/profile.js";
         placeholder="Your message"
         required></textarea>
 
-      <button class="form-btn" type="submit">
+      <button class="form-btn" type="submit" data-track="whatsapp_click" data-track-label="contact_form">
         <ion-icon name="logo-whatsapp" aria-hidden="true"></ion-icon>
         <span>Send via WhatsApp</span>
       </button>
@@ -71,14 +78,15 @@ import { profile } from "../data/profile.js";
       const fullname = document.querySelector("#fullname")?.value;
       const email = document.querySelector("#email")?.value;
       const message = document.querySelector("#message")?.value;
-
-      const phone = "6281234567890";
+      const inquiry = document.querySelector("#inquiry")?.value;
+      const phone = form.dataset.phone.replace(/\D/g, "");
 
       const text = `
 Halo, saya menghubungi melalui website portfolio.
 
 Nama: ${fullname}
 Email: ${email}
+Kebutuhan: ${inquiry}
 
 Pesan:
 ${message}

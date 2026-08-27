@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageShell from "../../components/PageShell.astro";
+import ProductVisual from "../../components/products/ProductVisual.astro";
+import CommercialCTA from "../../components/common/CommercialCTA.astro";
+import { products } from "../../data/products.js";
+import { profile } from "../../data/profile.js";
+import { sitePath, whatsappUrl } from "../../lib/urls.js";
+
+export const getStaticPaths = () => products
+  .filter((product) => !["draft", "discontinued"].includes(product.status))
+  .map((product) => ({ params: { slug: product.slug }, props: { product } }));
+
+const { product } = Astro.props;
+const isAvailable = product.status === "available";
+const customizationUrl = whatsappUrl(profile.phone, product.customizationMessage);
+const notifyUrl = whatsappUrl(profile.phone, `Hi Taufik, saya ingin mendapat kabar ketika ${product.title} tersedia.`);
+const purchaseUrl = isAvailable ? product.checkout : notifyUrl;
+const purchaseLabel = isAvailable ? "Buy Now" : "Notify Me";
+const productUrl = Astro.site ? new URL(sitePath(`/products/${product.slug}`), Astro.site).href : undefined;
+const productImage = product.image && Astro.site ? new URL(sitePath(product.image), Astro.site).href : undefined;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.title,
+  description: product.description,
+  brand: { "@type": "Brand", name: profile.name },
+  category: product.category,
+  url: productUrl,
+  image: productImage,
+  offers: {
+    "@type": "Offer",
+    priceCurrency: product.price.currency,
+    price: product.price.amount,
+    availability: isAvailable ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+    url: product.checkout || undefined
+  }
+};
+---
+
+<BaseLayout
+  title={`${product.title} — Taufik Hidayat`}
+  description={product.description}
+  canonicalPath={`/products/${product.slug}`}
+  image={product.image}
+  ogType="product"
+  structuredData={structuredData}
+>
+  <PageShell currentPage="products">
+    <article class="commercial-page product-detail-page active" data-product-view={product.slug}>
+      <a class="back-link" href={sitePath("/products")}>
+        <ion-icon name="arrow-back-outline" aria-hidden="true"></ion-icon>
+        All products
+      </a>
+
+      <section class="product-detail-hero">
+        <ProductVisual product={product} detail />
+
+        <div class="product-detail-summary">
+          <div class="product-card-meta">
+            <span>{product.category}</span>
+            {product.badge && <span class="product-badge">{product.badge}</span>}
+          </div>
+          <h1 class="commercial-page-title">{product.title}</h1>
+          <p class="product-detail-lead">{product.longDescription}</p>
+          <ul class="technology-tags" aria-label={`${product.title} technologies`}>
+            {product.technologies.map((technology) => <li>{technology}</li>)}
+          </ul>
+          <strong class="product-detail-price">{product.price.label}</strong>
+          <div class="product-detail-actions">
+            <a class="btn btn-primary" href={purchaseUrl} target="_blank" rel="noopener noreferrer" data-track={isAvailable ? "checkout_click" : "whatsapp_click"} data-track-label={product.slug}>{purchaseLabel}</a>
+            {product.demo && <a class="btn btn-secondary" href={product.demo} target="_blank" rel="noopener noreferrer" data-track="demo_click" data-track-label={product.slug}>Live Demo</a>}
+          </div>
+        </div>
+      </section>
+
+      <div class="product-detail-sections">
+        <section aria-labelledby="included-title">
+          <h2 class="h2" id="included-title">What's Included</h2>
+          <ul class="check-list">
+            {product.features.map((feature) => <li><ion-icon name="checkmark-circle-outline" aria-hidden="true"></ion-icon>{feature}</li>)}
+          </ul>
+        </section>
+
+        <section aria-labelledby="requirements-title">
+          <h2 class="h2" id="requirements-title">Requirements</h2>
+          <ul class="check-list check-list-neutral">
+            {product.requirements.map((requirement) => <li><ion-icon name="code-slash-outline" aria-hidden="true"></ion-icon>{requirement}</li>)}
+          </ul>
+        </section>
+      </div>
+
+      <section class="license-section" aria-labelledby="license-title">
+        <div class="commercial-section-heading">
+          <p class="eyebrow">Simple licensing</p>
+          <h2 class="h2" id="license-title">Choose the license that fits your project.</h2>
+        </div>
+        <div class="license-grid">
+          {product.licenses.map((license) => (
+            <div class="license-card">
+              <h3 class="h4">{license.name}</h3>
+              <p>{license.description}</p>
+            </div>
+          ))}
+        </div>
+        <div class="license-restrictions">
+          <h3 class="h4">Not permitted</h3>
+          <ul>
+            {product.restrictions.map((restriction) => <li>{restriction}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      <CommercialCTA
+        eyebrow="Need customization?"
+        title="Adapt this starter to your workflow."
+        description="Discuss custom features, branding, integration, or production deployment directly via WhatsApp."
+        primary={{ label: "Discuss Customization", href: customizationUrl, external: true, track: "whatsapp_click", trackLabel: `${product.slug}_customization` }}
+        secondary={{ label: "Explore Services", href: sitePath("/services"), track: "product_to_service", trackLabel: product.slug }}
+      />
+    </article>
+  </PageShell>
+</BaseLayout>

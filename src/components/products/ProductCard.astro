@@ -1,0 +1,43 @@
+---
+import { profile } from "../../data/profile.js";
+import { productStatusLabels } from "../../data/products.js";
+import { sitePath, whatsappUrl } from "../../lib/urls.js";
+import ProductVisual from "./ProductVisual.astro";
+
+const { product } = Astro.props;
+const isAvailable = product.status === "available";
+const primaryHref = isAvailable && product.checkout
+  ? product.checkout
+  : whatsappUrl(profile.phone, `Hi Taufik, saya ingin mendapat kabar ketika ${product.title} tersedia.`);
+const primaryLabel = isAvailable ? "Buy" : "Notify Me";
+---
+
+<li class="product-card" data-product-card data-category={product.category.toLowerCase()}>
+  <ProductVisual product={product} />
+
+  <div class="product-card-content">
+    <div class="product-card-meta">
+      <span>{product.category}</span>
+      {product.badge && <span class="product-badge">{product.badge}</span>}
+      {!isAvailable && <span class="product-status">{productStatusLabels[product.status]}</span>}
+    </div>
+
+    <h3 class="h3">{product.title}</h3>
+    <p>{product.description}</p>
+
+    <ul class="technology-tags" aria-label={`${product.title} technologies`}>
+      {product.technologies.map((technology) => <li>{technology}</li>)}
+    </ul>
+
+    <div class="product-card-footer">
+      <strong class="product-price">{product.price.label}</strong>
+      <div class="product-card-actions">
+        {product.demo && (
+          <a href={product.demo} target="_blank" rel="noopener noreferrer" data-track="demo_click" data-track-label={product.slug}>Live Demo</a>
+        )}
+        <a href={sitePath(`/products/${product.slug}`)} data-track="product_view" data-track-label={product.slug}>Details</a>
+        <a class="btn btn-primary" href={primaryHref} target="_blank" rel="noopener noreferrer" data-track={isAvailable ? "checkout_click" : "whatsapp_click"} data-track-label={product.slug}>{primaryLabel}</a>
+      </div>
+    </div>
+  </div>
+</li>

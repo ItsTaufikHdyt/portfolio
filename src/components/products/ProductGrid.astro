@@ -1,0 +1,26 @@
+---
+import { productCategories } from "../../data/products.js";
+import ProductCard from "./ProductCard.astro";
+
+const { products } = Astro.props;
+---
+
+<div class="product-catalog" data-product-catalog>
+  <div class="product-filter" role="group" aria-label="Filter products by category">
+    {productCategories.map((category, index) => (
+      <button type="button" class:list={{ active: index === 0 }} aria-pressed={index === 0 ? "true" : "false"} data-product-filter={category.toLowerCase()}>
+        {category}
+      </button>
+    ))}
+  </div>
+
+  <ul class="product-grid">
+    {products.map((product) => <ProductCard product={product} />)}
+  </ul>
+
+  <p class="product-empty" data-product-empty hidden>No products are available in this category yet.</p>
+</div>
+
+<script>
+  import "../../scripts/product-filters.js";
+</script>
