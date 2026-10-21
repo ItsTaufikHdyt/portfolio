@@ -224,3 +224,87 @@ main{display:block;width:min(100% - 3rem,1320px);padding:0 0 3rem;margin:auto}.m
 @media(min-width:768px){.filter-select-box{display:none}}
 @media(max-width:767px){.filter-list{display:none}.filter-select-box{display:block}.product-filter{max-width:100%;overflow-x:auto}.hero-previews{max-width:100%}}
 @media(prefers-reduced-motion:reduce){.featured-card,.project-item>a,.service-card,.hero-preview{transition:none}}
+
+@media(max-width:767px){
+  main{width:calc(100% - 2rem);padding-bottom:2rem}
+  .navbar{top:.5rem;padding:.35rem;border-radius:18px}
+  .nav-masthead{min-height:3rem}
+  .nav-brand{padding:.5rem .75rem;font-size:1rem}
+  .nav-toggle{min-width:3.5rem;min-height:3rem;justify-content:center;padding:.4rem .75rem}
+  .navbar-list{grid-template-columns:1fr;gap:0;padding:.35rem;max-height:calc(100dvh - 5rem)}
+  .navbar-link{min-height:2.75rem;padding-inline:.85rem}
+  .about,.commercial-page,.portfolio,.resume,.blog,.contact{padding-top:1rem}
+  .hero{display:flex;flex-direction:column;min-height:0;margin-bottom:2.5rem;border-radius:20px}
+  .hero-copy{order:0;padding:1.5rem 1.25rem 1.25rem}
+  .hero-copy .eyebrow{font-size:.7rem;line-height:1.5}
+  .hero-title{max-width:18ch;margin:.75rem 0 1rem;font-size:clamp(1.95rem,7.5vw,2.75rem);line-height:1.08;letter-spacing:-.05em;overflow-wrap:normal}
+  .hero-text{font-size:.9rem;line-height:1.55}
+  .hero-actions{margin-top:1.25rem;gap:.6rem}
+  .hero-actions .btn{min-height:2.75rem}
+  .hero-portrait{order:1;height:clamp(10rem,40vw,14rem);flex:0 0 auto}
+  .hero-portrait img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+  .hero-portrait>span{bottom:.75rem;left:1rem}
+  .hero-previews{order:2;display:flex;gap:.6rem;max-width:100%;padding:.85rem;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;scrollbar-width:none}
+  .hero-previews::-webkit-scrollbar,.featured-grid::-webkit-scrollbar,.filter-list::-webkit-scrollbar{display:none}
+  .hero-previews .eyebrow{flex:0 0 5.5rem;align-self:center;margin:0}
+  .hero-preview{flex:0 0 11rem;min-width:0;min-height:3.75rem;scroll-snap-align:start}
+  .discovery{gap:1rem;padding:0 0 2.75rem}
+  .discovery h2,.catalog-heading h2,.home-about h2{font-size:clamp(1.6rem,5vw,2.1rem);line-height:1.14}
+  .discovery-form,.portfolio-search{min-width:0}
+  .discovery-form input,.portfolio-search input{font-size:1rem}
+  .home-featured,.home-about,.service{margin-bottom:3rem}
+  .catalog-heading{gap:.75rem;margin-bottom:1rem}
+  .featured-grid{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,min(72vw,19rem));gap:.75rem;max-width:100%;padding-bottom:.5rem;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .featured-card{min-width:0;scroll-snap-align:start}
+  .featured-card-body{padding:.9rem}.featured-card-body strong{font-size:1.05rem}
+  .home-about{padding:1.25rem;gap:1rem}
+  .home-about .about-text{font-size:.92rem;line-height:1.6}
+  .service-list,.service-page-grid{gap:.75rem}
+  .service-card,.service-card-compact{padding:1rem}
+  .service-card:hover,.service-card-compact:hover{padding:1rem}
+  .service-card-heading .h3,.service-card-heading .h4{font-size:1.2rem}
+  .service-card-description{font-size:.88rem}
+  .portfolio-search{margin-bottom:1rem}
+  .filter-list{display:flex;flex-wrap:nowrap;gap:.5rem;max-width:100%;margin-bottom:1.25rem;padding-bottom:.35rem;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none}
+  .filter-item{flex:0 0 auto}.filter-item button{min-height:2.75rem;padding-inline:.85rem;white-space:nowrap}
+  .filter-select-box{display:none}
+  .project-list,.blog-posts-list{gap:.75rem}
+  .project-caption,.project-item:nth-child(even) .project-caption{padding:1rem}
+  .project-title,.project-item:first-child .project-title{font-size:clamp(.95rem,2vw,1.3rem)}
+  .project-summary{font-size:.82rem;-webkit-line-clamp:2}
+  .product-card-content,.product-grid-featured .product-card-content{padding:1.1rem}
+  .product-card-actions{gap:.75rem}.product-card-actions .btn{min-height:2.75rem}
+  .blog-content,.blog-post-item .blog-content,.blog-post-item:first-child .blog-content{padding:1rem}
+  .blog-item-title,.blog-post-item:first-child .blog-item-title{font-size:clamp(1.1rem,3vw,1.5rem)}
+  .commercial-page-hero{padding:1.5rem;margin-bottom:2rem}
+  .commercial-page-title{font-size:clamp(2rem,6vw,3rem)}
+  .commercial-section{margin-bottom:2.5rem}
+  .contact{padding:1.25rem}.contact .form-input{font-size:1rem}
+  .site-footer{flex-direction:column;align-items:start;gap:.6rem;font-size:.8rem}
+  .site-footer a{max-width:100%;overflow-wrap:anywhere}
+}
+@media(max-width:520px){
+  main{width:calc(100% - 2rem)}
+  .hero-title{font-size:clamp(1.95rem,8vw,2.4rem);overflow-wrap:normal}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .btn{flex:none;width:100%}
+  .hero-portrait{height:clamp(9rem,40vw,12rem)}
+  .featured-grid{grid-auto-columns:minmax(0,78%)}
+  .service-list,.service-page-grid,.project-list,.blog-posts-list{grid-template-columns:minmax(0,1fr)}
+  .discovery-form,.portfolio-search{flex-direction:column;flex-wrap:nowrap}
+  .discovery-form input,.portfolio-search input{flex:auto;width:100%;min-height:2.75rem}
+  .discovery-form button,.portfolio-search button{width:100%;min-height:2.75rem}
+  .catalog-heading{align-items:start}
+  .catalog-link{font-size:.78rem}
+  .commercial-page-title{font-size:clamp(2rem,8vw,2.7rem)}
+  .contact .form-btn{width:100%;min-height:2.75rem}
+}
+@media(max-width:360px){
+  .nav-brand{font-size:.92rem}.nav-brand span{font-size:.7rem}
+  .hero-copy{padding:1.25rem 1rem}
+  .hero-title{font-size:clamp(1.85rem,8vw,2.1rem)}
+  .catalog-heading{flex-wrap:wrap}
+  .featured-grid{grid-auto-columns:minmax(0,82%)}
+  .product-card-footer,.product-card-actions{align-items:stretch}
+  .product-card-actions .btn{width:100%}
+}
