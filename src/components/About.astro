@@ -1,54 +1,70 @@
 ---
 import { sitePath } from "../lib/urls.js";
+import { asset } from "../lib/assets.js";
 import { profile } from "../data/profile.js";
+import { projects } from "../data/projects.js";
 import { serviceHighlights } from "../data/services.js";
 import ServiceCard from "./services/ServiceCard.astro";
 ---
 
 <article class="about active" data-page="about">
   <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-portrait">
+      <img src={asset(profile.avatar)} alt={profile.name} width="400" height="500" fetchpriority="high" />
+      <span>{profile.name} / {profile.shortLocation}</span>
+    </div>
     <div class="hero-copy">
-      <p class="eyebrow">{profile.hero.eyebrow}</p>
-      <h2 class="hero-title" id="hero-title">{profile.hero.title}</h2>
+      <p class="eyebrow">Software Engineer / Geospatial Technology</p>
+      <h2 class="hero-title" id="hero-title">Digital solutions, <mark>built with purpose.</mark></h2>
       <p class="hero-text">{profile.hero.text}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href={sitePath("/services")} data-track="homepage_service_cta" data-track-label="work_with_me">Work With Me</a>
-        <button class="btn btn-secondary" type="button" data-nav-target="portfolio">View My Work</button>
-        <a class="btn btn-secondary" href={sitePath("/products")} data-track="homepage_product_cta" data-track-label="explore_products">Explore Products</a>
+        <button class="btn btn-primary" type="button" data-nav-target="portfolio">Explore My Work</button>
+        <a class="btn btn-secondary" href={sitePath("/services")} data-track="homepage_service_cta" data-track-label="work_with_me">Let's Collaborate</a>
       </div>
     </div>
-
-    <aside class="hero-details" aria-label="Professional details">
-      {profile.hero.details.map((detail) => (
-        <div class="hero-detail">
-          <span>{detail.label}</span>
-          <strong>{detail.value}</strong>
-        </div>
+    <div class="hero-previews" aria-label="Selected projects">
+      <p class="eyebrow">From the portfolio</p>
+      {projects.slice(0, 3).map((project) => (
+        <button type="button" class="hero-preview" data-nav-target="portfolio" aria-label={`Explore ${project.title} in portfolio`}>
+          <img src={asset(project.image)} alt="" width="120" height="90" loading="lazy" />
+          <span><strong>{project.title}</strong><small>{project.category}</small></span>
+        </button>
       ))}
-    </aside>
+    </div>
   </section>
 
-  <header class="section-header">
-    <p class="eyebrow">About</p>
-    <h2 class="h2 article-title">About me</h2>
-  </header>
+  <section class="discovery" aria-labelledby="discovery-title">
+    <div>
+      <p class="eyebrow">Explore / Digital work</p>
+      <h2 id="discovery-title">Looking for something? <mark>Find it here.</mark></h2>
+      <p>Browse real work in web development and geospatial technology.</p>
+    </div>
+    <form class="discovery-form" data-discovery-form role="search">
+      <label class="sr-only" for="discovery-query">Search projects</label>
+      <input id="discovery-query" type="search" placeholder="Search WebGIS, Laravel, GIS..." autocomplete="off" data-discovery-input />
+      <button type="submit">Search projects</button>
+    </form>
+  </section>
 
-  <section class="about-text">
-    {profile.about.map((paragraph) => <p>{paragraph}</p>)}
+  <section class="home-featured" aria-labelledby="featured-title">
+    <div class="catalog-heading"><div><p class="eyebrow">Selected from real work</p><h2 id="featured-title">Featured work</h2></div><button type="button" class="catalog-link" data-nav-target="portfolio">See all projects</button></div>
+    <div class="featured-grid">
+      {projects.slice(0, 3).map((project) => (
+        <button type="button" class="featured-card" data-nav-target="portfolio" aria-label={`Browse ${project.title} in portfolio`}>
+          <img src={asset(project.image)} alt="" width="480" height="320" loading="lazy" />
+          <span class="featured-card-body"><small>{project.category}</small><strong>{project.title}</strong><span>{project.description}</span></span>
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-about" aria-labelledby="about-title">
+    <div><p class="eyebrow">Meet the maker</p><h2 id="about-title">Hi, I'm {profile.name}.</h2><p class="home-about-meta">{profile.role} / {profile.shortLocation}</p></div>
+    <div class="about-text">{profile.about.map((paragraph) => <p>{paragraph}</p>)}</div>
   </section>
 
   <section class="service">
-    <div class="service-preview-heading">
-      <div>
-        <p class="eyebrow">Services</p>
-        <h3 class="h3 service-title">What I Can Help With</h3>
-      </div>
-      <a class="service-preview-link" href={sitePath("/services")} data-track="homepage_service_cta" data-track-label="service_preview">
-        Explore Services <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
-      </a>
-    </div>
-    <ul class="service-list">
-      {serviceHighlights.map((service) => <ServiceCard service={service} compact />)}
-    </ul>
+    <div class="catalog-heading"><div><p class="eyebrow">How I can help</p><h2>What can I build for you?</h2></div><a class="catalog-link" href={sitePath("/services")}>All services</a></div>
+    <ul class="service-list">{serviceHighlights.map((service) => <ServiceCard service={service} compact />)}</ul>
   </section>
 </article>

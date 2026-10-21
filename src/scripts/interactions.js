@@ -55,12 +55,40 @@ const filterSelectItems = document.querySelectorAll("[data-select-item]");
 const filterSelectValue = document.querySelector("[data-selecct-value]");
 const filterButtons = document.querySelectorAll("[data-filter-btn]");
 const filterItems = document.querySelectorAll("[data-filter-item]");
+const projectQuery = document.querySelector("[data-project-query]");
+const projectEmpty = document.querySelector("[data-project-empty]");
+let selectedCategory = "all";
 
-const filterProjects = (selectedValue) => {
+const filterProjects = (category = selectedCategory) => {
+  selectedCategory = category;
+  const query = projectQuery?.value.trim().toLocaleLowerCase() || "";
+  let visible = 0;
   filterItems.forEach((item) => {
-    item.classList.toggle("active", selectedValue === "all" || selectedValue === item.dataset.category);
+    const matchesCategory = category === "all" || category === item.dataset.category;
+    const matchesQuery = `${item.querySelector(".project-title")?.textContent || ""} ${item.dataset.category || ""} ${item.dataset.technologies || ""} ${item.dataset.description || ""}`.toLocaleLowerCase().includes(query);
+    const matches = matchesCategory && matchesQuery;
+    item.classList.toggle("active", matches);
+    if (matches) visible++;
   });
+  if (projectEmpty) projectEmpty.hidden = visible > 0;
 };
+
+projectQuery?.addEventListener("input", () => filterProjects());
+document.querySelector("[data-project-search-form]")?.addEventListener("submit", (event) => event.preventDefault());
+document.querySelector("[data-discovery-form]")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (projectQuery) projectQuery.value = document.querySelector("[data-discovery-input]")?.value || "";
+  filterProjects("all");
+  filterButtons.forEach((button) => {
+    const active = button.textContent.trim().toLowerCase() === "all";
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+    if (active) lastFilterButton = button;
+  });
+  if (filterSelectValue) filterSelectValue.textContent = "All";
+  activatePage("portfolio");
+  projectQuery?.focus();
+});
 
 filterSelect?.addEventListener("click", () => {
   toggle(filterSelect);

@@ -1,16 +1,22 @@
 ---
-import { projects, projectCategories } from "../data/projects.js";
+import { projects } from "../data/projects.js";
+const projectCategories = ["All", ...new Set(projects.map((project) => project.category))];
 import ProjectCard from "./ProjectCard.astro";
 import ProjectModal from "./ProjectModal.astro";
 ---
 
 <article class="portfolio" data-page="portfolio">
   <header class="section-header">
-    <p class="eyebrow">Selected work</p>
-    <h2 class="h2 article-title">Portfolio</h2>
+    <p class="eyebrow">Browse / Portfolio</p>
+    <h2 class="h2 article-title">Explore all projects</h2>
   </header>
 
   <section class="projects">
+    <form class="portfolio-search" data-project-search-form role="search">
+      <label class="sr-only" for="project-query">Search projects</label>
+      <input id="project-query" type="search" placeholder="Search projects, categories, technologies..." autocomplete="off" data-project-query />
+      <button type="submit">Search</button>
+    </form>
     <ul class="filter-list">
       {projectCategories.map((category, index) => (
         <li class="filter-item">
@@ -35,6 +41,7 @@ import ProjectModal from "./ProjectModal.astro";
     <ul class="project-list">
       {projects.map((project) => <ProjectCard project={project} />)}
     </ul>
+    <p class="project-empty" data-project-empty hidden>No projects match your search. Try another term or category.</p>
   </section>
 </article>
 

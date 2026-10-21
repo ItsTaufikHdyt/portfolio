@@ -5,8 +5,12 @@ import { sitePath } from "../lib/urls.js";
 const { sectionNavigation = false, currentPage = "" } = Astro.props;
 ---
 
-<nav class="navbar" aria-label="Primary navigation">
-  <ul class="navbar-list">
+<nav class="navbar" aria-label="Primary navigation" data-navbar>
+  <div class="nav-masthead">
+    <a class="nav-brand" href={sitePath("/")} aria-label="Taufik Hidayat, home">taufik <span>/ dev</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>Menu <span aria-hidden="true">+</span></button>
+  </div>
+  <ul class="navbar-list" id="primary-navigation">
     {navigation.map((item) => (
       <li class="navbar-item">
         {sectionNavigation && item.page ? (
@@ -32,3 +36,28 @@ const { sectionNavigation = false, currentPage = "" } = Astro.props;
     ))}
   </ul>
 </nav>
+
+<script>
+  const nav = document.querySelector("[data-navbar]");
+  const toggle = nav?.querySelector("[data-nav-toggle]");
+  const closeMenu = () => {
+    nav?.classList.remove("menu-open");
+    toggle?.setAttribute("aria-expanded", "false");
+  };
+
+  toggle?.addEventListener("click", () => {
+    const open = nav.classList.toggle("menu-open");
+    toggle.setAttribute("aria-expanded", String(open));
+    if (open) nav.querySelector(".navbar-link")?.focus();
+  });
+  nav?.querySelectorAll(".navbar-link").forEach((link) => link.addEventListener("click", closeMenu));
+  nav?.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && nav.classList.contains("menu-open")) {
+      closeMenu();
+      toggle.focus();
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (nav && !nav.contains(event.target)) closeMenu();
+  });
+</script>

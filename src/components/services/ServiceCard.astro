@@ -4,9 +4,16 @@ import { whatsappUrl } from "../../lib/urls.js";
 
 const { service, compact = false } = Astro.props;
 const contactUrl = whatsappUrl(profile.phone, service.whatsappMessage);
+const serviceNumber = {
+  "custom-web-application": "01",
+  "website-development": "02",
+  "gis-webgis": "03",
+  "deployment-server": "04"
+}[service.slug];
 ---
 
 <li class:list={["service-card", { "service-card-compact": compact }]} id={service.slug}>
+  <span class="service-card-index" aria-hidden="true">{serviceNumber}</span>
   <div class="service-card-icon" aria-hidden="true">
     <ion-icon name={service.icon}></ion-icon>
   </div>

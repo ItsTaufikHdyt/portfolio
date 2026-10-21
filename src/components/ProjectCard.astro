@@ -26,7 +26,12 @@ const serviceSlug = project.category.toLowerCase().includes("gis")
       <img src={asset(project.image)} alt={project.title.toLowerCase()} loading="lazy" />
     </figure>
 
-    <h3 class="project-title">{project.title}</h3>
-    <p class="project-category">{project.category}</p>
+    <div class="project-caption">
+      <p class="project-category">{project.category}</p>
+      <h3 class="project-title">{project.title}</h3>
+      <p class="project-summary">{project.description}</p>
+      <p class="project-tech">{project.technologies.slice(0, 3).join(" · ")}</p>
+      <span class="project-open">View project</span>
+    </div>
   </a>
 </li>

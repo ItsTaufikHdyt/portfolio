@@ -1,5 +1,4 @@
 ---
-import Sidebar from "./Sidebar.astro";
 import Navbar from "./Navbar.astro";
 import Footer from "./Footer.astro";
 
@@ -9,8 +8,6 @@ const { sectionNavigation = false, currentPage = "" } = Astro.props;
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
 <main>
-  <Sidebar />
-
   <div class="main-content" id="main-content">
     <Navbar sectionNavigation={sectionNavigation} currentPage={currentPage} />
     <slot />
