@@ -8,7 +8,7 @@ const category = article.categories[0] || "Medium";
 ---
 
 <li class="blog-post-item">
-  <a href={article.url} target="_blank" rel="noopener noreferrer" aria-label={`Read ${article.title} on Medium`}>
+  <a href={article.url} target="_blank" rel="noopener noreferrer">
     <figure class="blog-banner-box">
       {article.thumbnail ? (
         <img src={article.thumbnail} alt={article.title} loading="lazy" />

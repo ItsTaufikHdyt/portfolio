@@ -44,7 +44,7 @@ const featuredArticles = await getFeaturedArticles();
     <div class="hero-previews" aria-label="Selected projects">
       <p class="eyebrow">From the portfolio</p>
       {featuredProjects.map((project) => (
-        <a class="hero-preview" href={sitePath(`/portfolio/${project.id}`)} aria-label={`${project.title} case study`}>
+        <a class="hero-preview" href={sitePath(`/portfolio/${project.id}`)}>
           <img src={asset(project.image)} alt="" width="120" height="90" loading="lazy" />
           <span><strong>{project.title}</strong><small>{project.category}</small></span>
         </a>
@@ -69,7 +69,7 @@ const featuredArticles = await getFeaturedArticles();
     <div class="catalog-heading"><div><p class="eyebrow">Selected from real work</p><h2 id="featured-title">Featured work</h2></div><button type="button" class="catalog-link" data-nav-target="portfolio">See all projects</button></div>
     <div class="featured-grid">
       {featuredProjects.map((project) => (
-        <a class="featured-card" href={sitePath(`/portfolio/${project.id}`)} aria-label={`${project.title} case study`}>
+        <a class="featured-card" href={sitePath(`/portfolio/${project.id}`)}>
           <img src={asset(project.image)} alt="" width="480" height="320" loading="lazy" />
           <span class="featured-card-body"><small>{project.category}</small><strong>{project.title}</strong><span>{project.problem}</span></span>
         </a>

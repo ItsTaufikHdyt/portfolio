@@ -403,3 +403,8 @@ main{display:block;width:min(100% - 3rem,1320px);padding:0 0 3rem;margin:auto}.m
 /* Homepage featured articles */
 .home-writing{margin:0 0 5rem;padding-top:0}
 @media(min-width:1024px){.home-writing .blog-posts-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Longer engineer headline: keep it to ~4 lines on desktop; room for descenders under the highlight */
+.about .hero-title{line-height:1.12}
+@media(min-width:768px){.about .hero-title{max-width:20ch;font-size:clamp(2.4rem,3.6vw,4rem)}}
+.case-study .commercial-page-title{color:var(--text-primary)}

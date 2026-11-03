@@ -14,7 +14,7 @@ const serviceNumber = String(index + 1).padStart(2, "0");
   </div>
 
   <div class="service-card-heading">
-    {compact ? <h4 class="h4">{service.title}</h4> : <h3 class="h3">{service.title}</h3>}
+    <h3 class:list={[compact ? "h4" : "h3"]}>{service.title}</h3>
     {!compact && (
       <p class="service-card-price">
         <span>{service.priceLabel}</span>
