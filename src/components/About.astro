@@ -81,6 +81,6 @@ const heroLinks = [
 
   <section class="service">
     <div class="catalog-heading"><div><p class="eyebrow">How I can help</p><h2>What can I build for you?</h2></div><a class="catalog-link" href={sitePath("/services")}>All services</a></div>
-    <ul class="service-list">{serviceHighlights.map((service) => <ServiceCard service={service} compact />)}</ul>
+    <ul class="service-list">{serviceHighlights.map((service, index) => <ServiceCard service={service} index={index} compact />)}</ul>
   </section>
 </article>

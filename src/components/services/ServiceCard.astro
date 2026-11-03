@@ -2,14 +2,9 @@
 import { profile } from "../../data/profile.js";
 import { whatsappUrl } from "../../lib/urls.js";
 
-const { service, compact = false } = Astro.props;
+const { service, index = 0, compact = false } = Astro.props;
 const contactUrl = whatsappUrl(profile.phone, service.whatsappMessage);
-const serviceNumber = {
-  "custom-web-application": "01",
-  "website-development": "02",
-  "gis-webgis": "03",
-  "deployment-server": "04"
-}[service.slug];
+const serviceNumber = String(index + 1).padStart(2, "0");
 ---
 
 <li class:list={["service-card", { "service-card-compact": compact }]} id={service.slug}>

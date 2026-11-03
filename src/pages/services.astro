@@ -36,7 +36,7 @@ const contactUrl = whatsappUrl(profile.phone, generalServiceMessage);
         </div>
 
         <ul class="service-page-grid">
-          {services.map((service) => <ServiceCard service={service} />)}
+          {services.map((service, index) => <ServiceCard service={service} index={index} />)}
         </ul>
 
         <p class="pricing-disclaimer">Final pricing depends on project requirements, complexity, and development scope.</p>
