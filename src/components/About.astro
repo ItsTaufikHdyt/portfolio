@@ -6,11 +6,14 @@ import { featuredProjects } from "../data/projects.js";
 import { serviceHighlights } from "../data/services.js";
 import { socials } from "../data/socials.js";
 import ServiceCard from "./services/ServiceCard.astro";
+import BlogCard from "./BlogCard.astro";
+import { getFeaturedArticles } from "../lib/medium.js";
 
 const heroLinks = [
   ...socials.filter((social) => ["GitHub", "LinkedIn"].includes(social.name)),
   { name: "Email", url: `mailto:${profile.email}`, icon: "mail-outline" }
 ];
+const featuredArticles = await getFeaturedArticles();
 ---
 
 <article class="about active" data-page="about">
@@ -78,6 +81,13 @@ const heroLinks = [
     <div><p class="eyebrow">Meet the maker</p><h2 id="about-title">Hi, I'm {profile.name}.</h2><p class="home-about-meta">{profile.role} / {profile.shortLocation}</p></div>
     <div class="about-text">{profile.about.map((paragraph) => <p>{paragraph}</p>)}</div>
   </section>
+
+  {featuredArticles.length > 0 && (
+    <section class="blog home-writing" aria-labelledby="writing-title">
+      <div class="catalog-heading"><div><p class="eyebrow">Technical writing</p><h2 id="writing-title">From the blog</h2></div><button type="button" class="catalog-link" data-nav-target="blog">All articles</button></div>
+      <ul class="blog-posts-list">{featuredArticles.map((article) => <BlogCard article={article} />)}</ul>
+    </section>
+  )}
 
   <section class="service">
     <div class="catalog-heading"><div><p class="eyebrow">How I can help</p><h2>What can I build for you?</h2></div><a class="catalog-link" href={sitePath("/services")}>All services</a></div>

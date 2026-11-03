@@ -104,21 +104,31 @@ const fetchJsonFallback = async () => {
   return (Array.isArray(data.items) ? data.items : []).map(normalizeJsonItem);
 };
 
-export const getMediumArticles = async () => {
+const loadArticles = async () => {
   if (!medium.username) return [];
 
   try {
-    const articles = await fetchDirectFeed();
-    return articles.filter((article) => article.url).slice(0, medium.maxArticles);
+    return (await fetchDirectFeed()).filter((article) => article.url);
   } catch (directError) {
     console.warn("Direct Medium RSS fetch failed; trying JSON fallback.", directError);
 
     try {
-      const articles = await fetchJsonFallback();
-      return articles.filter((article) => article.url).slice(0, medium.maxArticles);
+      return (await fetchJsonFallback()).filter((article) => article.url);
     } catch (fallbackError) {
       console.warn("Medium articles could not be loaded during the build.", fallbackError);
       return [];
     }
   }
+};
+
+// One feed request per build, shared by the blog section and the homepage strip.
+let articlesPromise;
+const allArticles = () => (articlesPromise ??= loadArticles());
+
+export const getMediumArticles = async () => (await allArticles()).slice(0, medium.maxArticles);
+
+export const getFeaturedArticles = async (count = 3) => {
+  const articles = await allArticles();
+  const pinned = medium.featuredIds.map((id) => articles.find((article) => article.url.includes(id))).filter(Boolean);
+  return [...pinned, ...articles.filter((article) => !pinned.includes(article))].slice(0, count);
 };

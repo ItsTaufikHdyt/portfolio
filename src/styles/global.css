@@ -399,3 +399,7 @@ main{display:block;width:min(100% - 3rem,1320px);padding:0 0 3rem;margin:auto}.m
 .timeline-highlights{display:grid;gap:.4rem;margin-top:.5rem;padding-left:1.1rem;list-style:disc}
 .timeline-highlights li::marker{color:var(--text-muted)}
 .resume-download{width:max-content;margin-top:1rem}
+
+/* Homepage featured articles */
+.home-writing{margin:0 0 5rem;padding-top:0}
+@media(min-width:1024px){.home-writing .blog-posts-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
