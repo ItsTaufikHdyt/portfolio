@@ -1,6 +1,8 @@
 ---
 import { education, experience } from "../data/resume.js";
 import Skills from "./Skills.astro";
+import { profile } from "../data/profile.js";
+import { sitePath } from "../lib/urls.js";
 
 const timelines = [
   { title: "Education", items: education },
@@ -12,6 +14,7 @@ const timelines = [
   <header class="section-header">
     <p class="eyebrow">02 / Background</p>
     <h2 class="h2 article-title">Resume</h2>
+    <a class="btn btn-primary resume-download" href={sitePath(profile.hero.cvUrl)} download data-track="cv_download" data-track-label="resume">Download CV (PDF)</a>
   </header>
 
   {timelines.map((timeline) => (
@@ -26,7 +29,12 @@ const timelines = [
           <li class="timeline-item">
             <h4 class="h4 timeline-item-title">{item.title}</h4>
             <span>{item.period}</span>
-            <p class="timeline-text">{item.text}</p>
+            {item.text && <p class="timeline-text">{item.text}</p>}
+            {item.highlights && (
+              <ul class="timeline-highlights">
+                {item.highlights.map((highlight) => <li class="timeline-text">{highlight}</li>)}
+              </ul>
+            )}
           </li>
         ))}
       </ol>

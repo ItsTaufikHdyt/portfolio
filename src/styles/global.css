@@ -394,3 +394,8 @@ main{display:block;width:min(100% - 3rem,1320px);padding:0 0 3rem;margin:auto}.m
 .case-study-sections h2{margin-bottom:.6rem}
 .case-study-sections p{max-width:68ch;color:var(--text-secondary)}
 @media(min-width:768px){.case-study-sections{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Resume: experience bullets + CV download */
+.timeline-highlights{display:grid;gap:.4rem;margin-top:.5rem;padding-left:1.1rem;list-style:disc}
+.timeline-highlights li::marker{color:var(--text-muted)}
+.resume-download{width:max-content;margin-top:1rem}

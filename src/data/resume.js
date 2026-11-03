@@ -11,15 +11,24 @@ export const education = [
   },
 ];
 
+// Highlights: "verb + what + impact". [TODO] marks facts still to be supplied.
 export const experience = [
   {
     title: "Pranata Komputer Ahli Pertama · Bapperida",
     period: "2025 — Present",
-    text: "Working as a government IT professional with a current focus on geospatial technology, spatial data management, and the development of digital solutions to support regional planning, analysis, and data-driven decision-making.",
+    highlights: [
+      "Manage and publish the city's spatial data with GeoNode, GeoServer, and PostGIS [TODO: confirm Geoportal Kota Bontang is part of this role], covering [TODO: N] datasets and layers.",
+      "Build WebGIS maps and dashboards that support regional planning and analysis for [TODO: which teams/OPDs].",
+      "Prepare and validate spatial data in QGIS for Satu Data Indonesia and the One Map Policy, [TODO: N datasets or what changed as a result].",
+    ],
   },
   {
     title: "Programmer · Diskominfo",
     period: "2020 — 2025",
-    text: "Developed and maintained web-based applications and information systems to support government services and internal operations, with a focus on reliable, efficient, and user-friendly digital solutions.",
+    highlights: [
+      "Built and deployed [TODO: N] Laravel web applications for city agencies (OPD) [TODO: confirm which, e.g. SIRINDU, INSPIRASI SIDA].",
+      "Developed the Portal Bontang mobile app in Flutter, bringing city news and public services into one app [TODO: confirm role; N downloads].",
+      "Maintained production applications on Linux servers with Docker and Nginx [TODO: N apps/servers, uptime or deployment time improved].",
+    ],
   },
 ];
