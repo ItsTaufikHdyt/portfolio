@@ -17,18 +17,18 @@ export const experience = [
     title: "Pranata Komputer Ahli Pertama · Bapperida",
     period: "2025 — Present",
     highlights: [
-      "Manage and publish the city's spatial data with GeoNode, GeoServer, and PostGIS [TODO: confirm Geoportal Kota Bontang is part of this role], covering [TODO: N] datasets and layers.",
-      "Build WebGIS maps and dashboards that support regional planning and analysis for [TODO: which teams/OPDs].",
-      "Prepare and validate spatial data in QGIS for Satu Data Indonesia and the One Map Policy, [TODO: N datasets or what changed as a result].",
+      "Manage and publish the city's spatial data with GeoNode, GeoServer, and PostGIS, including administration of the Bontang geoportal (geoportal.bontangkota.go.id), covering a large number of datasets and layers.",
+      "Build WebGIS maps and dashboards that support regional planning and analysis across all regional agencies (OPD) in Bontang.",
+      "Prepare and validate spatial data in QGIS for Satu Data Indonesia and the One Map Policy, reducing data errors and standardizing all data.",
     ],
   },
   {
     title: "Programmer · Diskominfo",
     period: "2020 — 2025",
     highlights: [
-      "Built and deployed [TODO: N] Laravel web applications for city agencies (OPD) [TODO: confirm which, e.g. SIRINDU, INSPIRASI SIDA].",
-      "Developed the Portal Bontang mobile app in Flutter, bringing city news and public services into one app [TODO: confirm role; N downloads].",
-      "Maintained production applications on Linux servers with Docker and Nginx [TODO: N apps/servers, uptime or deployment time improved].",
+      "Collaborated with the development team to build multiple Laravel web applications for city agencies (OPD), including SIRINDU and INSPIRASISIDA.",
+      "Developed the Portal Bontang mobile app in Flutter, bringing city news and public services into one app.",
+      "Maintained production applications on Docker and Nginx with Let's Encrypt SSL.",
     ],
   },
 ];
