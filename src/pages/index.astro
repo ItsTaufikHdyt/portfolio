@@ -6,9 +6,26 @@ import Resume from "../components/Resume.astro";
 import Portfolio from "../components/Portfolio.astro";
 import Blog from "../components/Blog.astro";
 import Contact from "../components/Contact.astro";
+import { profile } from "../data/profile.js";
+import { socials } from "../data/socials.js";
+import { asset } from "../lib/assets.js";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  worksFor: { "@type": "GovernmentOrganization", name: "Bapperida Kota Bontang" },
+  email: `mailto:${profile.email}`,
+  address: { "@type": "PostalAddress", addressLocality: "Bontang", addressRegion: "Kalimantan Timur", addressCountry: "ID" },
+  url: Astro.site?.href,
+  image: Astro.site ? new URL(asset(profile.avatar), Astro.site).href : undefined,
+  knowsAbout: ["WebGIS", "GeoNode", "GeoServer", "PostGIS", "Laravel", "Filament", "Flutter", "Docker", "Nginx"],
+  sameAs: socials.filter((social) => ["GitHub", "LinkedIn", "Medium"].includes(social.name)).map((social) => social.url)
+};
 ---
 
-<BaseLayout>
+<BaseLayout structuredData={structuredData}>
   <PageShell sectionNavigation>
     <About />
     <Resume />

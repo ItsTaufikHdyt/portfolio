@@ -9,7 +9,7 @@ const {
   description = defaultSite.description,
   language = defaultSite.language,
   canonicalPath = Astro.url.pathname,
-  image = null,
+  image = defaultSite.ogImage,
   ogType = "website",
   structuredData = null
 } = Astro.props;
@@ -32,6 +32,8 @@ const socialImage = image && Astro.site ? new URL(asset(image), Astro.site).href
     <meta property="og:description" content={description} />
     {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
     {socialImage && <meta property="og:image" content={socialImage} />}
+    {socialImage && image === defaultSite.ogImage && <meta property="og:image:width" content="1200" />}
+    {socialImage && image === defaultSite.ogImage && <meta property="og:image:height" content="630" />}
     <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
