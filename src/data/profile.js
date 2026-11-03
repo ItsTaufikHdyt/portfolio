@@ -16,7 +16,7 @@ export const profile = {
     title: "Software Engineer —",
     titleHighlight: "WebGIS & government information systems.",
     text: "I build and run the city's geoportal and WebGIS platforms on GeoNode, GeoServer, and PostGIS, plus Laravel/Filament information systems and Flutter apps — deployed with Docker and Nginx.",
-    cvUrl: "/cv.pdf",
+    cvUrl: "https://docs.google.com/document/d/11TbiW-vqePbQD2DOtFDgFF7hiL1F5L9b2Q6Znu1w9O4/edit?usp=sharing",
     details: [
       { label: "Based in", value: "Bontang, IDN" },
       { label: "Focus", value: "Development" },

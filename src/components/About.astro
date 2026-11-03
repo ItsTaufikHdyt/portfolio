@@ -28,7 +28,7 @@ const featuredArticles = await getFeaturedArticles();
       <p class="hero-text">{profile.hero.text}</p>
       <div class="hero-actions">
         <button class="btn btn-primary" type="button" data-nav-target="portfolio">View Projects</button>
-        <a class="btn btn-secondary" href={sitePath(profile.hero.cvUrl)} download data-track="cv_download" data-track-label="hero">Download CV (PDF)</a>
+        <a class="btn btn-secondary" href={profile.hero.cvUrl} target="_blank" rel="noopener noreferrer" data-track="cv_download" data-track-label="hero">Document CV</a>
       </div>
       <ul class="hero-links" aria-label="Profiles and contact">
         {heroLinks.map((link) => (
