@@ -5,7 +5,8 @@ import CommercialCTA from "../components/common/CommercialCTA.astro";
 import ServiceCard from "../components/services/ServiceCard.astro";
 import { services, serviceWorkflow, generalServiceMessage } from "../data/services.js";
 import { profile } from "../data/profile.js";
-import { whatsappUrl } from "../lib/urls.js";
+import { visibleProducts } from "../data/products.js";
+import { sitePath, whatsappUrl } from "../lib/urls.js";
 
 const contactUrl = whatsappUrl(profile.phone, generalServiceMessage);
 ---
@@ -59,6 +60,19 @@ const contactUrl = whatsappUrl(profile.phone, generalServiceMessage);
             </li>
           ))}
         </ol>
+      </section>
+
+      <section class="commercial-section" aria-labelledby="products-title">
+        <div class="commercial-section-heading">
+          <p class="eyebrow">Digital products</p>
+          <h2 class="h2" id="products-title">Prefer a ready-made starting point?</h2>
+        </div>
+        <CommercialCTA
+          title={visibleProducts[0].title}
+          description={visibleProducts[0].description}
+          primary={{ label: "Explore Products", href: sitePath("/products"), track: "service_to_product", trackLabel: "services_products" }}
+          compact
+        />
       </section>
 
       <CommercialCTA
