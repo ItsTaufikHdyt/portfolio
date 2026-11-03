@@ -1,10 +1,8 @@
 ---
 import { asset } from "../lib/assets.js";
+import { sitePath } from "../lib/urls.js";
 
 const { project } = Astro.props;
-const serviceSlug = project.category.toLowerCase().includes("gis")
-  ? "gis-webgis"
-  : "custom-web-application";
 ---
 
 <li
@@ -14,16 +12,13 @@ const serviceSlug = project.category.toLowerCase().includes("gis")
   data-project-id={project.id}
   data-description={project.description}
   data-technologies={project.technologies.join(",")}
-  data-github={project.github || undefined}
-  data-demo={project.demo || undefined}
-  data-service-slug={serviceSlug}
 >
-  <a href="#project-modal" data-project-card aria-haspopup="dialog" aria-controls="project-modal">
+  <a href={sitePath(`/portfolio/${project.id}`)}>
     <figure class="project-img">
       <div class="project-item-icon-box">
         <ion-icon name="eye-outline" aria-hidden="true"></ion-icon>
       </div>
-      <img src={asset(project.image)} alt={project.title.toLowerCase()} loading="lazy" />
+      <img src={asset(project.image)} alt={`${project.title} screenshot`} loading="lazy" />
     </figure>
 
     <div class="project-caption">
@@ -31,7 +26,7 @@ const serviceSlug = project.category.toLowerCase().includes("gis")
       <h3 class="project-title">{project.title}</h3>
       <p class="project-summary">{project.description}</p>
       <p class="project-tech">{project.technologies.slice(0, 3).join(" · ")}</p>
-      <span class="project-open">View project</span>
+      <span class="project-open">Read case study</span>
     </div>
   </a>
 </li>

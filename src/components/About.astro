@@ -2,7 +2,7 @@
 import { sitePath } from "../lib/urls.js";
 import { asset } from "../lib/assets.js";
 import { profile } from "../data/profile.js";
-import { projects } from "../data/projects.js";
+import { featuredProjects } from "../data/projects.js";
 import { serviceHighlights } from "../data/services.js";
 import { socials } from "../data/socials.js";
 import ServiceCard from "./services/ServiceCard.astro";
@@ -40,11 +40,11 @@ const heroLinks = [
     </div>
     <div class="hero-previews" aria-label="Selected projects">
       <p class="eyebrow">From the portfolio</p>
-      {projects.slice(0, 3).map((project) => (
-        <button type="button" class="hero-preview" data-nav-target="portfolio" aria-label={`Explore ${project.title} in portfolio`}>
+      {featuredProjects.map((project) => (
+        <a class="hero-preview" href={sitePath(`/portfolio/${project.id}`)} aria-label={`${project.title} case study`}>
           <img src={asset(project.image)} alt="" width="120" height="90" loading="lazy" />
           <span><strong>{project.title}</strong><small>{project.category}</small></span>
-        </button>
+        </a>
       ))}
     </div>
   </section>
@@ -65,11 +65,11 @@ const heroLinks = [
   <section class="home-featured" aria-labelledby="featured-title">
     <div class="catalog-heading"><div><p class="eyebrow">Selected from real work</p><h2 id="featured-title">Featured work</h2></div><button type="button" class="catalog-link" data-nav-target="portfolio">See all projects</button></div>
     <div class="featured-grid">
-      {projects.slice(0, 3).map((project) => (
-        <button type="button" class="featured-card" data-nav-target="portfolio" aria-label={`Browse ${project.title} in portfolio`}>
+      {featuredProjects.map((project) => (
+        <a class="featured-card" href={sitePath(`/portfolio/${project.id}`)} aria-label={`${project.title} case study`}>
           <img src={asset(project.image)} alt="" width="480" height="320" loading="lazy" />
-          <span class="featured-card-body"><small>{project.category}</small><strong>{project.title}</strong><span>{project.description}</span></span>
-        </button>
+          <span class="featured-card-body"><small>{project.category}</small><strong>{project.title}</strong><span>{project.problem}</span></span>
+        </a>
       ))}
     </div>
   </section>

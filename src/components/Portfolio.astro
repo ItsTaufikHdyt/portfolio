@@ -2,7 +2,6 @@
 import { projects } from "../data/projects.js";
 const projectCategories = ["All", ...new Set(projects.map((project) => project.category))];
 import ProjectCard from "./ProjectCard.astro";
-import ProjectModal from "./ProjectModal.astro";
 ---
 
 <article class="portfolio" data-page="portfolio">
@@ -44,5 +43,3 @@ import ProjectModal from "./ProjectModal.astro";
     <p class="project-empty" data-project-empty hidden>No projects match your search. Try another term or category.</p>
   </section>
 </article>
-
-<ProjectModal project={projects[0]} />

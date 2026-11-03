@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageShell from "../../components/PageShell.astro";
+import { projects } from "../../data/projects.js";
+import { asset } from "../../lib/assets.js";
+import { sitePath } from "../../lib/urls.js";
+
+export const getStaticPaths = () => projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+
+const { project } = Astro.props;
+const sections = [
+  { id: "problem", title: "Problem", text: project.problem },
+  { id: "role", title: "My role", text: project.role },
+  { id: "architecture", title: "Stack & architecture", text: project.architecture },
+  { id: "impact", title: "Impact", text: project.impact }
+];
+---
+
+<BaseLayout
+  title={`${project.title} — Case study — Taufik Hidayat`}
+  description={project.problem}
+  canonicalPath={`/portfolio/${project.id}`}
+  image={project.image}
+  ogType="article"
+>
+  <PageShell currentPage="portfolio">
+    <article class="commercial-page case-study active">
+      <a class="back-link" href={sitePath("/#portfolio")}>
+        <ion-icon name="arrow-back-outline" aria-hidden="true"></ion-icon>
+        All projects
+      </a>
+
+      <section class="product-detail-hero">
+        <figure class="case-study-image">
+          <img src={asset(project.image)} alt={`${project.title} screenshot`} width="960" height="640" />
+        </figure>
+
+        <div class="product-detail-summary">
+          <p class="product-card-meta"><span>{project.category}</span> · <span>{project.year}</span></p>
+          <h1 class="commercial-page-title">{project.title}</h1>
+          <p class="product-detail-lead">{project.description}</p>
+          <ul class="technology-tags" aria-label={`${project.title} technologies`}>
+            {project.technologies.map((technology) => <li>{technology}</li>)}
+          </ul>
+          <div class="product-detail-actions">
+            {project.demo && <a class="btn btn-primary" href={project.demo} target="_blank" rel="noopener noreferrer" data-track="demo_click" data-track-label={project.id}>View live site</a>}
+            {project.repoUrl
+              ? <a class="btn btn-secondary" href={project.repoUrl} target="_blank" rel="noopener noreferrer" data-track="repo_click" data-track-label={project.id}>View source code</a>
+              : <p class="case-study-note">Repository: [TODO: public repo URL, or note that the code is private]</p>}
+          </div>
+        </div>
+      </section>
+
+      <div class="case-study-sections">
+        {sections.map((section) => (
+          <section aria-labelledby={`case-${section.id}`}>
+            <h2 class="h3" id={`case-${section.id}`}>{section.title}</h2>
+            <p>{section.text}</p>
+          </section>
+        ))}
+      </div>
+    </article>
+  </PageShell>
+</BaseLayout>
