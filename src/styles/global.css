@@ -380,3 +380,10 @@ main{display:block;width:min(100% - 3rem,1320px);padding:0 0 3rem;margin:auto}.m
   .products-page .commercial-page-hero{padding:1rem}
   .products-page .product-grid-featured .product-card-content{padding:.85rem}
 }
+
+/* Hero profile links + secondary collaboration link */
+.hero-links{display:flex;gap:.5rem;margin-top:1.25rem}
+.hero-link{display:grid;width:2.75rem;height:2.75rem;place-items:center;color:#fff;border:1px solid #777;border-radius:50%;font-size:1.15rem;transition:background var(--transition),color var(--transition)}
+.hero-link:hover{background:#fff;color:var(--dark)}
+.hero-collab{display:inline-block;margin-top:1rem;color:#e2e2de;font-size:.85rem;text-decoration:underline;text-underline-offset:.3em}
+.hero-collab:hover{color:var(--accent)}

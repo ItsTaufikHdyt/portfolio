@@ -4,7 +4,13 @@ import { asset } from "../lib/assets.js";
 import { profile } from "../data/profile.js";
 import { projects } from "../data/projects.js";
 import { serviceHighlights } from "../data/services.js";
+import { socials } from "../data/socials.js";
 import ServiceCard from "./services/ServiceCard.astro";
+
+const heroLinks = [
+  ...socials.filter((social) => ["GitHub", "LinkedIn"].includes(social.name)),
+  { name: "Email", url: `mailto:${profile.email}`, icon: "mail-outline" }
+];
 ---
 
 <article class="about active" data-page="about">
@@ -14,13 +20,23 @@ import ServiceCard from "./services/ServiceCard.astro";
       <span>{profile.name} / {profile.shortLocation}</span>
     </div>
     <div class="hero-copy">
-      <p class="eyebrow">Software Engineer / Geospatial Technology</p>
-      <h2 class="hero-title" id="hero-title">Digital solutions, <mark>built with purpose.</mark></h2>
+      <p class="eyebrow">{profile.hero.eyebrow}</p>
+      <h2 class="hero-title" id="hero-title">{profile.hero.title} <mark>{profile.hero.titleHighlight}</mark></h2>
       <p class="hero-text">{profile.hero.text}</p>
       <div class="hero-actions">
-        <button class="btn btn-primary" type="button" data-nav-target="portfolio">Explore My Work</button>
-        <a class="btn btn-secondary" href={sitePath("/services")} data-track="homepage_service_cta" data-track-label="work_with_me">Let's Collaborate</a>
+        <button class="btn btn-primary" type="button" data-nav-target="portfolio">View Projects</button>
+        <a class="btn btn-secondary" href={sitePath(profile.hero.cvUrl)} download data-track="cv_download" data-track-label="hero">Download CV (PDF)</a>
       </div>
+      <ul class="hero-links" aria-label="Profiles and contact">
+        {heroLinks.map((link) => (
+          <li>
+            <a class="hero-link" href={link.url} aria-label={link.name} target={link.url.startsWith("http") ? "_blank" : undefined} rel={link.url.startsWith("http") ? "noopener noreferrer" : undefined}>
+              <ion-icon name={link.icon} aria-hidden="true"></ion-icon>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="hero-collab" href={sitePath("/services")} data-track="homepage_service_cta" data-track-label="work_with_me">Open to freelance projects — see services →</a>
     </div>
     <div class="hero-previews" aria-label="Selected projects">
       <p class="eyebrow">From the portfolio</p>

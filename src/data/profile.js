@@ -12,9 +12,11 @@ export const profile = {
     visible: false
   },
   hero: {
-    eyebrow: "Software Engineer . Geospatial Technology",
-    title: "I build digital solutions that connect technology, data, and geography.",
-    text: "I'm a software engineer working in the government sector, currently focusing on geospatial technology. I develop web applications and data-driven solutions that help transform spatial information into useful, accessible, and impactful digital services.",
+    eyebrow: "Software Engineer / Bontang City Government",
+    title: "Software Engineer —",
+    titleHighlight: "WebGIS & government information systems.",
+    text: "I build and run the city's geoportal and WebGIS platforms on GeoNode, GeoServer, and PostGIS, plus Laravel/Filament information systems and Flutter apps — deployed with Docker and Nginx.",
+    cvUrl: "/cv.pdf",
     details: [
       { label: "Based in", value: "Bontang, IDN" },
       { label: "Focus", value: "Development" },
