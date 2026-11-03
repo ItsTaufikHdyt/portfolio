@@ -7,7 +7,7 @@ export const projects = [
     title: "Geoportal Kota Bontang",
     category: "WebGIS Development",
     year: "[TODO: year]",
-    image: "assets/images/projects/geoportal.jpg",
+    image: "assets/images/projects/geoportal.webp",
     featured: true,
     description:
       "A web-based geospatial information platform developed to centralize, manage, publish, and provide access to Bontang City's spatial data. The platform enables users to discover and explore geospatial datasets, interactive maps, documents, dashboards, and GeoStories, supporting regional planning, data sharing, public transparency, Satu Data Indonesia, and the One Map Policy.",
@@ -27,7 +27,7 @@ export const projects = [
     title: "Peta Kita",
     category: "WebGIS Development",
     year: "[TODO: year]",
-    image: "assets/images/projects/petakita.jpg",
+    image: "assets/images/projects/petakita.webp",
     featured: true,
     description:
       "A web-based Geographic Information System (WebGIS) platform developed to support Bontang City's implementation of the One Map Policy and Satu Data Indonesia initiatives. The platform provides interactive geospatial data visualization and access to public datasets to support regional planning, decision-making, public services, and data transparency.",
@@ -46,7 +46,7 @@ export const projects = [
     title: "SIRINDU",
     category: "Web Development",
     year: "[TODO: year]",
-    image: "assets/images/projects/sirindu.jpg",
+    image: "assets/images/projects/sirindu.webp",
     featured: true,
     description:
       "A web-based application for monitoring and reporting health targets for toddlers and pregnant women, including growth and development tracking, ANC services, and Posyandu-based service data.",
@@ -64,7 +64,7 @@ export const projects = [
     title: "Finote",
     category: "Applications",
     year: "[TODO: year]",
-    image: "assets/images/projects/finote.png",
+    image: "assets/images/projects/finote.webp",
     featured: false,
     description:
       "An offline-first personal finance application designed to help users track income and expenses, manage financial accounts, and monitor assets and investments. Finote provides a comprehensive overview of cash flow and total net worth, making it easier to understand and manage personal finances anytime, even without an internet connection.",
@@ -81,7 +81,7 @@ export const projects = [
     title: "Wrongshock",
     category: "Web Development",
     year: "[TODO: year]",
-    image: "assets/images/projects/wrongshock.png",
+    image: "assets/images/projects/wrongshock.webp",
     featured: false,
     description:
       "A digital waste bank platform that allows users to sell recyclable materials, manage waste deposits, and track their earnings. Designed to simplify recycling transactions, promote environmental sustainability, and turn everyday waste into economic value.",
@@ -98,7 +98,7 @@ export const projects = [
     title: "Tumbang Smart Kids",
     category: "Web Development",
     year: "[TODO: year]",
-    image: "assets/images/projects/tumbang-smart-kids.png",
+    image: "assets/images/projects/tumbang-smart-kids.webp",
     featured: false,
     description:
       "A web-based platform designed for healthcare facilities to streamline child development monitoring and therapy evaluations. The system enables therapists to manage patient records, track developmental progress, record structured assessments, and generate comprehensive PDF reports through a centralized digital interface.",
@@ -115,7 +115,7 @@ export const projects = [
     title: "Portal Bontang",
     category: "Mobile Development",
     year: "[TODO: year]",
-    image: "assets/images/projects/portal-bontang.jpg",
+    image: "assets/images/projects/portal-bontang.webp",
     featured: false,
     description:
       "A mobile application that provides integrated information and digital services from the Bontang City Government. The application includes the latest news, announcements, public services, city statistics, Smart City information, digital licensing, administrative services, financial transparency, staple food prices, and access to various government subdomains.",
@@ -132,7 +132,7 @@ export const projects = [
     title: "INSPIRASI SIDA",
     category: "Web Development",
     year: "[TODO: year]",
-    image: "assets/images/projects/inspirasisida.jpg",
+    image: "assets/images/projects/inspirasisida.webp",
     featured: false,
     description:
       "A web-based platform for managing registration for the Si PEENA Innovation and Research Competition. The system also serves as an information and publication portal for regional innovations, research activities, and development initiatives conducted by the Bontang City Government.",
@@ -150,7 +150,7 @@ export const projects = [
     title: "Check IT",
     category: "Applications",
     year: "[TODO: year]",
-    image: "assets/images/projects/checkit.png",
+    image: "assets/images/projects/checkit.webp",
     featured: false,
     description:
       "A simple and minimalist to-do list application designed to help users manage daily tasks efficiently. Users can add and organize tasks, set due dates, and access their task list offline, with all data stored locally on the device for fast and reliable use.",

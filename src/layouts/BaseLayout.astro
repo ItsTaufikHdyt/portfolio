@@ -39,7 +39,7 @@ const socialImage = image && Astro.site ? new URL(asset(image), Astro.site).href
     <meta name="twitter:description" content={description} />
     {socialImage && <meta name="twitter:image" content={socialImage} />}
     {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
-    <link rel="shortcut icon" href={asset("assets/images/logo.png")} type="image/x-icon" />
+    <link rel="icon" href={asset("assets/images/logo.png")} type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

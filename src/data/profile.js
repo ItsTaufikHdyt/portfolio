@@ -5,7 +5,7 @@ export const profile = {
   phone: "+6285156637373",
   location: "Bontang, KalTim, IDN",
   shortLocation: "Bontang, IDN",
-  avatar: "assets/images/avatar.jpg",
+  avatar: "assets/images/avatar.webp",
   birthday: {
     date: "2001-06-06",
     label: "June 6, 2001",
